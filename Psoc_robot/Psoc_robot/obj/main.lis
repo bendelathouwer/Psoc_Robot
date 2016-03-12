@@ -1,0 +1,397 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000                   .dbfile C:\Users\Ben\Desktop\Project\PSOC_R~1\PSOC_R~1\main.c
+ 0000                   .dbfunc e main _main fV
+ 0000           _main::
+ 0000                   .dbline -1
+ 0000                   .dbline 17
+ 0000           ; 
+ 0000           ; #include <m8c.h>        // part specific constants and macros
+ 0000           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0000           ; 
+ 0000           ; #define DATA_AVAILABLE 0x01
+ 0000           ; #define FALLING_EDGE 0x02
+ 0000           ; 
+ 0000           ; WORD CapturePosEdge;
+ 0000           ; WORD CaptureNegEdge;
+ 0000           ; WORD PulseWidth;
+ 0000           ; BYTE Flags;
+ 0000           ; WORD PWM_New;
+ 0000           ; WORD Period;
+ 0000           ; #pragma interrupt_handler TimerCaptureISR
+ 0000           ; 
+ 0000           ; void main(void)
+ 0000           ; {
+ 0000                   .dbline 19
+ 0000           ;    // Enable Global Interrupt   
+ 0000           ;    M8C_EnableGInt;
+ 0000 7101                      or  F, 01h
+ 0002           
+ 0002                   .dbline 22
+ 0002           ;    
+ 0002           ;    // Clear the flags
+ 0002           ;    Flags = 0;
+ 0002 62D000            mov REG[0xd0],>_Flags
+ 0005 550000            mov [_Flags],0
+ 0008                   .dbline 25
+ 0008           ;    
+ 0008           ;    // Start timer and enable interrupt
+ 0008           ;    Timer_Start();
+ 0008 10                push X
+ 0009 7C0000            xcall _Timer_Start
+ 000C                   .dbline 26
+ 000C           ;    Timer_EnableInt();
+ 000C 7C0000            xcall _Timer_EnableInt
+ 000F                   .dbline 30
+ 000F           ;    
+ 000F           ;    // Start LCD and PWM.  The PWM generates a test signal
+ 000F           ;         
+ 000F           ;       PWM_WritePulseWidth(PulseWidth);
+ 000F 62D000            mov REG[0xd0],>_PulseWidth
+ 0012 5100              mov A,[_PulseWidth]
+ 0014 08                push A
+ 0015 5101              mov A,[_PulseWidth+1]
+ 0017 20                pop X
+ 0018 7C0000            xcall _PWM_WritePulseWidth
+ 001B                   .dbline 31
+ 001B           ;       PWM_Start();
+ 001B 7C0000            xcall _PWM_Start
+ 001E                   .dbline 32
+ 001E           ;       LCD_Start();
+ 001E 7C0000            xcall _LCD_Start
+ 0021                   .dbline 33
+ 0021           ;       LCD_Position(1,0);
+ 0021 5700              mov X,0
+ 0023 5001              mov A,1
+ 0025 7C0000            xcall _LCD_Position
+ 0028                   .dbline 34
+ 0028           ;       LCD_PrCString("Beta Test 0.0");
+ 0028 5000              mov A,>L2
+ 002A 08                push A
+ 002B 5000              mov A,<L2
+ 002D 5C                mov X,A
+ 002E 18                pop A
+ 002F 7C0000            xcall _LCD_PrCString
+ 0032 20                pop X
+ 0033                   .dbline 35
+ 0033           ;       PRT1DR = 0x80;
+ 0033 620480            mov REG[0x4],-128
+ 0036 806A              xjmp L4
+ 0038           L3:
+ 0038                   .dbline 37
+ 0038           ;    while(1)
+ 0038           ;    {
+ 0038                   .dbline 39
+ 0038           ;       // Check if pulsewidth data is available
+ 0038           ;       if(Flags & DATA_AVAILABLE)
+ 0038 62D000            mov REG[0xd0],>_Flags
+ 003B 470001            tst [_Flags],1
+ 003E A062              jz L6
+ 0040                   .dbline 43
+ 0040           ;       {
+ 0040           ;          // Print the pulsewidth on the LCD
+ 0040           ;         
+ 0040           ;                LCD_Position(0,0);
+ 0040                   .dbline 43
+ 0040 10                push X
+ 0041 5000              mov A,0
+ 0043 5700              mov X,0
+ 0045 7C0000            xcall _LCD_Position
+ 0048                   .dbline 45
+ 0048           ;        // stick to te left  hex 00BF(dec 191 )stick to the right Hex 0073(dec 115) stick midel Hex 009A(dec 154)
+ 0048           ;                LCD_PrHexInt(PulseWidth);
+ 0048 62D000            mov REG[0xd0],>_PulseWidth
+ 004B 5100              mov A,[_PulseWidth]
+ 004D 08                push A
+ 004E 5101              mov A,[_PulseWidth+1]
+ 0050 20                pop X
+ 0051 7C0000            xcall _LCD_PrHexInt
+ 0054 20                pop X
+ 0055                   .dbline 46
+ 0055           ;          Flags &= ~DATA_AVAILABLE;
+ 0055 62D000            mov REG[0xd0],>_Flags
+ 0058 2600FE            and [_Flags],-2
+ 005B                   .dbline 47
+ 005B           ;               PWM_New = PulseWidth;
+ 005B 62D000            mov REG[0xd0],>_PulseWidth
+ 005E 5101              mov A,[_PulseWidth+1]
+ 0060 08                push A
+ 0061 5100              mov A,[_PulseWidth]
+ 0063 62D000            mov REG[0xd0],>_PWM_New
+ 0066 5300              mov [_PWM_New],A
+ 0068 18                pop A
+ 0069 5301              mov [_PWM_New+1],A
+ 006B                   .dbline 48
+ 006B           ;               Period = 5100; 
+ 006B 62D000            mov REG[0xd0],>_Period
+ 006E 5501EC            mov [_Period+1],-20
+ 0071 550013            mov [_Period],19
+ 0074                   .dbline 49
+ 0074           ;               PWM_WritePeriod(Period);
+ 0074 10                push X
+ 0075 5100              mov A,[_Period]
+ 0077 08                push A
+ 0078 5101              mov A,[_Period+1]
+ 007A 20                pop X
+ 007B 7C0000            xcall _PWM_WritePeriod
+ 007E                   .dbline 50
+ 007E           ;               PWM_WritePulseWidth(PWM_New);
+ 007E 62D000            mov REG[0xd0],>_PWM_New
+ 0081 5100              mov A,[_PWM_New]
+ 0083 08                push A
+ 0084 5101              mov A,[_PWM_New+1]
+ 0086 20                pop X
+ 0087 7C0000            xcall _PWM_WritePulseWidth
+ 008A                   .dbline 51
+ 008A           ;               PWM_Start();
+ 008A 7C0000            xcall _PWM_Start
+ 008D                   .dbline 52
+ 008D           ;                LCD_Position(5,0);
+ 008D 5700              mov X,0
+ 008F 5005              mov A,5
+ 0091 7C0000            xcall _LCD_Position
+ 0094                   .dbline 53
+ 0094           ;                LCD_PrHexInt(PWM_New);
+ 0094 62D000            mov REG[0xd0],>_PWM_New
+ 0097 5100              mov A,[_PWM_New]
+ 0099 08                push A
+ 009A 5101              mov A,[_PWM_New+1]
+ 009C 20                pop X
+ 009D 7C0000            xcall _LCD_PrHexInt
+ 00A0 20                pop X
+ 00A1                   .dbline 54
+ 00A1           ;       }
+ 00A1           L6:
+ 00A1                   .dbline 55
+ 00A1           ;    }
+ 00A1           L4:
+ 00A1                   .dbline 36
+ 00A1 8F96              xjmp L3
+ 00A3           X0:
+ 00A3                   .dbline -2
+ 00A3           L1:
+ 00A3                   .dbline 0 ; func end
+ 00A3 8FFF              jmp .
+ 00A5                   .dbend
+ 00A5                   .dbfunc e TimerCaptureISR _TimerCaptureISR fV
+ 00A5           _TimerCaptureISR::
+ 00A5                   .dbline -1
+ 00A5 71C0              or F,-64
+ 00A7 08                push A
+ 00A8 5DD0              mov A,REG[0xd0]
+ 00AA 08                push A
+ 00AB 5DD3              mov A,REG[0xd3]
+ 00AD 08                push A
+ 00AE 5DD4              mov A,REG[0xd4]
+ 00B0 08                push A
+ 00B1 5DD5              mov A,REG[0xd5]
+ 00B3 08                push A
+ 00B4 62D000            mov REG[0xd0],>__r0
+ 00B7 5100              mov A,[__r0]
+ 00B9 08                push A
+ 00BA 5100              mov A,[__r1]
+ 00BC 08                push A
+ 00BD 5100              mov A,[__r2]
+ 00BF 08                push A
+ 00C0 5100              mov A,[__r3]
+ 00C2 08                push A
+ 00C3 5100              mov A,[__r4]
+ 00C5 08                push A
+ 00C6 5100              mov A,[__r5]
+ 00C8 08                push A
+ 00C9 5100              mov A,[__r6]
+ 00CB 08                push A
+ 00CC 5100              mov A,[__r7]
+ 00CE 08                push A
+ 00CF 5100              mov A,[__r8]
+ 00D1 08                push A
+ 00D2 5100              mov A,[__r9]
+ 00D4 08                push A
+ 00D5 5100              mov A,[__r10]
+ 00D7 08                push A
+ 00D8 5100              mov A,[__r11]
+ 00DA 08                push A
+ 00DB 5100              mov A,[__rX]
+ 00DD 08                push A
+ 00DE 5100              mov A,[__rY]
+ 00E0 08                push A
+ 00E1 5100              mov A,[__rZ]
+ 00E3 08                push A
+ 00E4                   .dbline 59
+ 00E4           ; }
+ 00E4           ; 
+ 00E4           ; void TimerCaptureISR(void)
+ 00E4           ; {
+ 00E4                   .dbline 60
+ 00E4           ;    if(Flags & FALLING_EDGE)
+ 00E4 62D000            mov REG[0xd0],>_Flags
+ 00E7 470002            tst [_Flags],2
+ 00EA A049              jz L9
+ 00EC                   .dbline 63
+ 00EC           ;    {
+ 00EC           ;       // Read the count on negative edge
+ 00EC           ;       CaptureNegEdge = Timer_wReadCompareValue();
+ 00EC                   .dbline 63
+ 00EC 10                push X
+ 00ED 7C0000            xcall _Timer_wReadCompareValue
+ 00F0 62D000            mov REG[0xd0],>__r0
+ 00F3 5A00              mov [__r0],X
+ 00F5 20                pop X
+ 00F6 08                push A
+ 00F7 5100              mov A,[__r0]
+ 00F9 62D000            mov REG[0xd0],>_CaptureNegEdge
+ 00FC 5300              mov [_CaptureNegEdge],A
+ 00FE 18                pop A
+ 00FF 5301              mov [_CaptureNegEdge+1],A
+ 0101                   .dbline 66
+ 0101           ; 
+ 0101           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
+ 0101           ;       Timer_FUNC_LSB_REG &= ~0x80;
+ 0101 7110              or F,0x10  ; iopage = 1
+ 0103 41207F            and REG[0x20],127
+ 0106                   .dbline 67
+ 0106           ;       Flags &= ~FALLING_EDGE;
+ 0106 70CF              and F,0xCF      ; iopage = 0
+ 0108 62D000            mov REG[0xd0],>_Flags
+ 010B 2600FD            and [_Flags],-3
+ 010E                   .dbline 74
+ 010E           ; 
+ 010E           ;       // Calculate the pulswidth by finding difference between positive edge
+ 010E           ;       // and negative edge counts.  As both the numbers are unsigned numbers
+ 010E           ;       // the result will be correct even if there is an underflow in the counter
+ 010E           ;       // The result will be accurate as long as the total pulsewidth is less than
+ 010E           ;       // 65535 timer ticks.
+ 010E           ;       PulseWidth = CapturePosEdge - CaptureNegEdge;
+ 010E 62D000            mov REG[0xd0],>_CapturePosEdge
+ 0111 5101              mov A,[_CapturePosEdge+1]
+ 0113 62D000            mov REG[0xd0],>_CaptureNegEdge
+ 0116 1201              sub A,[_CaptureNegEdge+1]
+ 0118 62D000            mov REG[0xd0],>_PulseWidth
+ 011B 5301              mov [_PulseWidth+1],A
+ 011D 62D000            mov REG[0xd0],>_CapturePosEdge
+ 0120 5100              mov A,[_CapturePosEdge]
+ 0122 62D000            mov REG[0xd0],>_CaptureNegEdge
+ 0125 1A00              sbb A,[_CaptureNegEdge]
+ 0127 62D000            mov REG[0xd0],>_PulseWidth
+ 012A 5300              mov [_PulseWidth],A
+ 012C                   .dbline 77
+ 012C           ;       
+ 012C           ;       // Set the Data available flag
+ 012C           ;       Flags |= DATA_AVAILABLE;
+ 012C 62D000            mov REG[0xd0],>_Flags
+ 012F 2E0001            or [_Flags],1
+ 0132                   .dbline 78
+ 0132           ;    }
+ 0132 8023              xjmp L10
+ 0134           L9:
+ 0134                   .dbline 80
+ 0134           ;    else
+ 0134           ;    {
+ 0134                   .dbline 82
+ 0134           ;       // Read the count on positive edge
+ 0134           ;       CapturePosEdge = Timer_wReadCompareValue();
+ 0134 10                push X
+ 0135 7C0000            xcall _Timer_wReadCompareValue
+ 0138 62D000            mov REG[0xd0],>__r0
+ 013B 5A00              mov [__r0],X
+ 013D 20                pop X
+ 013E 08                push A
+ 013F 5100              mov A,[__r0]
+ 0141 62D000            mov REG[0xd0],>_CapturePosEdge
+ 0144 5300              mov [_CapturePosEdge],A
+ 0146 18                pop A
+ 0147 5301              mov [_CapturePosEdge+1],A
+ 0149                   .dbline 85
+ 0149           ;       
+ 0149           ;       // Change the capture to negative edge and set flag
+ 0149           ;       Timer_FUNC_LSB_REG |= 0x80;
+ 0149 7110              or F,0x10  ; iopage = 1
+ 014B 432080            or REG[0x20],-128
+ 014E                   .dbline 86
+ 014E           ;       Flags |= FALLING_EDGE;
+ 014E 70CF              and F,0xCF      ; iopage = 0
+ 0150 62D000            mov REG[0xd0],>_Flags
+ 0153 2E0002            or [_Flags],2
+ 0156                   .dbline 87
+ 0156           ;    }
+ 0156           L10:
+ 0156                   .dbline -2
+ 0156           L8:
+ 0156 62D000            mov REG[0xD0],>__r0
+ 0159 18                pop A
+ 015A 5300              mov [__rZ],A
+ 015C 18                pop A
+ 015D 5300              mov [__rY],A
+ 015F 18                pop A
+ 0160 5300              mov [__rX],A
+ 0162 18                pop A
+ 0163 5300              mov [__r11],A
+ 0165 18                pop A
+ 0166 5300              mov [__r10],A
+ 0168 18                pop A
+ 0169 5300              mov [__r9],A
+ 016B 18                pop A
+ 016C 5300              mov [__r8],A
+ 016E 18                pop A
+ 016F 5300              mov [__r7],A
+ 0171 18                pop A
+ 0172 5300              mov [__r6],A
+ 0174 18                pop A
+ 0175 5300              mov [__r5],A
+ 0177 18                pop A
+ 0178 5300              mov [__r4],A
+ 017A 18                pop A
+ 017B 5300              mov [__r3],A
+ 017D 18                pop A
+ 017E 5300              mov [__r2],A
+ 0180 18                pop A
+ 0181 5300              mov [__r1],A
+ 0183 18                pop A
+ 0184 5300              mov [__r0],A
+ 0186 18                pop A
+ 0187 60D5              mov REG[213],A
+ 0189 18                pop A
+ 018A 60D4              mov REG[212],A
+ 018C 18                pop A
+ 018D 60D3              mov REG[211],A
+ 018F 18                pop A
+ 0190 60D0              mov REG[208],A
+ 0192 18                pop A
+ 0193                   .dbline 0 ; func end
+ 0193 7E                reti
+ 0194                   .dbend
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\Desktop\Project\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _Period::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e Period _Period i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\Desktop\Project\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _PWM_New::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e PWM_New _PWM_New i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\Desktop\Project\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _Flags::
+ 0000 00                .byte 0
+ 0001                   .dbsym e Flags _Flags c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\Desktop\Project\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _PulseWidth::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e PulseWidth _PulseWidth i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\Desktop\Project\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _CaptureNegEdge::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e CaptureNegEdge _CaptureNegEdge i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\Desktop\Project\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _CapturePosEdge::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e CapturePosEdge _CapturePosEdge i
+                        .area lit(rom, con, rel, lit)
+ 0000           L2:
+ 0000 42657461205465737420302E3000      .byte 'B,'e,'t,'a,32,'T,'e,'s,'t,32,48,46,48,0

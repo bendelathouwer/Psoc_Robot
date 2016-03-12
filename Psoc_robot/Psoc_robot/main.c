@@ -2,15 +2,21 @@
 #include <m8c.h>        // part specific constants and macros
 #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
 
+void Motor_Control(void);
+ BYTE Current_Fault(void);
 #define DATA_AVAILABLE 0x01
 #define FALLING_EDGE 0x02
 
 WORD CapturePosEdge;
 WORD CaptureNegEdge;
 WORD PulseWidth;
-BYTE Flags;
 WORD PWM_New;
 WORD Period;
+
+BYTE Fault;
+BYTE Flags;
+
+
 #pragma interrupt_handler TimerCaptureISR
 
 void main(void)
@@ -35,23 +41,7 @@ void main(void)
 	PRT1DR = 0x80;
    while(1)
    {
-      // Check if pulsewidth data is available
-      if(Flags & DATA_AVAILABLE)
-      {
-         // Print the pulsewidth on the LCD
-        
-		 LCD_Position(0,0);
-       // stick to te left  hex 00BF(dec 191 )stick to the right Hex 0073(dec 115) stick midel Hex 009A(dec 154)
-		 LCD_PrHexInt(PulseWidth);
-         Flags &= ~DATA_AVAILABLE;
-		PWM_New = PulseWidth;
-		Period = 5100; 
-		PWM_WritePeriod(Period);
-		PWM_WritePulseWidth(PWM_New);
-		PWM_Start();
-		 LCD_Position(5,0);
-       	 LCD_PrHexInt(PWM_New);
-      }
+		Motor_Control();
    }
 }
 
@@ -87,3 +77,31 @@ void TimerCaptureISR(void)
    }
 }
 
+BYTE Current_Fault(void)
+{
+	
+}
+
+void Motor_Control(void)
+{
+	{
+      // Check if pulsewidth data is available
+      if(Flags & DATA_AVAILABLE)
+      {
+         // Print the pulsewidth on the LCD
+        
+		 LCD_Position(0,0);
+       // stick to te left  hex 00BF(dec 191 )stick to the right Hex 0073(dec 115) stick midel Hex 009A(dec 154)
+		 LCD_PrHexInt(PulseWidth);
+         Flags &= ~DATA_AVAILABLE;
+		PWM_New = PulseWidth;
+		Period = 5100; 
+		PWM_WritePeriod(Period);
+		PWM_WritePulseWidth(PWM_New);
+		PWM_Start();
+		 LCD_Position(5,0);
+       	 LCD_PrHexInt(PWM_New);
+      }
+   }
+}
+	

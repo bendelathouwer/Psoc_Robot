@@ -1,6 +1,6 @@
 Project:      output/Psoc_robot
 Build Number: 0
-Date:         Sat Mar 12 10:57:21 2016
+Date:         Sat Mar 12 11:32:31 2016
 Compiler:     ICCM8C
 Version:      7.05.00
 
@@ -132,16 +132,18 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   0714   0194 =    404. bytes (rel,con,rom,code)
+                            text   0714   01A4 =    420. bytes (rel,con,rom,code)
 
        Addr  Global Symbol
       -----  --------------------------------
        0714  __text_start
        0714  _main
-       07B9  _TimerCaptureISR
-       08A8  __xidata_start
-       08A8  __text_end
-       08AE  __xidata_end
+       0752  _TimerCaptureISR
+       0841  _Current_Fault
+       084E  _Motor_Control
+       08B8  __xidata_start
+       08B8  __text_end
+       08BE  __xidata_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -192,17 +194,18 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            data   0000   000B =     11. bytes (rel,con,ram)
+                            data   0000   000C =     12. bytes (rel,con,ram)
 
        Addr  Global Symbol
       -----  --------------------------------
        0000  __data_start
        0012  _Period
-       0014  _PWM_New
-       0016  _CaptureNegEdge
-       0018  _PulseWidth
-       001A  _CapturePosEdge
+       0014  _CaptureNegEdge
+       0016  _PulseWidth
+       0018  _CapturePosEdge
+       001A  _PWM_New
        001C  _Flags
+       001D  _Fault
 
 Files Linked      [ module(s) ]
 

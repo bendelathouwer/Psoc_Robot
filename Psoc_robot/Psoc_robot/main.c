@@ -12,6 +12,7 @@ WORD CaptureNegEdge;
 WORD PulseWidth;
 WORD PWM_New;
 WORD Period;
+WORD Current;
 
 BYTE Fault;
 BYTE Flags;

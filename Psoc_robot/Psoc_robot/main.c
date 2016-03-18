@@ -78,7 +78,7 @@ void TimerCaptureISR(void)
    }
 }
 
-BYTE Current_Fault(void)
+BYTE Current_Fault(void)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 {
 	
 }

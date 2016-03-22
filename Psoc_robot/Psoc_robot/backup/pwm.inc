@@ -18,36 +18,36 @@ include "m8c.inc"
 ;--------------------------------------------------
 
 PWM_CONTROL_REG_START_BIT:                 equ 0x01    ; Control register start bit
-PWM_INT_REG:                               equ 0x0e1
-PWM_INT_MASK:                              equ 0x08
+PWM_INT_REG:                               equ 0x0df
+PWM_INT_MASK:                              equ 0x02
 
 
 ;--------------------------------------------------
 ; Constants for PWM user defined values
 ;--------------------------------------------------
 
-PWM_PERIOD:                                equ 0x0
-PWM_PULSE_WIDTH:                           equ 0x3e8
+PWM_PERIOD:                                equ 0x3e8
+PWM_PULSE_WIDTH:                           equ 0x0
 
 
 ;--------------------------------------------------
 ; Register Address Constants for PWM
 ;--------------------------------------------------
 
-PWM_COUNTER_LSB_REG:                   equ 0x28   ; DR0 Count register
-PWM_COUNTER_MSB_REG:                   equ 0x2c
-PWM_PERIOD_LSB_REG:                    equ 0x29   ; DR1 Period register
-PWM_PERIOD_MSB_REG:                    equ 0x2d
-PWM_COMPARE_LSB_REG:                   equ 0x2a   ; DR2 Compare register
-PWM_COMPARE_MSB_REG:                   equ 0x2e
-PWM_CONTROL_LSB_REG:                   equ 0x2b   ; Control register
-PWM_CONTROL_MSB_REG:                   equ 0x2f
-PWM_FUNC_LSB_REG:                      equ 0x28   ; Function register
-PWM_FUNC_MSB_REG:                      equ 0x2c
-PWM_INPUT_LSB_REG:                     equ 0x29   ; Input register
-PWM_INPUT_MSB_REG:                     equ 0x2d
-PWM_OUTPUT_LSB_REG:                    equ 0x2a   ; Output register
-PWM_OUTPUT_MSB_REG:                    equ 0x2e
+PWM_COUNTER_LSB_REG:                   equ 0x40   ; DR0 Count register
+PWM_COUNTER_MSB_REG:                   equ 0x44
+PWM_PERIOD_LSB_REG:                    equ 0x41   ; DR1 Period register
+PWM_PERIOD_MSB_REG:                    equ 0x45
+PWM_COMPARE_LSB_REG:                   equ 0x42   ; DR2 Compare register
+PWM_COMPARE_MSB_REG:                   equ 0x46
+PWM_CONTROL_LSB_REG:                   equ 0x43   ; Control register
+PWM_CONTROL_MSB_REG:                   equ 0x47
+PWM_FUNC_LSB_REG:                      equ 0x40   ; Function register
+PWM_FUNC_MSB_REG:                      equ 0x44
+PWM_INPUT_LSB_REG:                     equ 0x41   ; Input register
+PWM_INPUT_MSB_REG:                     equ 0x45
+PWM_OUTPUT_LSB_REG:                    equ 0x42   ; Output register
+PWM_OUTPUT_MSB_REG:                    equ 0x46
 
 
 ;--------------------------------------------------

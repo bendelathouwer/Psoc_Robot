@@ -55,51 +55,51 @@ extern WORD wPWM_ReadPulseWidth(void);         // Deprecated
 //-------------------------------------------------
 
 #define PWM_CONTROL_REG_START_BIT              ( 0x01 )
-#define PWM_INT_REG_ADDR                       ( 0x0e1 )
-#define PWM_INT_MASK                           ( 0x08 )
+#define PWM_INT_REG_ADDR                       ( 0x0df )
+#define PWM_INT_MASK                           ( 0x02 )
 
 
 //--------------------------------------------------
 // Constants for PWM user defined values
 //--------------------------------------------------
 
-#define PWM_PERIOD                             ( 0x0 )
-#define PWM_PULSE_WIDTH                        ( 0x3e8 )
+#define PWM_PERIOD                             ( 0x3e8 )
+#define PWM_PULSE_WIDTH                        ( 0x0 )
 
 
 //-------------------------------------------------
 // Register Addresses for PWM
 //-------------------------------------------------
 
-#pragma ioport  PWM_COUNTER_LSB_REG:    0x028              //DR0 Count register LSB
+#pragma ioport  PWM_COUNTER_LSB_REG:    0x040              //DR0 Count register LSB
 BYTE            PWM_COUNTER_LSB_REG;
-#pragma ioport  PWM_COUNTER_MSB_REG:    0x02c              //DR0 Count register MSB
+#pragma ioport  PWM_COUNTER_MSB_REG:    0x044              //DR0 Count register MSB
 BYTE            PWM_COUNTER_MSB_REG;
-#pragma ioport  PWM_PERIOD_LSB_REG: 0x029                  //DR1 Period register LSB
+#pragma ioport  PWM_PERIOD_LSB_REG: 0x041                  //DR1 Period register LSB
 BYTE            PWM_PERIOD_LSB_REG;
-#pragma ioport  PWM_PERIOD_MSB_REG: 0x02d                  //DR1 Period register MSB
+#pragma ioport  PWM_PERIOD_MSB_REG: 0x045                  //DR1 Period register MSB
 BYTE            PWM_PERIOD_MSB_REG;
-#pragma ioport  PWM_COMPARE_LSB_REG:    0x02a              //DR2 Compare register LSB
+#pragma ioport  PWM_COMPARE_LSB_REG:    0x042              //DR2 Compare register LSB
 BYTE            PWM_COMPARE_LSB_REG;
-#pragma ioport  PWM_COMPARE_MSB_REG:    0x02e              //DR2 Compare register MSB
+#pragma ioport  PWM_COMPARE_MSB_REG:    0x046              //DR2 Compare register MSB
 BYTE            PWM_COMPARE_MSB_REG;
-#pragma ioport  PWM_CONTROL_LSB_REG:    0x02b              //Control register LSB
+#pragma ioport  PWM_CONTROL_LSB_REG:    0x043              //Control register LSB
 BYTE            PWM_CONTROL_LSB_REG;
-#pragma ioport  PWM_CONTROL_MSB_REG:    0x02f              //Control register MSB
+#pragma ioport  PWM_CONTROL_MSB_REG:    0x047              //Control register MSB
 BYTE            PWM_CONTROL_MSB_REG;
-#pragma ioport  PWM_FUNC_LSB_REG:   0x128                  //Function register LSB
+#pragma ioport  PWM_FUNC_LSB_REG:   0x140                  //Function register LSB
 BYTE            PWM_FUNC_LSB_REG;
-#pragma ioport  PWM_FUNC_MSB_REG:   0x12c                  //Function register MSB
+#pragma ioport  PWM_FUNC_MSB_REG:   0x144                  //Function register MSB
 BYTE            PWM_FUNC_MSB_REG;
-#pragma ioport  PWM_INPUT_LSB_REG:  0x129                  //Input register LSB
+#pragma ioport  PWM_INPUT_LSB_REG:  0x141                  //Input register LSB
 BYTE            PWM_INPUT_LSB_REG;
-#pragma ioport  PWM_INPUT_MSB_REG:  0x12d                  //Input register MSB
+#pragma ioport  PWM_INPUT_MSB_REG:  0x145                  //Input register MSB
 BYTE            PWM_INPUT_MSB_REG;
-#pragma ioport  PWM_OUTPUT_LSB_REG: 0x12a                  //Output register LSB
+#pragma ioport  PWM_OUTPUT_LSB_REG: 0x142                  //Output register LSB
 BYTE            PWM_OUTPUT_LSB_REG;
-#pragma ioport  PWM_OUTPUT_MSB_REG: 0x12e                  //Output register MSB
+#pragma ioport  PWM_OUTPUT_MSB_REG: 0x146                  //Output register MSB
 BYTE            PWM_OUTPUT_MSB_REG;
-#pragma ioport  PWM_INT_REG:       0x0e1                   //Interrupt Mask Register
+#pragma ioport  PWM_INT_REG:       0x0df                   //Interrupt Mask Register
 BYTE            PWM_INT_REG;
 
 

@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2015.4 (64-bit)
+# SW Build 1412921 on Wed Nov 18 09:43:45 MST 2015
+# IP Build 1412160 on Tue Nov 17 13:47:24 MST 2015
+# Start of session at: Sat Mar 19 13:48:26 2016
+# Process ID: 9028
+# Current directory: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/Visualisatiom/Visualisatiom.runs/vga_0_synth_1
+# Command line: vivado.exe -log vga_0.vds -mode batch -messageDb vivado.pb -notrace -source vga_0.tcl
+# Log file: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/Visualisatiom/Visualisatiom.runs/vga_0_synth_1/vga_0.vds
+# Journal file: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/Visualisatiom/Visualisatiom.runs/vga_0_synth_1\vivado.jou
+#-----------------------------------------------------------
+source vga_0.tcl -notrace

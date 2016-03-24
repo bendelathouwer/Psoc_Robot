@@ -67,13 +67,16 @@
 #include <m8c.h>        // part specific constants and macros
 #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
 
+
+
 // for timer 1 and motorcontrol 1
-#define DATA_AVAILABLE 0x01
-#define FALLING_EDGE 0x02
+#define DATA_AVAILABLE 0x01//staat in de eerste bit van de flag 
+#define FALLING_EDGE 0x02 // staat in de 2de bit van de flag 
 WORD CapturePosEdge;
 WORD CaptureNegEdge;
 WORD PulseWidth;
 BYTE Flags;
+BOOL done;
 
 // for timer 2 and motor controll 2
 #define DATA_AVAILABLE2 0x01 // new for motorcontroll2
@@ -86,21 +89,21 @@ BYTE Flags2;// new for motorcontroll2
 // for timer 3 and ultrasoon sensor 1
 #define DATA_AVAILABLE3 0x01 
 #define FALLING_EDGE3 0x02    
+#define Set_Distance  50
+
 WORD CapturePosEdge3;
 WORD CaptureNegEdge3;
 WORD PulseWidth3;
 BYTE Flags3;
 
-
-void motorControll1(void);
+void motorControll1(void);//long
 void motorControll2(void);
-long ultrasoonSensor(void);
+void ultrasoonSensor(void);//long ultrasoon sensor(void);
 
-
+void Pulse(void );
 #pragma interrupt_handler TimerCaptureISR// for motorcontroll2
 #pragma interrupt_handler Timer2CaptureISR// new for motorcontroll2
-#pragma interupt_handler  Timer3CaptureISR// for ultrasoon sensor 
-
+#pragma interrupt_handler Timer3CaptureISR
 
 void main(void)
 {
@@ -111,21 +114,25 @@ void main(void)
    Flags = 0;
    Flags2 = 0;// new for motorcontroll2
   
-	// Start timer and enable interrupt
+   // Start timers and enable interrupt
    Timer_Start();
    Timer2_Start();// new for motorcontroll2
-   Timer_EnableInt();
-   Timer2_EnableInt();// new for motorcontroll2
    Timer3_Start();
    Timer_EnableInt();
+   Timer2_EnableInt();// new for motorcontroll2
+   Timer3_EnableInt();
    
-	
+   PWM1_Start();	
    LCD_Start();
-	PRT1DR = 0x80;// wat is dit ?
+   PRT1DR = 0x80;// wat is dit ? set  pin to output
+
    while(1)
    {
-	motorControll1();
-    motorControll2();
+	//long OutputDistance = ultrasoonSensor();
+	ultrasoonSensor();
+	Pulse();
+	motorControll1();//OutputDistance
+    motorControll2();//OutputDistance
 	ultrasoonSensor();
    }
 }
@@ -164,14 +171,15 @@ void TimerCaptureISR(void)
 
 void Timer2CaptureISR(void)// new function for motorcontroll2
 {
-	 if(Flags2 & FALLING_EDGE2)
+	 if(Flags2 & FALLING_EDGE)//
    {
       // Read the count on negative edge
       CaptureNegEdge2 = Timer2_wReadCompareValue();
 
       // Change the capture to positive edge and clear the FALLING_EDGE flag
-      Timer2_FUNC_LSB_REG &= ~0x81;//0x80
-      Flags2 &= ~FALLING_EDGE2;
+      Timer2_FUNC_LSB_REG &= ~0x80;//0x80
+      Flags2 &= ~FALLING_EDGE2;// clearing faling edge bit in flags
+	
 
       // Calculate the pulswidth by finding difference between positive edge
       // and negative edge counts.  As both the numbers are unsigned numbers
@@ -214,6 +222,7 @@ void Timer3CaptureISR(void)
       
       // Set the Data available flag
       Flags3 |= DATA_AVAILABLE3;
+	  done = TRUE ;// 
    }
    else
    {
@@ -226,40 +235,96 @@ void Timer3CaptureISR(void)
    }
 }
 
-void motorControll1(void)
+void motorControll1(void)//long OutputDistance
 {
-	 // Check if pulsewidth data is available
+			
+	   // Check if pulsewidth data is available
       if(Flags & DATA_AVAILABLE)
-      {
-         // Print the pulsewidth on the LCD
+   	 {
          LCD_Position(0,0);
          LCD_PrHexInt(PulseWidth);
-         Flags &= ~DATA_AVAILABLE;
+       		Flags &= ~DATA_AVAILABLE;
       }
+   
+	 
 	
 }
 
-void motorControll2(void)// new
+void motorControll2(void)// long OutputDistance
 {
 	if(Flags2 & DATA_AVAILABLE2)
       {
-         // Print the pulsewidth on the LCD
-         LCD_Position(5,0);
+		 LCD_Position(5,0);
          LCD_PrHexInt(PulseWidth2);
+       
          Flags2 &= ~DATA_AVAILABLE2;
       }
+       
 	
 }
 
 
-long ultrasoonSensor(void)
+void ultrasoonSensor(void)
 {
-	if(Flags3 & DATA_AVAILABLE3)
-      {
-         // Print the pulsewidth on the LCD
-         LCD_Position(5,5);
-         LCD_PrHexInt(PulseWidth3);
-         Flags3 &= ~DATA_AVAILABLE3;
-      }
+	//long distance;
+	// this if statmend ensure's the trig pin is trigerd when needed
 	
+//    if(done = FALSE)
+//	{
+//		PRT1DR |= 0x01;
+//    	asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		PRT1DR &= ~0x01;
+//
+//	}
+	if(Flags3 & DATA_AVAILABLE3)// do if databit is set 
+    {
+      
+		 LCD_Position(5,5);
+         LCD_PrHexInt(PulseWidth3);
+       
+         Flags3 &= ~DATA_AVAILABLE3;
+		done = FALSE;
+    }  
+
+	
+	//return  distance;
+}
+
+void Pulse(void )
+{
+	//    if(done = FALSE)
+	{
+		PRT1DR |= 0x01;
+    	asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		PRT1DR &= ~0x01;
+
+	}
 }

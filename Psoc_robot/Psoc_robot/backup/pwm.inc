@@ -27,7 +27,7 @@ PWM_INT_MASK:                              equ 0x02
 ;--------------------------------------------------
 
 PWM_PERIOD:                                equ 0x3e8
-PWM_PULSE_WIDTH:                           equ 0x0
+PWM_PULSE_WIDTH:                           equ 0x1388
 
 
 ;--------------------------------------------------

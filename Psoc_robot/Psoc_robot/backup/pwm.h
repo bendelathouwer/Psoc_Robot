@@ -64,7 +64,7 @@ extern WORD wPWM_ReadPulseWidth(void);         // Deprecated
 //--------------------------------------------------
 
 #define PWM_PERIOD                             ( 0x3e8 )
-#define PWM_PULSE_WIDTH                        ( 0x0 )
+#define PWM_PULSE_WIDTH                        ( 0x1388 )
 
 
 //-------------------------------------------------

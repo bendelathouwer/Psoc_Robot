@@ -182,7 +182,7 @@ ENDIF
     reti
 
     org   44h                      ;PSoC Block DBB21 Interrupt Vector
-    ljmp	_PWM_ISR
+    ljmp	_PWM1_ISR
     reti
 
     org   48h                      ;PSoC Block DCB22 Interrupt Vector

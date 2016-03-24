@@ -1,47 +1,70 @@
 Starting MAKE...
-creating project.mk -- no changes
+creating project.mk 
 
-CAUTION lib/psocconfig.asm is older than PSoCConfig.xml or missing
+lib/lcd.asm
 
-CAUTION you may need to generate source in PSoC Designer
+lib/psocconfig.asm
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(102):[warning] unknown #pragma interupt_handler
+lib/psocconfigtbl.asm
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(119):[warning] [MISRA 2200]calling an undeclared function may cause unexpected behavior if the function 
+lib/pwm1.asm
 
-takes or returns values other than int
+lib/pwm1int.asm
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(119):[warning] [MISRA 2714]calling a function without prototype may cause unexpected behavior if the function 
+lib/timer.asm
 
-takes or returns values other than int
+lib/timer2.asm
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(202):[warning] [MISRA 2200]calling an undeclared function may cause unexpected behavior if the function 
+lib/timer2int.asm
 
-takes or returns values other than int
+lib/timer3.asm
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(202):[warning] [MISRA 2714]calling a function without prototype may cause unexpected behavior if the function 
+lib/timer3int.asm
 
-takes or returns values other than int
+lib/timerint.asm
 
-!E C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(205): undeclared identifier `Timer3_FUNC_LSB_REG'
+./boot.asm
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(221):[warning] [MISRA 2200]calling an undeclared function may cause unexpected behavior if the function 
+Linking..
 
-takes or returns values other than int
+LMM info: area 'InterruptRAM' uses 3 bytes in SRAM bank 0
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(221):[warning] [MISRA 2714]calling a function without prototype may cause unexpected behavior if the function 
+LMM info: area 'virtual_registers' uses 15 bytes in SRAM page 0
 
-takes or returns values other than int
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 
-!E C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(224): undeclared identifier `Timer3_FUNC_LSB_REG'
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(265):[warning] missing return value
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 
-make: *** [obj/main.o] Error 1
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+idata dump at output/Psoc_robot.idata
+
+  ROM 8% full. 2545 out of 32768 bytes used (does not include absolute areas).
+
+  RAM 3% full. 40 bytes used (does not include stack usage).
+
+Built with ICCM8C STD V7.05.00
 
  
-Psoc_robot - 3 error(s) 8 warning(s) 11:43:16
-
-Performing Project Clean...
-done
+Psoc_robot - 0 error(s) 0 warning(s) 15:52:27
 

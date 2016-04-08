@@ -842,12 +842,12 @@
  0000           ;  Instance name PWM1, User Module PWM16
  0000           ;       Instance name PWM1, Block Name PWM16_LSB(DBB20)
  0000 4300              db              43h, 00h                ;PWM1_CONTROL_LSB_REG(DBB20CR0)
- 0002 41E8              db              41h, e8h                ;PWM1_PERIOD_LSB_REG(DBB20DR1)
- 0004 4288              db              42h, 88h                ;PWM1_COMPARE_LSB_REG(DBB20DR2)
+ 0002 41E7              db              41h, e7h                ;PWM1_PERIOD_LSB_REG(DBB20DR1)
+ 0004 4200              db              42h, 00h                ;PWM1_COMPARE_LSB_REG(DBB20DR2)
  0006           ;       Instance name PWM1, Block Name PWM16_MSB(DBB21)
  0006 4700              db              47h, 00h                ;PWM1_CONTROL_MSB_REG(DBB21CR0)
  0008 4503              db              45h, 03h                ;PWM1_PERIOD_MSB_REG(DBB21DR1)
- 000A 4613              db              46h, 13h                ;PWM1_COMPARE_MSB_REG(DBB21DR2)
+ 000A 4600              db              46h, 00h                ;PWM1_COMPARE_MSB_REG(DBB21DR2)
  000C           ;  Instance name Timer, User Module Timer16
  000C           ;       Instance name Timer, Block Name TIMER16_LSB(DBB00)
  000C 2300              db              23h, 00h                ;Timer_CONTROL_LSB_REG(DBB00CR0)
@@ -980,11 +980,11 @@
  0000 70EF          and   F, ~FLAG_XIO_MASK
  0002 620000            mov     reg[00h], 00h           ; Port_0_Data register (PRT0DR)
  0005 7110          or    F, FLAG_XIO_MASK
- 0007 620010            mov     reg[00h], 10h           ; Port_0_DriveMode_0 register (PRT0DM0)
- 000A 6201EF            mov     reg[01h], efh           ; Port_0_DriveMode_1 register (PRT0DM1)
+ 0007 620070            mov     reg[00h], 70h           ; Port_0_DriveMode_0 register (PRT0DM0)
+ 000A 62018F            mov     reg[01h], 8fh           ; Port_0_DriveMode_1 register (PRT0DM1)
  000D 70EF          and   F, ~FLAG_XIO_MASK
- 000F 6203E4            mov     reg[03h], e4h           ; Port_0_DriveMode_2 register (PRT0DM2)
- 0012 62021B            mov     reg[02h], 1bh           ; Port_0_GlobalSelect register (PRT0GS)
+ 000F 620384            mov     reg[03h], 84h           ; Port_0_DriveMode_2 register (PRT0DM2)
+ 0012 62027B            mov     reg[02h], 7bh           ; Port_0_GlobalSelect register (PRT0GS)
  0015 7110          or    F, FLAG_XIO_MASK
  0017 620200            mov     reg[02h], 00h           ; Port_0_IntCtrl_0 register (PRT0IC0)
  001A 620300            mov     reg[03h], 00h           ; Port_0_IntCtrl_1 register (PRT0IC1)

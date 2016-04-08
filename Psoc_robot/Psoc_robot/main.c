@@ -99,7 +99,7 @@ BYTE Flags3;
 void motorControll1(void);//long
 void motorControll2(void);
 void ultrasoonSensor(void);//long ultrasoon sensor(void);
-
+ 
 void Pulse(void );
 #pragma interrupt_handler TimerCaptureISR// for motorcontroll2
 #pragma interrupt_handler Timer2CaptureISR// new for motorcontroll2
@@ -177,7 +177,7 @@ void Timer2CaptureISR(void)// new function for motorcontroll2
       CaptureNegEdge2 = Timer2_wReadCompareValue();
 
       // Change the capture to positive edge and clear the FALLING_EDGE flag
-      Timer2_FUNC_LSB_REG &= ~0x80;//0x80
+      Timer2_FUNC_LSB_REG &= ~0x80;
       Flags2 &= ~FALLING_EDGE2;// clearing faling edge bit in flags
 	
 
@@ -241,10 +241,12 @@ void motorControll1(void)//long OutputDistance
 	   // Check if pulsewidth data is available
       if(Flags & DATA_AVAILABLE)
    	 {
-         LCD_Position(0,0);
-         LCD_PrHexInt(PulseWidth);
-       		Flags &= ~DATA_AVAILABLE;
-      }
+//         LCD_Position(0,0);
+//         LCD_PrHexInt(PulseWidth);
+//       	 Flags &= ~DATA_AVAILABLE;
+			
+			Motor2DR |= 0x01;
+		}
    
 	 
 	
@@ -311,7 +313,7 @@ void Pulse(void )
 {
 	//    if(done = FALSE)
 	{
-		PRT1DR |= 0x01;
+		PRT1DR |= 0x01;// writing to pin P1[0]
     	asm("nop");
 		asm("nop");
 		asm("nop");
@@ -324,7 +326,7 @@ void Pulse(void )
 		asm("nop");
 		asm("nop");
 		asm("nop");
-		PRT1DR &= ~0x01;
+		PRT1DR &= ~0x01;// clearing pin P1[0]
 
 	}
 }

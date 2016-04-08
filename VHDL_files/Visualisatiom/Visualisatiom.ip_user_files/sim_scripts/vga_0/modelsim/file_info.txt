@@ -1,2 +1,0 @@
-Language File-Name               IP     Library         File-Path                                                               
-VHDL,    vga_0_sim_netlist.vhdl, vga_0, xil_defaultlib, ../../../../Visualisatiom.srcs/sources_1/ip/vga_0/vga_0_sim_netlist.vhdl

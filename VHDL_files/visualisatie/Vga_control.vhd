@@ -37,7 +37,8 @@ entity Vga_control is
         VGA_VS_O : out STD_LOGIC;
         VGA_RED_O : out STD_LOGIC_VECTOR (3 downto 0);
         VGA_BLUE_O : out STD_LOGIC_VECTOR (3 downto 0);
-        VGA_GREEN_O : out STD_LOGIC_VECTOR (3 downto 0);    );
+        VGA_GREEN_O : out STD_LOGIC_VECTOR (3 downto 0);
+           );
 end Vga-control;
 
 architecture Behavioral of Vga_control is
@@ -47,7 +48,7 @@ port
  (-- Clock in ports
   clk_in1           : in     std_logic;
   -- Clock out ports
-  clk_out1          : out    std_logic
+  clk_out1          : out    std_logic;
  );
 end component;
 

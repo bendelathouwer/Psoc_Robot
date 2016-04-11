@@ -40,4 +40,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log clk_wiz_0.vds -m64 -mode batch -messageDb vivado.pb -notrace -source clk_wiz_0.tcl
+EAStep vivado -log Top.vds -m64 -mode batch -messageDb vivado.pb -notrace -source Top.tcl

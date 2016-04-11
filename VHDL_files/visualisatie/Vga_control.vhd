@@ -21,34 +21,32 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.std_logic_unsigned.all;
+use ieee.math_real.all;
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
 entity Vga_control is
-  Port (CLK_I : in STD_LOGIC;
+  Port  (CLK_I : in STD_LOGIC;
         VGA_HS_O : out STD_LOGIC;
         VGA_VS_O : out STD_LOGIC;
         VGA_RED_O : out STD_LOGIC_VECTOR (3 downto 0);
         VGA_BLUE_O : out STD_LOGIC_VECTOR (3 downto 0);
-        VGA_GREEN_O : out STD_LOGIC_VECTOR (3 downto 0);
+        VGA_GREEN_O : out STD_LOGIC_VECTOR (3 downto 0)--;
            );
-end Vga-control;
+end Vga_control;
 
 architecture Behavioral of Vga_control is
 
 component clk_wiz_0
-port
+port 
  (-- Clock in ports
   clk_in1           : in     std_logic;
   -- Clock out ports
-  clk_out1          : out    std_logic;
+  clk_out1          : out    std_logic
  );
 end component;
 
@@ -72,38 +70,37 @@ constant V_POL : std_logic := '1';
   -- VGA Controller specific signals: Counters, Sync, R, G, B
   
   -------------------------------------------------------------------------
-  -- Pixel clock, in this case 108 MHz
-  signal pxl_clk : std_logic;
-  -- The active signal is used to signal the active region of the screen (when not blank)
-  signal active  : std_logic;
-  
-  -- Horizontal and Vertical counters
-  signal h_cntr_reg : std_logic_vector(11 downto 0) := (others =>'0');
-  signal v_cntr_reg : std_logic_vector(11 downto 0) := (others =>'0');
-  
-  -- Pipe Horizontal and Vertical Counters
-  signal h_cntr_reg_dly   : std_logic_vector(11 downto 0) := (others => '0');
-  signal v_cntr_reg_dly   : std_logic_vector(11 downto 0) := (others => '0');
-  
-  -- Horizontal and Vertical Sync
-  signal h_sync_reg : std_logic := not(H_POL);
-  signal v_sync_reg : std_logic := not(V_POL);
-  -- Pipe Horizontal and Vertical Sync
-  signal h_sync_reg_dly : std_logic := not(H_POL);
-  signal v_sync_reg_dly : std_logic :=  not(V_POL);
-  
-  -- VGA R, G and B signals coming from the main multiplexers
-  signal vga_red_cmb   : std_logic_vector(3 downto 0);
-  signal vga_green_cmb : std_logic_vector(3 downto 0);
-  signal vga_blue_cmb  : std_logic_vector(3 downto 0);
-  --The main VGA R, G and B signals, validated by active
-  signal vga_red    : std_logic_vector(3 downto 0);
-  signal vga_green  : std_logic_vector(3 downto 0);
-  signal vga_blue   : std_logic_vector(3 downto 0);
-  -- Register VGA R, G and B signals
-  signal vga_red_reg   : std_logic_vector(3 downto 0) := (others =>'0');
-  signal vga_green_reg : std_logic_vector(3 downto 0) := (others =>'0');
-  signal vga_blue_reg  : std_logic_vector(3 downto 0) := (others =>'0');
+ signal pxl_clk : std_logic;
+   -- The active signal is used to signal the active region of the screen (when not blank)
+   signal active  : std_logic;
+   
+   -- Horizontal and Vertical counters
+   signal h_cntr_reg : std_logic_vector(11 downto 0) := (others =>'0');
+   signal v_cntr_reg : std_logic_vector(11 downto 0) := (others =>'0');
+   
+   -- Pipe Horizontal and Vertical Counters
+   signal h_cntr_reg_dly   : std_logic_vector(11 downto 0) := (others => '0');
+   signal v_cntr_reg_dly   : std_logic_vector(11 downto 0) := (others => '0');
+   
+   -- Horizontal and Vertical Sync
+   signal h_sync_reg : std_logic := not(H_POL);
+   signal v_sync_reg : std_logic := not(V_POL);
+   -- Pipe Horizontal and Vertical Sync
+   signal h_sync_reg_dly : std_logic := not(H_POL);
+   signal v_sync_reg_dly : std_logic :=  not(V_POL);
+   
+   -- VGA R, G and B signals coming from the main multiplexers
+   signal vga_red_cmb   : std_logic_vector(3 downto 0);
+   signal vga_green_cmb : std_logic_vector(3 downto 0);
+   signal vga_blue_cmb  : std_logic_vector(3 downto 0);
+   --The main VGA R, G and B signals, validated by active
+   signal vga_red    : std_logic_vector(3 downto 0);
+   signal vga_green  : std_logic_vector(3 downto 0);
+   signal vga_blue   : std_logic_vector(3 downto 0);
+   -- Register VGA R, G and B signals
+   signal vga_red_reg   : std_logic_vector(3 downto 0) := (others =>'0');
+   signal vga_green_reg : std_logic_vector(3 downto 0) := (others =>'0');
+   signal vga_blue_reg  : std_logic_vector(3 downto 0) := (others =>'0');
   
   
   -----------------------------------------------------------

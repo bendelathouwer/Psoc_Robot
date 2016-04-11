@@ -1,6 +1,6 @@
 
 *** Running vivado
-    with args -log clk_wiz_0.vds -m64 -mode batch -messageDb vivado.pb -notrace -source clk_wiz_0.tcl
+    with args -log Top.vds -m64 -mode batch -messageDb vivado.pb -notrace -source Top.tcl
 
 
 ****** Vivado v2015.4 (64-bit)
@@ -8,15 +8,19 @@
   **** IP Build 1412160 on Tue Nov 17 13:47:24 MST 2015
     ** Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 
-source clk_wiz_0.tcl -notrace
+source Top.tcl -notrace
 WARNING: [Board 49-26] cannot add Board Part digilentinc.com:genesys2:part0:1.1 available at C:/Vivado/2015.4/data/boards/board_files/genesys2/H/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
-Command: synth_design -top clk_wiz_0 -part xc7a35tcpg236-1
+Command: synth_design -top Top -part xc7a35tcpg236-1
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 273.230 ; gain = 101.613
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 275.188 ; gain = 103.531
 ---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'Top' [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Top.vhd:21]
+INFO: [Synth 8-3491] module 'Vga_control' declared at 'C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Vga_control.vhd:32' bound to instance 'Inst_Vga_control' of component 'Vga_control' [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Top.vhd:41]
+INFO: [Synth 8-638] synthesizing module 'Vga_control' [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Vga_control.vhd:42]
+INFO: [Synth 8-3491] module 'clk_wiz_0' declared at 'C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0.vhd:74' bound to instance 'clk_wiz_0_inst' of component 'clk_wiz_0' [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Vga_control.vhd:125]
 INFO: [Synth 8-638] synthesizing module 'clk_wiz_0' [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0.vhd:83]
 INFO: [Synth 8-3491] module 'clk_wiz_0_clk_wiz' declared at 'C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0_clk_wiz.vhd:74' bound to instance 'U0' of component 'clk_wiz_0_clk_wiz' [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0.vhd:98]
 INFO: [Synth 8-638] synthesizing module 'clk_wiz_0_clk_wiz' [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0_clk_wiz.vhd:83]
@@ -73,8 +77,13 @@ INFO: [Synth 8-113] binding component instance 'clkf_buf' to cell 'BUFG' [C:/Use
 INFO: [Synth 8-113] binding component instance 'clkout1_buf' to cell 'BUFG' [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0_clk_wiz.vhd:194]
 INFO: [Synth 8-256] done synthesizing module 'clk_wiz_0_clk_wiz' (1#1) [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0_clk_wiz.vhd:83]
 INFO: [Synth 8-256] done synthesizing module 'clk_wiz_0' (2#1) [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0.vhd:83]
+WARNING: [Synth 8-3848] Net vga_red_cmb in module/entity Vga_control does not have driver. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Vga_control.vhd:93]
+WARNING: [Synth 8-3848] Net vga_blue_cmb in module/entity Vga_control does not have driver. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Vga_control.vhd:95]
+WARNING: [Synth 8-3848] Net vga_green_cmb in module/entity Vga_control does not have driver. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Vga_control.vhd:94]
+INFO: [Synth 8-256] done synthesizing module 'Vga_control' (3#1) [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Vga_control.vhd:42]
+INFO: [Synth 8-256] done synthesizing module 'Top' (4#1) [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Top.vhd:21]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 309.719 ; gain = 138.102
+Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 312.594 ; gain = 140.938
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -84,7 +93,7 @@ Report Check Netlist:
 |1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
 +------+------------------+-------+---------+-------+------------------+
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 309.719 ; gain = 138.102
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:07 . Memory (MB): peak = 312.594 ; gain = 140.938
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -94,15 +103,6 @@ INFO: [Project 1-570] Preparing netlist for logic optimization
 Processing XDC Constraints
 Initializing timing engine
 Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc]
-WARNING: [Vivado 12-584] No ports matched 'clk'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:7]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:7]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'clk'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:8]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:8]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'clk'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:9]
-CRITICAL WARNING: [Vivado 12-1387] No valid object(s) found for create_clock constraint with option '-objects [get_ports clk]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:9]
-Resolution: Check if the specified object(s) exists in the current design. If it does, ensure that the correct design hierarchy was specified for the object. If you are working with clocks, make sure create_clock was used to create the clock object before it is referenced.
 WARNING: [Vivado 12-584] No ports matched 'vgaRed[0]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:236]
 CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:236]
 Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
@@ -175,43 +175,33 @@ Resolution: If [get_<value>] was used to populate the object, check to make sure
 WARNING: [Vivado 12-584] No ports matched 'vgaGreen[3]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:259]
 CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:259]
 Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'Hsync'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:260]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:260]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'Hsync'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:261]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:261]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'Vsync'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:262]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:262]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'Vsync'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:263]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:263]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
 Finished Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/Top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/Top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 505.059 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.005 . Memory (MB): peak = 552.645 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 552.645 ; gain = 380.988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tcpg236-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 552.645 ; gain = 380.988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 552.645 ; gain = 380.988
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 552.645 ; gain = 380.988
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -223,6 +213,9 @@ Report RTL Partitions:
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
 Detailed RTL Component Info : 
++---Registers : 
+	                4 Bit    Registers := 3     
+	                1 Bit    Registers := 4     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -230,6 +223,11 @@ Finished RTL Component Statistics
 Start RTL Hierarchical Component Statistics 
 ---------------------------------------------------------------------------------
 Hierarchical RTL Component report 
+Module Vga_control 
+Detailed RTL Component Info : 
++---Registers : 
+	                4 Bit    Registers := 3     
+	                1 Bit    Registers := 4     
 ---------------------------------------------------------------------------------
 Finished RTL Hierarchical Component Statistics
 ---------------------------------------------------------------------------------
@@ -242,14 +240,14 @@ BRAMs: 100 (col length: RAMB18 60 RAMB36 30)
 ---------------------------------------------------------------------------------
 Finished Part Resource Summary
 ---------------------------------------------------------------------------------
-Start Parallel Synthesis Optimization  : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Start Parallel Synthesis Optimization  : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 552.645 ; gain = 380.988
 ---------------------------------------------------------------------------------
 Start Cross Boundary Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Cross Boundary Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Finished Cross Boundary Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 552.645 ; gain = 380.988
 ---------------------------------------------------------------------------------
-Finished Parallel Reinference  : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Finished Parallel Reinference  : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 552.645 ; gain = 380.988
 
 Report RTL Partitions: 
 +-+--------------+------------+----------+
@@ -260,9 +258,9 @@ Report RTL Partitions:
 Start Area Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Area Optimization : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Finished Area Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 552.645 ; gain = 380.988
 ---------------------------------------------------------------------------------
-Finished Parallel Area Optimization  : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 505.059 ; gain = 333.441
+Finished Parallel Area Optimization  : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 552.645 ; gain = 380.988
 
 Report RTL Partitions: 
 +-+--------------+------------+----------+
@@ -276,10 +274,10 @@ Start Timing Optimization
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 542.836 ; gain = 371.219
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 565.484 ; gain = 393.828
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 542.840 ; gain = 371.223
+Finished Timing Optimization : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 565.484 ; gain = 393.828
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -290,17 +288,29 @@ Report RTL Partitions:
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_red_reg_reg[3] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_red_reg_reg[2] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_red_reg_reg[1] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_red_reg_reg[0] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_blue_reg_reg[3] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_blue_reg_reg[2] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_blue_reg_reg[1] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_blue_reg_reg[0] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_green_reg_reg[3] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_green_reg_reg[2] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_green_reg_reg[1] ) is unused and will be removed from module Top.
+WARNING: [Synth 8-3332] Sequential element (\Inst_Vga_control/vga_green_reg_reg[0] ) is unused and will be removed from module Top.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Technology Mapping : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
-Finished Parallel Technology Mapping Optimization  : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Parallel Technology Mapping Optimization  : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 585.809 ; gain = 414.152
 
 Report RTL Partitions: 
 +-+--------------+------------+----------+
 | |RTL Partition |Replication |Instances |
 +-+--------------+------------+----------+
 +-+--------------+------------+----------+
-Finished Parallel Synthesis Optimization  : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Parallel Synthesis Optimization  : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
 Start IO Insertion
 ---------------------------------------------------------------------------------
@@ -317,7 +327,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished IO Insertion : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -330,7 +340,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -342,25 +352,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:23 ; elapsed = 00:00:26 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -377,26 +387,34 @@ Report Cell Usage:
 |      |Cell       |Count |
 +------+-----------+------+
 |1     |BUFG       |     2|
-|2     |MMCME2_ADV |     1|
-|3     |IBUF       |     1|
-|4     |OBUF       |     1|
+|2     |CARRY4     |    14|
+|3     |LUT1       |    25|
+|4     |LUT2       |    40|
+|5     |LUT4       |     6|
+|6     |LUT6       |     2|
+|7     |MMCME2_ADV |     1|
+|8     |FDRE       |    28|
+|9     |IBUF       |     1|
+|10    |OBUF       |    14|
 +------+-----------+------+
 
 Report Instance Areas: 
-+------+---------+------------------+------+
-|      |Instance |Module            |Cells |
-+------+---------+------------------+------+
-|1     |top      |                  |     5|
-|2     |  U0     |clk_wiz_0_clk_wiz |     3|
-+------+---------+------------------+------+
++------+-------------------+------------------+------+
+|      |Instance           |Module            |Cells |
++------+-------------------+------------------+------+
+|1     |top                |                  |   133|
+|2     |  Inst_Vga_control |Vga_control       |   118|
+|3     |    clk_wiz_0_inst |clk_wiz_0         |     3|
+|4     |      U0           |clk_wiz_0_clk_wiz |     3|
++------+-------------------+------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 552.547 ; gain = 380.930
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 585.809 ; gain = 414.152
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:15 ; elapsed = 00:00:19 . Memory (MB): peak = 552.547 ; gain = 158.918
-Synthesis Optimization Complete : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 552.547 ; gain = 380.930
+Synthesis finished with 0 errors, 0 critical warnings and 12 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:14 ; elapsed = 00:00:18 . Memory (MB): peak = 585.809 ; gain = 147.629
+Synthesis Optimization Complete : Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 585.809 ; gain = 414.152
 INFO: [Project 1-571] Translating synthesized netlist
-INFO: [Netlist 29-17] Analyzing 2 Unisim elements for replacement
+INFO: [Netlist 29-17] Analyzing 16 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
@@ -404,8 +422,8 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
 INFO: [Common 17-83] Releasing license: Synthesis
-21 Infos, 32 Warnings, 31 Critical Warnings and 0 Errors encountered.
+28 Infos, 40 Warnings, 24 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:24 ; elapsed = 00:00:25 . Memory (MB): peak = 552.547 ; gain = 360.918
-report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.015 . Memory (MB): peak = 552.547 ; gain = 0.000
-INFO: [Common 17-206] Exiting Vivado at Sun Apr 10 11:47:20 2016...
+synth_design: Time (s): cpu = 00:00:23 ; elapsed = 00:00:23 . Memory (MB): peak = 585.809 ; gain = 392.316
+report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.023 . Memory (MB): peak = 585.809 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Mon Apr 11 11:41:41 2016...

@@ -38,11 +38,11 @@
 //      CompareValue                       0
 //      CompareType                        Less than or equal to
 //      Conected to port                   Port_0_1
-//  	Timer3:				`			  For reading one joystick channel 	
+//  	Timer3:				`			  For reading the  ultrasonic sensor
 //      Clock 							   VC2
 //      Period                             65535
 //      CompareValue                       0
-//      CompareType                        Less than or equal to
+//      CompareTy pe                        Less than or equal to
 //      Conected to port                   Port_0_3
 //		
 //		
@@ -76,7 +76,7 @@ WORD CapturePosEdge;
 WORD CaptureNegEdge;
 WORD PulseWidth;
 BYTE Flags;
-BOOL done;
+volatile BOOL done;//dit gedaan om compiler te verplichten waarde terug in te lezen (Caching tegen te gaan )
 
 // for timer 2 and motor controll 2
 #define DATA_AVAILABLE2 0x01 // new for motorcontroll2
@@ -268,33 +268,33 @@ void motorControll2(void)// long OutputDistance
 
 void ultrasoonSensor(void)
 {
-	//long distance;
-	// this if statmend ensure's the trig pin is trigerd when needed
+	long distance;
+	 this if statmend ensure's the trig pin is trigerd when needed
 	
-//    if(done = FALSE)
-//	{
-//		PRT1DR |= 0x01;
-//    	asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		PRT1DR &= ~0x01;
-//
-//	}
+   if(done == FALSE)
+	{
+		PRT1DR |= 0x01;
+  	asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		asm("nop");
+		PRT1DR &= ~0x01;
+
+	}
 	if(Flags3 & DATA_AVAILABLE3)// do if databit is set 
     {
       
@@ -309,24 +309,24 @@ void ultrasoonSensor(void)
 	//return  distance;
 }
 
-void Pulse(void )
-{
-	//    if(done = FALSE)
-	{
-		PRT1DR |= 0x01;// writing to pin P1[0]
-    	asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		PRT1DR &= ~0x01;// clearing pin P1[0]
-
-	}
-}
+//void Pulse(void )
+//{
+//	  if(done = FALSE)
+//	{
+//		PRT1DR |= 0x01;// writing to pin P1[0]
+//    	asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		asm("nop");
+//		PRT1DR &= ~0x01;// clearing pin P1[0]
+//
+//	}
+//}

@@ -1,7 +1,7 @@
 Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2015.4 (win64) Build 1412921 Wed Nov 18 09:43:45 MST 2015
-| Date             : Mon Apr 11 11:42:35 2016
+| Date             : Mon Apr 18 11:27:01 2016
 | Host             : GozerTheDestructor running 64-bit major release  (build 9200)
 | Command          : 
 | Design           : Top
@@ -30,9 +30,9 @@ Table of Contents
 ----------
 
 +--------------------------+-------+
-| Total On-Chip Power (W)  | 6.116 |
+| Total On-Chip Power (W)  | 6.114 |
 | Dynamic (W)              | 6.017 |
-| Device Static (W)        | 0.099 |
+| Device Static (W)        | 0.097 |
 | Effective TJA (C/W)      | 5.0   |
 | Max Ambient (C)          | 54.4  |
 | Junction Temperature (C) | 55.6  |
@@ -58,8 +58,8 @@ Table of Contents
 | Signals        |     0.105 |       53 |       --- |             --- |
 | MMCM           |     4.511 |        1 |         5 |           20.00 |
 | I/O            |     1.248 |       15 |       106 |           14.15 |
-| Static Power   |     0.099 |          |           |                 |
-| Total          |     6.116 |          |           |                 |
+| Static Power   |     0.097 |          |           |                 |
+| Total          |     6.114 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -73,7 +73,7 @@ Table of Contents
 | Vccaux    |       1.800 |     2.552 |       2.537 |      0.015 |
 | Vcco33    |       3.300 |     0.353 |       0.352 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
-| Vcco18    |       1.800 |     0.001 |       0.000 |      0.001 |
+| Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |

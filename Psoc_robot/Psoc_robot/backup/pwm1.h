@@ -63,8 +63,8 @@ extern WORD wPWM1_ReadPulseWidth(void);         // Deprecated
 // Constants for PWM1 user defined values
 //--------------------------------------------------
 
-#define PWM1_PERIOD                            ( 0x3e8 )
-#define PWM1_PULSE_WIDTH                       ( 0x1388 )
+#define PWM1_PERIOD                            ( 0x3e7 )
+#define PWM1_PULSE_WIDTH                       ( 0x0 )
 
 
 //-------------------------------------------------

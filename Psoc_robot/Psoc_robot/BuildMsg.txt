@@ -11,6 +11,10 @@ lib/pwm1.asm
 
 lib/pwm1int.asm
 
+lib/pwm2.asm
+
+lib/pwm2int.asm
+
 lib/timer.asm
 
 lib/timer2.asm
@@ -23,14 +27,58 @@ lib/timer3int.asm
 
 lib/timerint.asm
 
-!E C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(103): invalid use of `void'
+!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(137):[warning] [MISRA 2200]calling an undeclared function may cause unexpected behavior if the function 
 
-!E C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(247): undeclared identifier `Motor1DR'
+takes or returns values other than int
 
-!E C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(248): undeclared identifier `Motor2DR'
+!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(137):[warning] [MISRA 2714]calling a function without prototype may cause unexpected behavior if the function 
 
-make: *** [obj/main.o] Error 1
+takes or returns values other than int
+
+!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(258):[warning] declaration of `motorControll2' does not match previous declaration at C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(137)
+
+./boot.asm
+
+Linking..
+
+LMM info: area 'InterruptRAM' uses 3 bytes in SRAM bank 0
+
+LMM info: area 'virtual_registers' uses 15 bytes in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
+idata dump at output/Psoc_robot.idata
+
+  ROM 9% full. 2656 out of 32768 bytes used (does not include absolute areas).
+
+  RAM 3% full. 40 bytes used (does not include stack usage).
+
+Built with ICCM8C STD V7.05.00
 
  
-Psoc_robot - 4 error(s) 0 warning(s) 14:33:59
+Psoc_robot - 0 error(s) 3 warning(s) 11:17:19
 

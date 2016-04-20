@@ -24,12 +24,21 @@ LoadConfigTBL_psoc_robot_Bank0:
 ;  Instance name PWM1, User Module PWM16
 ;       Instance name PWM1, Block Name PWM16_LSB(DBB20)
 	db		43h, 00h		;PWM1_CONTROL_LSB_REG(DBB20CR0)
-	db		41h, e8h		;PWM1_PERIOD_LSB_REG(DBB20DR1)
-	db		42h, 88h		;PWM1_COMPARE_LSB_REG(DBB20DR2)
+	db		41h, e7h		;PWM1_PERIOD_LSB_REG(DBB20DR1)
+	db		42h, 00h		;PWM1_COMPARE_LSB_REG(DBB20DR2)
 ;       Instance name PWM1, Block Name PWM16_MSB(DBB21)
 	db		47h, 00h		;PWM1_CONTROL_MSB_REG(DBB21CR0)
 	db		45h, 03h		;PWM1_PERIOD_MSB_REG(DBB21DR1)
-	db		46h, 13h		;PWM1_COMPARE_MSB_REG(DBB21DR2)
+	db		46h, 00h		;PWM1_COMPARE_MSB_REG(DBB21DR2)
+;  Instance name PWM2, User Module PWM16
+;       Instance name PWM2, Block Name PWM16_LSB(DCB22)
+	db		4bh, 00h		;PWM2_CONTROL_LSB_REG(DCB22CR0)
+	db		49h, e7h		;PWM2_PERIOD_LSB_REG(DCB22DR1)
+	db		4ah, 00h		;PWM2_COMPARE_LSB_REG(DCB22DR2)
+;       Instance name PWM2, Block Name PWM16_MSB(DCB23)
+	db		4fh, 00h		;PWM2_CONTROL_MSB_REG(DCB23CR0)
+	db		4dh, 03h		;PWM2_PERIOD_MSB_REG(DCB23DR1)
+	db		4eh, 00h		;PWM2_COMPARE_MSB_REG(DCB23DR2)
 ;  Instance name Timer, User Module Timer16
 ;       Instance name Timer, Block Name TIMER16_LSB(DBB00)
 	db		23h, 00h		;Timer_CONTROL_LSB_REG(DBB00CR0)
@@ -84,7 +93,7 @@ LoadConfigTBL_psoc_robot_Bank0:
 	db		c2h, 20h		; Row_2_LogicInputAMux register (RDI2IS)
 	db		c3h, 33h		; Row_2_LogicSelect_0 register (RDI2LT0)
 	db		c4h, 33h		; Row_2_LogicSelect_1 register (RDI3LT1)
-	db		c5h, 02h		; Row_2_OutputDrive_0 register (RDI2SRO0)
+	db		c5h, 22h		; Row_2_OutputDrive_0 register (RDI2SRO0)
 	db		c6h, 00h		; Row_2_OutputDrive_1 register (RDI2SRO1)
 	db		c8h, 56h		; Row_3_InputMux register (RDI3RI)
 	db		c9h, 00h		; Row_3_InputSync register (RDI3SYN)
@@ -109,6 +118,15 @@ LoadConfigTBL_psoc_robot_Bank1:
 	db		44h, 31h		;PWM1_FUNC_MSB_REG(DBB21FN)
 	db		45h, 31h		;PWM1_INPUT_MSB_REG(DBB21IN)
 	db		46h, 44h		;PWM1_OUTPUT_MSB_REG(DBB21OU)
+;  Instance name PWM2, User Module PWM16
+;       Instance name PWM2, Block Name PWM16_LSB(DCB22)
+	db		48h, 11h		;PWM2_FUNC_LSB_REG(DCB22FN)
+	db		49h, 16h		;PWM2_INPUT_LSB_REG(DCB22IN)
+	db		4ah, 00h		;PWM2_OUTPUT_LSB_REG(DCB22OU)
+;       Instance name PWM2, Block Name PWM16_MSB(DCB23)
+	db		4ch, 31h		;PWM2_FUNC_MSB_REG(DCB23FN)
+	db		4dh, 36h		;PWM2_INPUT_MSB_REG(DCB23IN)
+	db		4eh, 05h		;PWM2_OUTPUT_MSB_REG(DCB23OU)
 ;  Instance name Timer, User Module Timer16
 ;       Instance name Timer, Block Name TIMER16_LSB(DBB00)
 	db		20h, 00h		;Timer_FUNC_LSB_REG(DBB00FN)
@@ -162,11 +180,11 @@ LoadConfigTBL_psoc_robot_Ordered:
 	M8C_SetBank0
 	mov	reg[00h], 00h		; Port_0_Data register (PRT0DR)
 	M8C_SetBank1
-	mov	reg[00h], 10h		; Port_0_DriveMode_0 register (PRT0DM0)
-	mov	reg[01h], efh		; Port_0_DriveMode_1 register (PRT0DM1)
+	mov	reg[00h], 70h		; Port_0_DriveMode_0 register (PRT0DM0)
+	mov	reg[01h], 8fh		; Port_0_DriveMode_1 register (PRT0DM1)
 	M8C_SetBank0
-	mov	reg[03h], e4h		; Port_0_DriveMode_2 register (PRT0DM2)
-	mov	reg[02h], 1bh		; Port_0_GlobalSelect register (PRT0GS)
+	mov	reg[03h], 84h		; Port_0_DriveMode_2 register (PRT0DM2)
+	mov	reg[02h], 7bh		; Port_0_GlobalSelect register (PRT0GS)
 	M8C_SetBank1
 	mov	reg[02h], 00h		; Port_0_IntCtrl_0 register (PRT0IC0)
 	mov	reg[03h], 00h		; Port_0_IntCtrl_1 register (PRT0IC1)

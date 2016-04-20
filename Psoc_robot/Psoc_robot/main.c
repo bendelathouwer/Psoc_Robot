@@ -89,18 +89,19 @@ BYTE Flags2;// new for motorcontroll2
 // for timer 3 and ultrasoon sensor 1
 #define DATA_AVAILABLE3 0x01 
 #define FALLING_EDGE3 0x02    
-#define Set_Distance  50
+#define Set_Distance  50;
 
 WORD CapturePosEdge3;
 WORD CaptureNegEdge3;
 WORD PulseWidth3;
 BYTE Flags3;
 
-void motorControll1(void);//long
-void motorControll2(void);
+void motorControll1(void);
+void motorController(void);
+
+
 void ultrasoonSensor(void);//long ultrasoon sensor(void);
  
-void Pulse(void );
 #pragma interrupt_handler TimerCaptureISR// for motorcontroll2
 #pragma interrupt_handler Timer2CaptureISR// new for motorcontroll2
 #pragma interrupt_handler Timer3CaptureISR
@@ -123,14 +124,15 @@ void main(void)
    Timer3_EnableInt();
    
    PWM1_Start();	
-   LCD_Start();
-   PRT1DR = 0x80;// wat is dit ? set  pin to output
+   PWM2_Start();
+   //LCD_Start(); wordt niet meer gebruikt wegens nood aan adc conectie 
+   PRT1DR = 0x80;
 
    while(1)
    {
 	//long OutputDistance = ultrasoonSensor();
 	ultrasoonSensor();
-	Pulse();
+	
 	motorControll1();//OutputDistance
     motorControll2();//OutputDistance
 	ultrasoonSensor();
@@ -243,9 +245,9 @@ void motorControll1(void)//long OutputDistance
    	 {
 //         LCD_Position(0,0);
 //         LCD_PrHexInt(PulseWidth);
-//       	 Flags &= ~DATA_AVAILABLE;
+   	 Flags &= ~DATA_AVAILABLE;
 			
-			Motor2DR |= 0x01;
+			
 		}
    
 	 
@@ -269,12 +271,12 @@ void motorControll2(void)// long OutputDistance
 void ultrasoonSensor(void)
 {
 	long distance;
-	 this if statmend ensure's the trig pin is trigerd when needed
+	//this if statmend ensure's the trig pin is trigerd when needed
 	
    if(done == FALSE)
 	{
 		PRT1DR |= 0x01;
-  	asm("nop");
+  	    asm("nop");
 		asm("nop");
 		asm("nop");
 		asm("nop");
@@ -292,7 +294,7 @@ void ultrasoonSensor(void)
 		asm("nop");
 		asm("nop");
 		asm("nop");
-		PRT1DR &= ~0x01;
+		PRT1DR &= ~0x01;// pin P1[0]
 
 	}
 	if(Flags3 & DATA_AVAILABLE3)// do if databit is set 
@@ -309,24 +311,4 @@ void ultrasoonSensor(void)
 	//return  distance;
 }
 
-//void Pulse(void )
-//{
-//	  if(done = FALSE)
-//	{
-//		PRT1DR |= 0x01;// writing to pin P1[0]
-//    	asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		asm("nop");
-//		PRT1DR &= ~0x01;// clearing pin P1[0]
-//
-//	}
 //}

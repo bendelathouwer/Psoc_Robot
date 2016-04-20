@@ -20,6 +20,7 @@
 #include "PSoCGPIOINT.h"
 #include "LCD.h"
 #include "PWM1.h"
+#include "PWM2.h"
 #include "Timer.h"
 #include "Timer2.h"
 #include "Timer3.h"

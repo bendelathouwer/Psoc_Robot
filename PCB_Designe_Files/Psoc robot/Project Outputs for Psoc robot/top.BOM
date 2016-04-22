@@ -1,0 +1,24 @@
+Bill of Material for 
+On 21/04/2016 at 14:42:33
+
+ Comment             Pattern     Quantity  Components
+------------------------------------------------------------------------------
+ 2PinsHeader         2PinsHeader      1    CON?                                              
+ Cap Pol3            C0805           10    C3, C4, C9, C10, C11, C12    Polarized Capacitor (Surface Mount) 
+                                           C13, C15, C17, C19
+ Cap Semi            1608[0603]       2    C1, C6                       Capacitor (Semiconductor SIM Model) 
+ Cap Semi            C1206            5    C2, C5, C14, C16, C18        Capacitor (Semiconductor SIM Model) 
+ Cap                 0402             2    C7, C8                       Capacitor (Semiconductor SIM Model) 
+ coil                Coil             1    L1                                                
+ Component_1         ACS711           1    U2                                                
+ Component_1         CY8C29466        1    U3                                                
+ ESP8266 ESP-01      ESP8266 ESP-01    1    U7                           ESP8266 ESP-01       
+ hc-sr04             ultrasoonSensor    1    U4                                                
+ IISP header         Programm header    1    J1                                                
+ LM7803              LM7805           1    U6                                                
+ RCcon               RcCon            3    CON5, CON6, CON7                                  
+ Res3                J1-0603          3    R1, R2, R3                   Resistor             
+ Schrew terminal     ScrewTerminal    3    CON1, CON2, CON8                                  
+ Screw terminal      ScrewTerminal    1    CON3                                              
+ TB6612FGN           TBS6612FNG       1    U1                                                
+ TPS630xx            TPS63061         1    U5                                                

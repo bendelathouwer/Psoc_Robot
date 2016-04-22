@@ -1,0 +1,19 @@
+﻿Field=#~Integer~#~50|Field=Comment~String~Comment~125|Field=Description~String~Description~150|Field=Designator~String~Designator~119|Field=Footprint~String~Footprint~119|Field=LibRef~String~LibRef~119|Field=Quantity~Integer~Quantity~118|Field=Address1~String~Address1~100|ReportField=Currency~<none>|ReportField=ProductionQuantity~1|ReportField=ProjectFileName~Psoc robot.PrjPcb|ReportField=ProjectFullPath~C:\Users\Ben\Documents\GitHub\Psoc_robot\PCB_Designe_Files\Psoc robot\Psoc robot.PrjPcb|ReportField=Title~Bill of Materials For Project [Psoc robot.PrjPcb] (No PCB Document Selected)|ReportField=TotalQuantity~39|ReportField=ReportTime~14:40:58|ReportField=ReportDate~21/04/2016|ReportField=ReportDateTime~21/04/2016 14:40:58|ReportField=OutputName~Bill of Materials|ReportField=OutputType~BOM_PartType|ReportField=GeneratorName~BOM|ReportField=GeneratorDescription~Bill of Materials|ReportField=VariantName~None|ReportField=Address1~|ReportField=Address2~|ReportField=Address3~|ReportField=Address4~|ReportField=Application_BuildNumber~|ReportField=ApprovedBy~|ReportField=Author~|ReportField=CheckedBy~|ReportField=CompanyName~|ReportField=CurrentDate~21/04/2016|ReportField=CurrentTime~14:38:47|ReportField=Date~|ReportField=DocumentFullPathAndName~C:\Users\Ben\Documents\GitHub\Psoc_robot\PCB_Designe_Files\Psoc robot\top.SchDoc|ReportField=DocumentName~top.SchDoc|ReportField=DocumentNumber~|ReportField=DrawnBy~|ReportField=Engineer~|ReportField=ImagePath~|ReportField=ModifiedDate~21/04/2016|ReportField=Organization~|ReportField=ProjectName~Psoc robot.PrjPcb|ReportField=Revision~|ReportField=Rule~|ReportField=SheetNumber~|ReportField=SheetTotal~|ReportField=Time~|ReportField=Title~|ReportField=DataSourceFileName~Psoc robot.PrjPcb|ReportField=DataSourceFullPath~C:\Users\Ben\Documents\GitHub\Psoc_robot\PCB_Designe_Files\Psoc robot\Psoc robot.PrjPcb
+1|Cap Semi|Capacitor (Semiconductor SIM Model)|C1, C6|1608[0603]|Cap Semi|2|
+2|Cap Semi|Capacitor (Semiconductor SIM Model)|C2, C5, C14, C16, C18|C1206|Cap Semi|5|
+3|Cap Pol3|Polarized Capacitor (Surface Mount)|C3, C4, C9, C10, C11, C12, C13, C15, C17, C19|C0805|Cap Pol3|10|
+4|Cap|Capacitor (Semiconductor SIM Model)|C7, C8|0402|Cap Semi|2|
+5|Schrew terminal||CON1, CON2, CON8|ScrewTerminal|Schrew terminal|3|
+6|Screw terminal||CON3|ScrewTerminal|Schrew terminal|1|
+7|RCcon||CON5, CON6, CON7|RcCon|Rc con|3|
+8|2PinsHeader||CON?|2PinsHeader|2PinsHeader|1|
+9|IISP header||J1|Programm header|IISP header|1|
+10|coil||L1|Coil|coil|1|
+11|Res3|Resistor|R1, R2, R3|J1-0603|Res3|3|
+12|TB6612FGN||U1|TBS6612FNG|TB6612FGN|1|
+13|Component_1||U2|ACS711|Component_1|1|
+14|Component_1||U3|CY8C29466|Component_1|1|
+15|hc-sr04||U4|ultrasoonSensor|Component_1|1|
+16|TPS630xx||U5|TPS63061|TPS630xx|1|
+17|LM7803||U6|LM7805|LM7803|1|
+18|ESP8266 ESP-01|ESP8266 ESP-01|U7|ESP8266 ESP-01|ESP8266 ESP-01|1|

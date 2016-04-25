@@ -38,17 +38,41 @@ OutputName1=Bill of Materials
 OutputCategory1=Report
 OutputDocumentPath1=
 OutputVariantName1=
-OutputEnabled1=1
+OutputEnabled1=0
 OutputEnabled1_OutputMedium1=0
 OutputEnabled1_OutputMedium2=0
 OutputEnabled1_OutputMedium3=0
-OutputEnabled1_OutputMedium4=1
+OutputEnabled1_OutputMedium4=0
 OutputDefault1=0
 PageOptions1=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=0|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-3|MediaType=1|DitherType=10|PrintScaleMode=1|PaperKind=A4|PaperIndex=9
 Configuration1_Name1=ColumnNameFormat
 Configuration1_Item1=CaptionAsName
 Configuration1_Name2=OutputConfigurationParameter1
 Configuration1_Item2=??
+OutputType2=BOM_PartType
+OutputName2= Bill of Materials2
+OutputCategory2=Report
+OutputDocumentPath2=
+OutputVariantName2=
+OutputEnabled2=1
+OutputEnabled2_OutputMedium1=0
+OutputEnabled2_OutputMedium2=0
+OutputEnabled2_OutputMedium3=0
+OutputEnabled2_OutputMedium4=1
+OutputDefault2=0
+PageOptions2=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=0|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-3|MediaType=1|DitherType=10|PrintScaleMode=1|PaperKind=A4|PaperIndex=9
+Configuration2_Name1=ColumnNameFormat
+Configuration2_Item1=CaptionAsName
+Configuration2_Name2=Filter
+Configuration2_Item2=545046300E5446696C74657257726170706572000D46696C7465722E416374697665090F46696C7465722E43726974657269610A04000000000000000000
+Configuration2_Name3=General
+Configuration2_Item3=OpenExported=False|AddToProject=False|ForceFit=False|NotFitted=False|Database=False|DatabasePriority=False|IncludePCBData=False|IncludeVaultData=False|IncludeAlternatives=False|ShowExportOptions=True|TemplateFilename=|BatchMode=5|FormWidth=950|FormHeight=661|SupplierProdQty=1|SupplierAutoQty=False|SupplierUseCachedPricing=False|SupplierCurrency=<none>
+Configuration2_Name4=GroupOrder
+Configuration2_Item4=Comment=True|Footprint=True
+Configuration2_Name5=SortOrder
+Configuration2_Item5=Designator=Up|Comment=Up|Footprint=Up
+Configuration2_Name6=VisibleOrder
+Configuration2_Item6=Comment=100|ConfiguratorName=100|Description=100|Designator=100|Footprint=100|LibRef=100|PartType=100|Quantity=100|Value=100
 
 [PublishSettings]
 OutputFilePath2=
@@ -101,7 +125,7 @@ FFmpegPixelFormat3=0
 FFmpegQuality3=80
 WmvVideoCodecName3=Windows Media Video V7
 WmvQuality3=80
-OutputFilePath4=C:\Users\Ben\Documents\GitHub\Psoc_robot\PCB_Designe_Files\Psoc robot\Project Outputs for Psoc robot\.PDF
+OutputFilePath4=C:\Users\Ben\Documents\GitHub\Psoc_robot\PCB_Designe_Files\Psoc robot\Project Outputs for Psoc robot\Job1.PDF
 ReleaseManaged4=1
 OutputBasePath4=Project Outputs for Psoc robot
 OutputPathMedia4=
@@ -140,6 +164,6 @@ OpenIPCOutput2=0
 EnableReload2=0
 RelativeOutputPath3=
 OpenOutputs3=1
-RelativeOutputPath4=C:\Users\Ben\Documents\GitHub\Psoc_robot\PCB_Designe_Files\Psoc robot\Project Outputs for Psoc robot\.PDF
+RelativeOutputPath4=C:\Users\Ben\Documents\GitHub\Psoc_robot\PCB_Designe_Files\Psoc robot\Project Outputs for Psoc robot\Job1.PDF
 OpenOutputs4=1
 

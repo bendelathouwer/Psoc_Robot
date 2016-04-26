@@ -10,29 +10,422 @@
 			<SOURCE_FILE_LIST>
 				<SOURCE_FILE NAME="main.c" TYPE="UserSourceModule" LANGUAGE="C" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE=""/>
 				<SOURCE_FILE NAME="flashsecurity.txt" TYPE="TextFile" LANGUAGE="" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE=""/>
-				<SOURCE_FILE NAME="psocapi.h" TYPE="LibraryIncludeFile" LANGUAGE="C" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="375469672" LIBTIME="1"/>
-				<SOURCE_FILE NAME="psocapi.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="375469672" LIBTIME="3"/>
+				<SOURCE_FILE NAME="psocapi.h" TYPE="LibraryIncludeFile" LANGUAGE="C" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="311130376" LIBTIME="1"/>
+				<SOURCE_FILE NAME="psocapi.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="311130024" LIBTIME="3"/>
 				<SOURCE_FILE NAME="memory.inc" TYPE="UserIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE=""/>
-				<SOURCE_FILE NAME="pwm1int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="pwm1.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="pwm1.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="pwm1.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="pwm2int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="pwm2.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="pwm2.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="pwm2.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timerint.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer2int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer2.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer2.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer2.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer3int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer3.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer3.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
-				<SOURCE_FILE NAME="timer3.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="199471180" LIBTIME="0"/>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<SOURCE_FILE NAME="lcd.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="lcd.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="lcd.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="pwm1int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="pwm1.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="pwm1.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="pwm1.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="pwm2int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="pwm2.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="pwm2.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="pwm2.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timerint.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer2int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer2.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer2.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer2.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer3int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer3.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer3.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="timer3.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="uart_1.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="uart_1plus.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="uart_1.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="uart_1int.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
+				<SOURCE_FILE NAME="uart_1.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="205254876" LIBTIME="0"/>
 				<SOURCE_FILE NAME="psocconfigtbl.asm" TYPE="LibrarySource" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="0" LIBTIME="456"/>
 				<SOURCE_FILE NAME="psocgpioint.inc" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="0" LIBTIME="456"/>
 				<SOURCE_FILE NAME="psocgpioint.h" TYPE="LibraryIncludeFile" LANGUAGE="ASM" OVERLAY_NAME="" USER_FILE="FALSE" PATH_IN_TREE="" FILEMODTIME="0" LIBTIME="456"/>

@@ -54,7 +54,7 @@
  0002           POWER_SET_2V7_6MHZ:     equ 02h	 ; MASK for 2.7V,  6MHZ operation
  0001           POWER_SET_SLOW_IMO:     equ 01h  ; MASK for slow Internal Main Oscillator (IMO) 
  0000           
- 0000           COMM_RX_PRESENT:		equ	0		;1 = TRUE
+ 0001           COMM_RX_PRESENT:		equ	1		;1 = TRUE
  0000           WATCHDOG_ENABLE:		equ 0	;Watchdog Enable 1 = Enable
  0000           
  000F           CLOCK_DIV_VC1:			equ	fh	;VC1 clock divider
@@ -94,17 +94,17 @@
  0000           ; register initial values
  0000           ;
  0000           ANALOG_IO_CONTROL:		equ 0h	;Analog IO Control register (ABF_CR)
- 007B           PORT_0_GLOBAL_SELECT:	equ 7bh	;Port 0 global select register (PRT0GS)
- 0070           PORT_0_DRIVE_0:			equ 70h	;Port 0 drive mode 0 register (PRT0DM0)
- 008F           PORT_0_DRIVE_1:			equ 8fh	;Port 0 drive mode 1 register (PRT0DM1)
- 0084           PORT_0_DRIVE_2:			equ 84h	;Port 0 drive mode 2 register (PRT0DM2)
+ 00FF           PORT_0_GLOBAL_SELECT:	equ ffh	;Port 0 global select register (PRT0GS)
+ 00F4           PORT_0_DRIVE_0:			equ f4h	;Port 0 drive mode 0 register (PRT0DM0)
+ 000B           PORT_0_DRIVE_1:			equ bh	;Port 0 drive mode 1 register (PRT0DM1)
+ 0000           PORT_0_DRIVE_2:			equ 0h	;Port 0 drive mode 2 register (PRT0DM2)
  0000           PORT_0_INTENABLE:		equ 0h	;Port 0 interrupt enable register (PRT0IE)
  0000           PORT_0_INTCTRL_0:		equ 0h	;Port 0 interrupt control 0 register (PRT0IC0)
  0000           PORT_0_INTCTRL_1:		equ 0h	;Port 0 interrupt control 1 register (PRT0IC1)
  0000           PORT_1_GLOBAL_SELECT:	equ 0h	;Port 1 global select register (PRT1GS)
- 0001           PORT_1_DRIVE_0:			equ 1h	;Port 1 drive mode 0 register (PRT1DM0)
- 00FE           PORT_1_DRIVE_1:			equ feh	;Port 1 drive mode 1 register (PRT1DM1)
- 00FE           PORT_1_DRIVE_2:			equ feh	;Port 1 drive mode 2 register (PRT1DM2)
+ 0000           PORT_1_DRIVE_0:			equ 0h	;Port 1 drive mode 0 register (PRT1DM0)
+ 00FF           PORT_1_DRIVE_1:			equ ffh	;Port 1 drive mode 1 register (PRT1DM1)
+ 00FF           PORT_1_DRIVE_2:			equ ffh	;Port 1 drive mode 2 register (PRT1DM2)
  0000           PORT_1_INTENABLE:		equ 0h	;Port 1 interrupt enable register (PRT1IE)
  0000           PORT_1_INTCTRL_0:		equ 0h	;Port 1 interrupt control 0 register (PRT1IC0)
  0000           PORT_1_INTCTRL_1:		equ 0h	;Port 1 interrupt control 1 register (PRT1IC1)
@@ -1518,13 +1518,13 @@
  0037 7E            reti
  0038           
                     org   38h                      ;PSoC Block DCB12 Interrupt Vector
-                    // call     void_handler
- 0038 7E            reti
- 0039           
+ 0038 7D0000        ljmp        _UART_1_TX_ISR
+ 003B 7E            reti
+ 003C           
                     org   3Ch                      ;PSoC Block DCB13 Interrupt Vector
-                    // call     void_handler
- 003C 7E            reti
- 003D           
+ 003C 7D0000        ljmp        _UART_1_RX_ISR
+ 003F 7E            reti
+ 0040           
                     org   40h                      ;PSoC Block DBB20 Interrupt Vector
                     // call     void_handler
  0040 7E            reti

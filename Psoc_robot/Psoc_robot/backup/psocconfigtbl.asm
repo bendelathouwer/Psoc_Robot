@@ -66,6 +66,15 @@ LoadConfigTBL_psoc_robot_Bank0:
 	db		37h, 06h		;Timer3_CONTROL_MSB_REG(DBB11CR0)
 	db		35h, ffh		;Timer3_PERIOD_MSB_REG(DBB11DR1)
 	db		36h, 00h		;Timer3_COMPARE_MSB_REG(DBB11DR2)
+;  Instance name UART_1, User Module UART
+;       Instance name UART_1, Block Name RX(DCB13)
+	db		3fh, 00h		;UART_1_RX_CONTROL_REG(DCB13CR0)
+	db		3dh, 00h		;UART_1_(DCB13DR1)
+	db		3eh, 00h		;UART_1_RX_BUFFER_REG (DCB13DR2)
+;       Instance name UART_1, Block Name TX(DCB12)
+	db		3bh, 00h		;UART_1_TX_CONTROL_REG(DCB12CR0)
+	db		39h, 00h		;UART_1_TX_BUFFER_REG (DCB12DR1)
+	db		3ah, 00h		;UART_1_(DCB12DR2)
 ;  Global Register values Bank 0
 	db		60h, 28h		; AnalogColumnInputSelect register (AMX_IN)
 	db		66h, 00h		; AnalogComparatorControl1 register (CMP_CR1)
@@ -87,7 +96,7 @@ LoadConfigTBL_psoc_robot_Bank0:
 	db		bbh, 33h		; Row_1_LogicSelect_0 register (RDI1LT0)
 	db		bch, 33h		; Row_1_LogicSelect_1 register (RDI1LT1)
 	db		bdh, 00h		; Row_1_OutputDrive_0 register (RDI1SRO0)
-	db		beh, 00h		; Row_1_OutputDrive_1 register (RDI1SRO1)
+	db		beh, 21h		; Row_1_OutputDrive_1 register (RDI1SRO1)
 	db		c0h, 00h		; Row_2_InputMux register (RDI2RI)
 	db		c1h, 00h		; Row_2_InputSync register (RDI2SYN)
 	db		c2h, 20h		; Row_2_LogicInputAMux register (RDI2IS)
@@ -154,6 +163,15 @@ LoadConfigTBL_psoc_robot_Bank1:
 	db		34h, 20h		;Timer3_FUNC_MSB_REG(DBB11FN)
 	db		35h, 36h		;Timer3_INPUT_MSB_REG(DBB11IN)
 	db		36h, 40h		;Timer3_OUTPUT_MSB_REG(DBB11OU)
+;  Instance name UART_1, User Module UART
+;       Instance name UART_1, Block Name RX(DCB13)
+	db		3ch, 05h		;UART_1_RX_FUNC_REG   (DCB13FN)
+	db		3dh, 00h		;UART_1_RX_INPUT_REG  (DCB13IN)
+	db		3eh, 06h		;UART_1_RX_OUTPUT_REG (DCB13OU)
+;       Instance name UART_1, Block Name TX(DCB12)
+	db		38h, 0dh		;UART_1_TX_FUNC_REG   (DCB12FN)
+	db		39h, 00h		;UART_1_TX_INPUT_REG  (DCB12IN)
+	db		3ah, 07h		;UART_1_TX_OUTPUT_REG (DCB12OU)
 ;  Global Register values Bank 1
 	db		61h, 00h		; AnalogClockSelect1 register (CLK_CR1)
 	db		69h, 00h		; AnalogClockSelect2 register (CLK_CR2)
@@ -180,11 +198,11 @@ LoadConfigTBL_psoc_robot_Ordered:
 	M8C_SetBank0
 	mov	reg[00h], 00h		; Port_0_Data register (PRT0DR)
 	M8C_SetBank1
-	mov	reg[00h], 70h		; Port_0_DriveMode_0 register (PRT0DM0)
-	mov	reg[01h], 8fh		; Port_0_DriveMode_1 register (PRT0DM1)
+	mov	reg[00h], f4h		; Port_0_DriveMode_0 register (PRT0DM0)
+	mov	reg[01h], 0bh		; Port_0_DriveMode_1 register (PRT0DM1)
 	M8C_SetBank0
-	mov	reg[03h], 84h		; Port_0_DriveMode_2 register (PRT0DM2)
-	mov	reg[02h], 7bh		; Port_0_GlobalSelect register (PRT0GS)
+	mov	reg[03h], 00h		; Port_0_DriveMode_2 register (PRT0DM2)
+	mov	reg[02h], ffh		; Port_0_GlobalSelect register (PRT0GS)
 	M8C_SetBank1
 	mov	reg[02h], 00h		; Port_0_IntCtrl_0 register (PRT0IC0)
 	mov	reg[03h], 00h		; Port_0_IntCtrl_1 register (PRT0IC1)
@@ -192,10 +210,10 @@ LoadConfigTBL_psoc_robot_Ordered:
 	mov	reg[01h], 00h		; Port_0_IntEn register (PRT0IE)
 	mov	reg[04h], 00h		; Port_1_Data register (PRT1DR)
 	M8C_SetBank1
-	mov	reg[04h], 01h		; Port_1_DriveMode_0 register (PRT1DM0)
-	mov	reg[05h], feh		; Port_1_DriveMode_1 register (PRT1DM1)
+	mov	reg[04h], 00h		; Port_1_DriveMode_0 register (PRT1DM0)
+	mov	reg[05h], ffh		; Port_1_DriveMode_1 register (PRT1DM1)
 	M8C_SetBank0
-	mov	reg[07h], feh		; Port_1_DriveMode_2 register (PRT1DM2)
+	mov	reg[07h], ffh		; Port_1_DriveMode_2 register (PRT1DM2)
 	mov	reg[06h], 00h		; Port_1_GlobalSelect register (PRT1GS)
 	M8C_SetBank1
 	mov	reg[06h], 00h		; Port_1_IntCtrl_0 register (PRT1IC0)

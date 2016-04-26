@@ -32,13 +32,15 @@
 //      CompareValue                       0
 //      CompareType                        Less than or equal to
 //      Conected to port                   Port_0_0
+
 //  	Timer2:				`			  For reading one joystick channel 	
 //      Clock 							   VC2
 //      Period                             65535
 //      CompareValue                       0
 //      CompareType                        Less than or equal to
 //      Conected to port                   Port_0_1
-//  	Timer3:				`			  For reading the  ultrasonic sensor
+//  	
+//      Timer3:				`			  For reading the  ultrasonic sensor
 //      Clock 							   VC2
 //      Period                             65535
 //      CompareValue                       0
@@ -47,7 +49,7 @@
 //		
 //		
 //    Pwm conected to port                 Port_0_4
-//    PWM:								   For contrlling one motor on one side
+//    PWM:								   For controlling one motor on one side
 //      Clock                              VC2
 //      Enable                             High
 //      Period                             1000
@@ -76,6 +78,8 @@ WORD CapturePosEdge;
 WORD CaptureNegEdge;
 WORD PulseWidth;
 BYTE Flags;
+
+
 volatile BOOL done;//dit gedaan om compiler te verplichten waarde terug in te lezen (Caching tegen te gaan )
 
 // for timer 2 and motor controll 2
@@ -84,7 +88,7 @@ volatile BOOL done;//dit gedaan om compiler te verplichten waarde terug in te le
 WORD CapturePosEdge2;// new for motorcontroll2
 WORD CaptureNegEdge2;// new for motorcontroll2
 WORD PulseWidth2;// new for motorcontroll2
-BYTE Flags2;// new for motorcontroll2
+BYTE Flags2;
 
 // for timer 3 and ultrasoon sensor 1
 #define DATA_AVAILABLE3 0x01 
@@ -98,8 +102,6 @@ BYTE Flags3;
 
 void motorControll1(void);
 void motorController(void);
-
-
 void ultrasoonSensor(void);//long ultrasoon sensor(void);
  
 #pragma interrupt_handler TimerCaptureISR// for motorcontroll2
@@ -114,25 +116,27 @@ void main(void)
    // Clear the flags
    Flags = 0;
    Flags2 = 0;// new for motorcontroll2
-  
+   Flags3 = 0;
    // Start timers and enable interrupt
    Timer_Start();
-   Timer2_Start();// new for motorcontroll2
-   Timer3_Start();
    Timer_EnableInt();
+   
+   Timer2_Start();// new for motorcontroll2
    Timer2_EnableInt();// new for motorcontroll2
+  
+   Timer3_Start();
    Timer3_EnableInt();
    
    PWM1_Start();	
    PWM2_Start();
-   //LCD_Start(); wordt niet meer gebruikt wegens nood aan adc conectie 
+   LCD_Start();
+	LCD_Position(0,0);
+         LCD_PrHexInt(0x55);
    PRT1DR = 0x80;
 
    while(1)
    {
-	//long OutputDistance = ultrasoonSensor();
-	ultrasoonSensor();
-	
+	//long OutputDistance = ultrasoonSensor(); 
 	motorControll1();//OutputDistance
     motorControll2();//OutputDistance
 	ultrasoonSensor();
@@ -241,14 +245,14 @@ void motorControll1(void)//long OutputDistance
 {
 			
 	   // Check if pulsewidth data is available
-      if(Flags & DATA_AVAILABLE)
-   	 {
-//         LCD_Position(0,0);
-//         LCD_PrHexInt(PulseWidth);
-   	 Flags &= ~DATA_AVAILABLE;
+    if(Flags & DATA_AVAILABLE)
+   {
+         LCD_Position(0,0);
+         LCD_PrHexInt(PulseWidth);
+   		 Flags &= ~DATA_AVAILABLE;
 			
 			
-		}
+	}
    
 	 
 	
@@ -308,7 +312,7 @@ void ultrasoonSensor(void)
     }  
 
 	
-	//return  distance;
+
 }
 
-//}
+

@@ -24,5 +24,6 @@
 #include "Timer.h"
 #include "Timer2.h"
 #include "Timer3.h"
+#include "UART_1.h"
 
 #endif

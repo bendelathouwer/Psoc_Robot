@@ -170,11 +170,11 @@ ENDIF
     reti
 
     org   38h                      ;PSoC Block DCB12 Interrupt Vector
-    // call	void_handler
+    ljmp	_UART_1_TX_ISR
     reti
 
     org   3Ch                      ;PSoC Block DCB13 Interrupt Vector
-    // call	void_handler
+    ljmp	_UART_1_RX_ISR
     reti
 
     org   40h                      ;PSoC Block DBB20 Interrupt Vector

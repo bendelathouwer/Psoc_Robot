@@ -27,21 +27,29 @@ lib/timer3int.asm
 
 lib/timerint.asm
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(137):[warning] [MISRA 2200]calling an undeclared function may cause unexpected behavior if the function 
+lib/uart_1.asm
+
+lib/uart_1int.asm
+
+lib/uart_1plus.asm
+
+!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(141):[warning] [MISRA 2200]calling an undeclared function may cause unexpected behavior if the function 
 
 takes or returns values other than int
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(137):[warning] [MISRA 2714]calling a function without prototype may cause unexpected behavior if the function 
+!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(141):[warning] [MISRA 2714]calling a function without prototype may cause unexpected behavior if the function 
 
 takes or returns values other than int
 
-!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(258):[warning] declaration of `motorControll2' does not match previous declaration at C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(137)
+!W C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(262):[warning] declaration of `motorControll2' does not match previous declaration at C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c(141)
 
 ./boot.asm
 
 Linking..
 
-LMM info: area 'InterruptRAM' uses 3 bytes in SRAM bank 0
+LMM info: area 'InterruptRAM' uses 5 bytes in SRAM bank 0
+
+LMM info: area 'UART_1_RAM' item of 16 bytes allocated in SRAM page 0
 
 LMM info: area 'virtual_registers' uses 15 bytes in SRAM page 0
 
@@ -73,12 +81,12 @@ LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 
 idata dump at output/Psoc_robot.idata
 
-  ROM 9% full. 2656 out of 32768 bytes used (does not include absolute areas).
+  ROM 9% full. 2842 out of 32768 bytes used (does not include absolute areas).
 
-  RAM 3% full. 40 bytes used (does not include stack usage).
+  RAM 4% full. 58 bytes used (does not include stack usage).
 
 Built with ICCM8C STD V7.05.00
 
  
-Psoc_robot - 0 error(s) 3 warning(s) 11:17:19
+Psoc_robot - 0 error(s) 3 warning(s) 12:30:19
 

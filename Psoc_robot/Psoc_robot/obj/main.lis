@@ -6,7 +6,7 @@
  0000                   .dbfunc e main _main fV
  0000           _main::
  0000                   .dbline -1
- 0000                   .dbline 110
+ 0000                   .dbline 112
  0000           ; //****************************************************************************
  0000           ; //*****************************************************************************
  0000           ; //  FILENAME: main.c
@@ -41,13 +41,15 @@
  0000           ; //      CompareValue                       0
  0000           ; //      CompareType                        Less than or equal to
  0000           ; //      Conected to port                   Port_0_0
+ 0000           ; 
  0000           ; //    Timer2:                         `                         For reading one joystick channel      
  0000           ; //      Clock                                                            VC2
  0000           ; //      Period                             65535
  0000           ; //      CompareValue                       0
  0000           ; //      CompareType                        Less than or equal to
  0000           ; //      Conected to port                   Port_0_1
- 0000           ; //    Timer3:                         `                         For reading the  ultrasonic sensor
+ 0000           ; //    
+ 0000           ; //      Timer3:                               `                         For reading the  ultrasonic sensor
  0000           ; //      Clock                                                            VC2
  0000           ; //      Period                             65535
  0000           ; //      CompareValue                       0
@@ -56,7 +58,7 @@
  0000           ; //            
  0000           ; //            
  0000           ; //    Pwm conected to port                 Port_0_4
- 0000           ; //    PWM:                                                               For contrlling one motor on one side
+ 0000           ; //    PWM:                                                               For controlling one motor on one side
  0000           ; //      Clock                              VC2
  0000           ; //      Enable                             High
  0000           ; //      Period                             1000
@@ -85,6 +87,8 @@
  0000           ; WORD CaptureNegEdge;
  0000           ; WORD PulseWidth;
  0000           ; BYTE Flags;
+ 0000           ; 
+ 0000           ; 
  0000           ; volatile BOOL done;//dit gedaan om compiler te verplichten waarde terug in te lezen (Caching tegen te gaan )
  0000           ; 
  0000           ; // for timer 2 and motor controll 2
@@ -93,12 +97,12 @@
  0000           ; WORD CapturePosEdge2;// new for motorcontroll2
  0000           ; WORD CaptureNegEdge2;// new for motorcontroll2
  0000           ; WORD PulseWidth2;// new for motorcontroll2
- 0000           ; BYTE Flags2;// new for motorcontroll2
+ 0000           ; BYTE Flags2;
  0000           ; 
  0000           ; // for timer 3 and ultrasoon sensor 1
  0000           ; #define DATA_AVAILABLE3 0x01 
  0000           ; #define FALLING_EDGE3 0x02    
- 0000           ; #define Set_Distance  50
+ 0000           ; #define Set_Distance  50;
  0000           ; 
  0000           ; WORD CapturePosEdge3;
  0000           ; WORD CaptureNegEdge3;
@@ -107,8 +111,6 @@
  0000           ; 
  0000           ; void motorControll1(void);
  0000           ; void motorController(void);
- 0000           ; 
- 0000           ; 
  0000           ; void ultrasoonSensor(void);//long ultrasoon sensor(void);
  0000           ;  
  0000           ; #pragma interrupt_handler TimerCaptureISR// for motorcontroll2
@@ -117,879 +119,906 @@
  0000           ; 
  0000           ; void main(void)
  0000           ; {
- 0000                   .dbline 112
+ 0000                   .dbline 114
  0000           ;    // Enable Global Interrupt   
  0000           ;    M8C_EnableGInt;
  0000 7101                      or  F, 01h
  0002           
- 0002                   .dbline 115
+ 0002                   .dbline 117
  0002           ;    
  0002           ;    // Clear the flags
  0002           ;    Flags = 0;
  0002 62D000            mov REG[0xd0],>_Flags
  0005 550000            mov [_Flags],0
- 0008                   .dbline 116
+ 0008                   .dbline 118
  0008           ;    Flags2 = 0;// new for motorcontroll2
  0008 62D000            mov REG[0xd0],>_Flags2
  000B 550000            mov [_Flags2],0
  000E                   .dbline 119
- 000E           ;   
- 000E           ;    // Start timers and enable interrupt
- 000E           ;    Timer_Start();
- 000E 10                push X
- 000F 7C0000            xcall _Timer_Start
- 0012                   .dbline 120
- 0012           ;    Timer2_Start();// new for motorcontroll2
- 0012 7C0000            xcall _Timer2_Start
- 0015                   .dbline 121
- 0015           ;    Timer3_Start();
- 0015 7C0000            xcall _Timer3_Start
+ 000E           ;    Flags3 = 0;
+ 000E 62D000            mov REG[0xd0],>_Flags3
+ 0011 550000            mov [_Flags3],0
+ 0014                   .dbline 121
+ 0014           ;    // Start timers and enable interrupt
+ 0014           ;    Timer_Start();
+ 0014 10                push X
+ 0015 7C0000            xcall _Timer_Start
  0018                   .dbline 122
  0018           ;    Timer_EnableInt();
  0018 7C0000            xcall _Timer_EnableInt
- 001B                   .dbline 123
- 001B           ;    Timer2_EnableInt();// new for motorcontroll2
- 001B 7C0000            xcall _Timer2_EnableInt
- 001E                   .dbline 124
- 001E           ;    Timer3_EnableInt();
- 001E 7C0000            xcall _Timer3_EnableInt
- 0021                   .dbline 126
- 0021           ;    
- 0021           ;    PWM1_Start();      
- 0021 7C0000            xcall _PWM1_Start
- 0024                   .dbline 127
- 0024           ;    PWM2_Start();
- 0024 7C0000            xcall _PWM2_Start
- 0027 20                pop X
- 0028                   .dbline 129
- 0028           ;    //LCD_Start(); wordt niet meer gebruikt wegens nood aan adc conectie 
- 0028           ;    PRT1DR = 0x80;
- 0028 620480            mov REG[0x4],-128
- 002B 8009              xjmp L3
- 002D           L2:
+ 001B                   .dbline 124
+ 001B           ;    
+ 001B           ;    Timer2_Start();// new for motorcontroll2
+ 001B 7C0000            xcall _Timer2_Start
+ 001E                   .dbline 125
+ 001E           ;    Timer2_EnableInt();// new for motorcontroll2
+ 001E 7C0000            xcall _Timer2_EnableInt
+ 0021                   .dbline 127
+ 0021           ;   
+ 0021           ;    Timer3_Start();
+ 0021 7C0000            xcall _Timer3_Start
+ 0024                   .dbline 128
+ 0024           ;    Timer3_EnableInt();
+ 0024 7C0000            xcall _Timer3_EnableInt
+ 0027                   .dbline 130
+ 0027           ;    
+ 0027           ;    PWM1_Start();      
+ 0027 7C0000            xcall _PWM1_Start
+ 002A                   .dbline 131
+ 002A           ;    PWM2_Start();
+ 002A 7C0000            xcall _PWM2_Start
  002D                   .dbline 132
- 002D           ; 
- 002D           ;    while(1)
- 002D           ;    {
- 002D                   .dbline 134
- 002D           ;       //long OutputDistance = ultrasoonSensor();
- 002D           ;       ultrasoonSensor();
- 002D 930D              xcall _ultrasoonSensor
- 002F                   .dbline 136
- 002F           ;       
- 002F           ;       motorControll1();//OutputDistance
- 002F 92DB              xcall _motorControll1
- 0031                   .dbline 137
- 0031           ;     motorControll2();//OutputDistance
- 0031 92E5              xcall _motorControll2
- 0033                   .dbline 138
- 0033           ;       ultrasoonSensor();
- 0033 9307              xcall _ultrasoonSensor
- 0035                   .dbline 139
- 0035           ;    }
- 0035           L3:
- 0035                   .dbline 131
- 0035 8FF7              xjmp L2
- 0037           X0:
- 0037                   .dbline -2
- 0037           L1:
- 0037                   .dbline 0 ; func end
- 0037 8FFF              jmp .
- 0039                   .dbend
- 0039                   .dbfunc e TimerCaptureISR _TimerCaptureISR fV
- 0039           _TimerCaptureISR::
- 0039                   .dbline -1
- 0039 71C0              or F,-64
- 003B 08                push A
- 003C 5DD0              mov A,REG[0xd0]
- 003E 08                push A
- 003F 5DD3              mov A,REG[0xd3]
- 0041 08                push A
- 0042 5DD4              mov A,REG[0xd4]
- 0044 08                push A
- 0045 5DD5              mov A,REG[0xd5]
- 0047 08                push A
- 0048 62D000            mov REG[0xd0],>__r0
- 004B 5100              mov A,[__r0]
- 004D 08                push A
- 004E 5100              mov A,[__r1]
+ 002D           ;    LCD_Start();
+ 002D 7C0000            xcall _LCD_Start
+ 0030                   .dbline 133
+ 0030           ;       LCD_Position(0,0);
+ 0030 5000              mov A,0
+ 0032 5700              mov X,0
+ 0034 7C0000            xcall _LCD_Position
+ 0037                   .dbline 134
+ 0037           ;          LCD_PrHexInt(0x55);
+ 0037 5700              mov X,0
+ 0039 5055              mov A,85
+ 003B 7C0000            xcall _LCD_PrHexInt
+ 003E 20                pop X
+ 003F                   .dbline 135
+ 003F           ;    PRT1DR = 0x80;
+ 003F 620480            mov REG[0x4],-128
+ 0042 8007              xjmp L3
+ 0044           L2:
+ 0044                   .dbline 138
+ 0044           ; 
+ 0044           ;    while(1)
+ 0044           ;    {
+ 0044                   .dbline 140
+ 0044           ;       //long OutputDistance = ultrasoonSensor(); 
+ 0044           ;       motorControll1();//OutputDistance
+ 0044 92DB              xcall _motorControll1
+ 0046                   .dbline 141
+ 0046           ;     motorControll2();//OutputDistance
+ 0046 92FD              xcall _motorControll2
+ 0048                   .dbline 142
+ 0048           ;       ultrasoonSensor();
+ 0048 931F              xcall _ultrasoonSensor
+ 004A                   .dbline 143
+ 004A           ;    }
+ 004A           L3:
+ 004A                   .dbline 137
+ 004A 8FF9              xjmp L2
+ 004C           X0:
+ 004C                   .dbline -2
+ 004C           L1:
+ 004C                   .dbline 0 ; func end
+ 004C 8FFF              jmp .
+ 004E                   .dbend
+ 004E                   .dbfunc e TimerCaptureISR _TimerCaptureISR fV
+ 004E           _TimerCaptureISR::
+ 004E                   .dbline -1
+ 004E 71C0              or F,-64
  0050 08                push A
- 0051 5100              mov A,[__r2]
+ 0051 5DD0              mov A,REG[0xd0]
  0053 08                push A
- 0054 5100              mov A,[__r3]
+ 0054 5DD3              mov A,REG[0xd3]
  0056 08                push A
- 0057 5100              mov A,[__r4]
+ 0057 5DD4              mov A,REG[0xd4]
  0059 08                push A
- 005A 5100              mov A,[__r5]
+ 005A 5DD5              mov A,REG[0xd5]
  005C 08                push A
- 005D 5100              mov A,[__r6]
- 005F 08                push A
- 0060 5100              mov A,[__r7]
+ 005D 62D000            mov REG[0xd0],>__r0
+ 0060 5100              mov A,[__r0]
  0062 08                push A
- 0063 5100              mov A,[__r8]
+ 0063 5100              mov A,[__r1]
  0065 08                push A
- 0066 5100              mov A,[__r9]
+ 0066 5100              mov A,[__r2]
  0068 08                push A
- 0069 5100              mov A,[__r10]
+ 0069 5100              mov A,[__r3]
  006B 08                push A
- 006C 5100              mov A,[__r11]
+ 006C 5100              mov A,[__r4]
  006E 08                push A
- 006F 5100              mov A,[__rX]
+ 006F 5100              mov A,[__r5]
  0071 08                push A
- 0072 5100              mov A,[__rY]
+ 0072 5100              mov A,[__r6]
  0074 08                push A
- 0075 5100              mov A,[__rZ]
+ 0075 5100              mov A,[__r7]
  0077 08                push A
- 0078                   .dbline 143
- 0078           ; }
- 0078           ; 
- 0078           ; void TimerCaptureISR(void)
- 0078           ; {
- 0078                   .dbline 144
- 0078           ;    if(Flags & FALLING_EDGE)
- 0078 62D000            mov REG[0xd0],>_Flags
- 007B 470002            tst [_Flags],2
- 007E A049              jz L6
- 0080                   .dbline 147
- 0080           ;    {
- 0080           ;       // Read the count on negative edge
- 0080           ;       CaptureNegEdge = Timer_wReadCompareValue();
- 0080                   .dbline 147
- 0080 10                push X
- 0081 7C0000            xcall _Timer_wReadCompareValue
- 0084 62D000            mov REG[0xd0],>__r0
- 0087 5A00              mov [__r0],X
- 0089 20                pop X
- 008A 08                push A
- 008B 5100              mov A,[__r0]
- 008D 62D000            mov REG[0xd0],>_CaptureNegEdge
- 0090 5300              mov [_CaptureNegEdge],A
- 0092 18                pop A
- 0093 5301              mov [_CaptureNegEdge+1],A
- 0095                   .dbline 150
- 0095           ; 
- 0095           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
- 0095           ;       Timer_FUNC_LSB_REG &= ~0x80;
- 0095 7110              or F,0x10  ; iopage = 1
- 0097 41207F            and REG[0x20],127
- 009A                   .dbline 151
- 009A           ;       Flags &= ~FALLING_EDGE;
- 009A 70CF              and F,0xCF      ; iopage = 0
- 009C 62D000            mov REG[0xd0],>_Flags
- 009F 2600FD            and [_Flags],-3
- 00A2                   .dbline 158
- 00A2           ; 
- 00A2           ;       // Calculate the pulswidth by finding difference between positive edge
- 00A2           ;       // and negative edge counts.  As both the numbers are unsigned numbers
- 00A2           ;       // the result will be correct even if there is an underflow in the counter
- 00A2           ;       // The result will be accurate as long as the total pulsewidth is less than
- 00A2           ;       // 65535 timer ticks.
- 00A2           ;       PulseWidth = CapturePosEdge - CaptureNegEdge;
- 00A2 62D000            mov REG[0xd0],>_CapturePosEdge
- 00A5 5101              mov A,[_CapturePosEdge+1]
- 00A7 62D000            mov REG[0xd0],>_CaptureNegEdge
- 00AA 1201              sub A,[_CaptureNegEdge+1]
- 00AC 62D000            mov REG[0xd0],>_PulseWidth
- 00AF 5301              mov [_PulseWidth+1],A
- 00B1 62D000            mov REG[0xd0],>_CapturePosEdge
- 00B4 5100              mov A,[_CapturePosEdge]
- 00B6 62D000            mov REG[0xd0],>_CaptureNegEdge
- 00B9 1A00              sbb A,[_CaptureNegEdge]
- 00BB 62D000            mov REG[0xd0],>_PulseWidth
- 00BE 5300              mov [_PulseWidth],A
- 00C0                   .dbline 161
- 00C0           ;       
- 00C0           ;       // Set the Data available flag
- 00C0           ;       Flags |= DATA_AVAILABLE;
- 00C0 62D000            mov REG[0xd0],>_Flags
- 00C3 2E0001            or [_Flags],1
- 00C6                   .dbline 162
- 00C6           ;    }
- 00C6 8023              xjmp L7
- 00C8           L6:
- 00C8                   .dbline 164
- 00C8           ;    else
- 00C8           ;    {
- 00C8                   .dbline 166
- 00C8           ;       // Read the count on positive edge
- 00C8           ;       CapturePosEdge = Timer_wReadCompareValue();
- 00C8 10                push X
- 00C9 7C0000            xcall _Timer_wReadCompareValue
- 00CC 62D000            mov REG[0xd0],>__r0
- 00CF 5A00              mov [__r0],X
- 00D1 20                pop X
- 00D2 08                push A
- 00D3 5100              mov A,[__r0]
- 00D5 62D000            mov REG[0xd0],>_CapturePosEdge
- 00D8 5300              mov [_CapturePosEdge],A
- 00DA 18                pop A
- 00DB 5301              mov [_CapturePosEdge+1],A
- 00DD                   .dbline 169
- 00DD           ;       
- 00DD           ;       // Change the capture to negative edge and set flag
- 00DD           ;       Timer_FUNC_LSB_REG |= 0x80;
- 00DD 7110              or F,0x10  ; iopage = 1
- 00DF 432080            or REG[0x20],-128
- 00E2                   .dbline 170
- 00E2           ;       Flags |= FALLING_EDGE;
- 00E2 70CF              and F,0xCF      ; iopage = 0
- 00E4 62D000            mov REG[0xd0],>_Flags
- 00E7 2E0002            or [_Flags],2
- 00EA                   .dbline 171
- 00EA           ;    }
- 00EA           L7:
- 00EA                   .dbline -2
- 00EA           L5:
- 00EA 62D000            mov REG[0xD0],>__r0
- 00ED 18                pop A
- 00EE 5300              mov [__rZ],A
- 00F0 18                pop A
- 00F1 5300              mov [__rY],A
- 00F3 18                pop A
- 00F4 5300              mov [__rX],A
- 00F6 18                pop A
- 00F7 5300              mov [__r11],A
- 00F9 18                pop A
- 00FA 5300              mov [__r10],A
- 00FC 18                pop A
- 00FD 5300              mov [__r9],A
- 00FF 18                pop A
- 0100 5300              mov [__r8],A
+ 0078 5100              mov A,[__r8]
+ 007A 08                push A
+ 007B 5100              mov A,[__r9]
+ 007D 08                push A
+ 007E 5100              mov A,[__r10]
+ 0080 08                push A
+ 0081 5100              mov A,[__r11]
+ 0083 08                push A
+ 0084 5100              mov A,[__rX]
+ 0086 08                push A
+ 0087 5100              mov A,[__rY]
+ 0089 08                push A
+ 008A 5100              mov A,[__rZ]
+ 008C 08                push A
+ 008D                   .dbline 147
+ 008D           ; }
+ 008D           ; 
+ 008D           ; void TimerCaptureISR(void)
+ 008D           ; {
+ 008D                   .dbline 148
+ 008D           ;    if(Flags & FALLING_EDGE)
+ 008D 62D000            mov REG[0xd0],>_Flags
+ 0090 470002            tst [_Flags],2
+ 0093 A049              jz L6
+ 0095                   .dbline 151
+ 0095           ;    {
+ 0095           ;       // Read the count on negative edge
+ 0095           ;       CaptureNegEdge = Timer_wReadCompareValue();
+ 0095                   .dbline 151
+ 0095 10                push X
+ 0096 7C0000            xcall _Timer_wReadCompareValue
+ 0099 62D000            mov REG[0xd0],>__r0
+ 009C 5A00              mov [__r0],X
+ 009E 20                pop X
+ 009F 08                push A
+ 00A0 5100              mov A,[__r0]
+ 00A2 62D000            mov REG[0xd0],>_CaptureNegEdge
+ 00A5 5300              mov [_CaptureNegEdge],A
+ 00A7 18                pop A
+ 00A8 5301              mov [_CaptureNegEdge+1],A
+ 00AA                   .dbline 154
+ 00AA           ; 
+ 00AA           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
+ 00AA           ;       Timer_FUNC_LSB_REG &= ~0x80;
+ 00AA 7110              or F,0x10  ; iopage = 1
+ 00AC 41207F            and REG[0x20],127
+ 00AF                   .dbline 155
+ 00AF           ;       Flags &= ~FALLING_EDGE;
+ 00AF 70CF              and F,0xCF      ; iopage = 0
+ 00B1 62D000            mov REG[0xd0],>_Flags
+ 00B4 2600FD            and [_Flags],-3
+ 00B7                   .dbline 162
+ 00B7           ; 
+ 00B7           ;       // Calculate the pulswidth by finding difference between positive edge
+ 00B7           ;       // and negative edge counts.  As both the numbers are unsigned numbers
+ 00B7           ;       // the result will be correct even if there is an underflow in the counter
+ 00B7           ;       // The result will be accurate as long as the total pulsewidth is less than
+ 00B7           ;       // 65535 timer ticks.
+ 00B7           ;       PulseWidth = CapturePosEdge - CaptureNegEdge;
+ 00B7 62D000            mov REG[0xd0],>_CapturePosEdge
+ 00BA 5101              mov A,[_CapturePosEdge+1]
+ 00BC 62D000            mov REG[0xd0],>_CaptureNegEdge
+ 00BF 1201              sub A,[_CaptureNegEdge+1]
+ 00C1 62D000            mov REG[0xd0],>_PulseWidth
+ 00C4 5301              mov [_PulseWidth+1],A
+ 00C6 62D000            mov REG[0xd0],>_CapturePosEdge
+ 00C9 5100              mov A,[_CapturePosEdge]
+ 00CB 62D000            mov REG[0xd0],>_CaptureNegEdge
+ 00CE 1A00              sbb A,[_CaptureNegEdge]
+ 00D0 62D000            mov REG[0xd0],>_PulseWidth
+ 00D3 5300              mov [_PulseWidth],A
+ 00D5                   .dbline 165
+ 00D5           ;       
+ 00D5           ;       // Set the Data available flag
+ 00D5           ;       Flags |= DATA_AVAILABLE;
+ 00D5 62D000            mov REG[0xd0],>_Flags
+ 00D8 2E0001            or [_Flags],1
+ 00DB                   .dbline 166
+ 00DB           ;    }
+ 00DB 8023              xjmp L7
+ 00DD           L6:
+ 00DD                   .dbline 168
+ 00DD           ;    else
+ 00DD           ;    {
+ 00DD                   .dbline 170
+ 00DD           ;       // Read the count on positive edge
+ 00DD           ;       CapturePosEdge = Timer_wReadCompareValue();
+ 00DD 10                push X
+ 00DE 7C0000            xcall _Timer_wReadCompareValue
+ 00E1 62D000            mov REG[0xd0],>__r0
+ 00E4 5A00              mov [__r0],X
+ 00E6 20                pop X
+ 00E7 08                push A
+ 00E8 5100              mov A,[__r0]
+ 00EA 62D000            mov REG[0xd0],>_CapturePosEdge
+ 00ED 5300              mov [_CapturePosEdge],A
+ 00EF 18                pop A
+ 00F0 5301              mov [_CapturePosEdge+1],A
+ 00F2                   .dbline 173
+ 00F2           ;       
+ 00F2           ;       // Change the capture to negative edge and set flag
+ 00F2           ;       Timer_FUNC_LSB_REG |= 0x80;
+ 00F2 7110              or F,0x10  ; iopage = 1
+ 00F4 432080            or REG[0x20],-128
+ 00F7                   .dbline 174
+ 00F7           ;       Flags |= FALLING_EDGE;
+ 00F7 70CF              and F,0xCF      ; iopage = 0
+ 00F9 62D000            mov REG[0xd0],>_Flags
+ 00FC 2E0002            or [_Flags],2
+ 00FF                   .dbline 175
+ 00FF           ;    }
+ 00FF           L7:
+ 00FF                   .dbline -2
+ 00FF           L5:
+ 00FF 62D000            mov REG[0xD0],>__r0
  0102 18                pop A
- 0103 5300              mov [__r7],A
+ 0103 5300              mov [__rZ],A
  0105 18                pop A
- 0106 5300              mov [__r6],A
+ 0106 5300              mov [__rY],A
  0108 18                pop A
- 0109 5300              mov [__r5],A
+ 0109 5300              mov [__rX],A
  010B 18                pop A
- 010C 5300              mov [__r4],A
+ 010C 5300              mov [__r11],A
  010E 18                pop A
- 010F 5300              mov [__r3],A
+ 010F 5300              mov [__r10],A
  0111 18                pop A
- 0112 5300              mov [__r2],A
+ 0112 5300              mov [__r9],A
  0114 18                pop A
- 0115 5300              mov [__r1],A
+ 0115 5300              mov [__r8],A
  0117 18                pop A
- 0118 5300              mov [__r0],A
+ 0118 5300              mov [__r7],A
  011A 18                pop A
- 011B 60D5              mov REG[213],A
+ 011B 5300              mov [__r6],A
  011D 18                pop A
- 011E 60D4              mov REG[212],A
+ 011E 5300              mov [__r5],A
  0120 18                pop A
- 0121 60D3              mov REG[211],A
+ 0121 5300              mov [__r4],A
  0123 18                pop A
- 0124 60D0              mov REG[208],A
+ 0124 5300              mov [__r3],A
  0126 18                pop A
- 0127                   .dbline 0 ; func end
- 0127 7E                reti
- 0128                   .dbend
- 0128                   .dbfunc e Timer2CaptureISR _Timer2CaptureISR fV
- 0128           _Timer2CaptureISR::
- 0128                   .dbline -1
- 0128 71C0              or F,-64
- 012A 08                push A
- 012B 5DD0              mov A,REG[0xd0]
- 012D 08                push A
- 012E 5DD3              mov A,REG[0xd3]
- 0130 08                push A
- 0131 5DD4              mov A,REG[0xd4]
- 0133 08                push A
- 0134 5DD5              mov A,REG[0xd5]
- 0136 08                push A
- 0137 62D000            mov REG[0xd0],>__r0
- 013A 5100              mov A,[__r0]
- 013C 08                push A
- 013D 5100              mov A,[__r1]
+ 0127 5300              mov [__r2],A
+ 0129 18                pop A
+ 012A 5300              mov [__r1],A
+ 012C 18                pop A
+ 012D 5300              mov [__r0],A
+ 012F 18                pop A
+ 0130 60D5              mov REG[213],A
+ 0132 18                pop A
+ 0133 60D4              mov REG[212],A
+ 0135 18                pop A
+ 0136 60D3              mov REG[211],A
+ 0138 18                pop A
+ 0139 60D0              mov REG[208],A
+ 013B 18                pop A
+ 013C                   .dbline 0 ; func end
+ 013C 7E                reti
+ 013D                   .dbend
+ 013D                   .dbfunc e Timer2CaptureISR _Timer2CaptureISR fV
+ 013D           _Timer2CaptureISR::
+ 013D                   .dbline -1
+ 013D 71C0              or F,-64
  013F 08                push A
- 0140 5100              mov A,[__r2]
+ 0140 5DD0              mov A,REG[0xd0]
  0142 08                push A
- 0143 5100              mov A,[__r3]
+ 0143 5DD3              mov A,REG[0xd3]
  0145 08                push A
- 0146 5100              mov A,[__r4]
+ 0146 5DD4              mov A,REG[0xd4]
  0148 08                push A
- 0149 5100              mov A,[__r5]
+ 0149 5DD5              mov A,REG[0xd5]
  014B 08                push A
- 014C 5100              mov A,[__r6]
- 014E 08                push A
- 014F 5100              mov A,[__r7]
+ 014C 62D000            mov REG[0xd0],>__r0
+ 014F 5100              mov A,[__r0]
  0151 08                push A
- 0152 5100              mov A,[__r8]
+ 0152 5100              mov A,[__r1]
  0154 08                push A
- 0155 5100              mov A,[__r9]
+ 0155 5100              mov A,[__r2]
  0157 08                push A
- 0158 5100              mov A,[__r10]
+ 0158 5100              mov A,[__r3]
  015A 08                push A
- 015B 5100              mov A,[__r11]
+ 015B 5100              mov A,[__r4]
  015D 08                push A
- 015E 5100              mov A,[__rX]
+ 015E 5100              mov A,[__r5]
  0160 08                push A
- 0161 5100              mov A,[__rY]
+ 0161 5100              mov A,[__r6]
  0163 08                push A
- 0164 5100              mov A,[__rZ]
+ 0164 5100              mov A,[__r7]
  0166 08                push A
- 0167                   .dbline 175
- 0167           ; }
- 0167           ; 
- 0167           ; void Timer2CaptureISR(void)// new function for motorcontroll2
- 0167           ; {
- 0167                   .dbline 176
- 0167           ;        if(Flags2 & FALLING_EDGE)//
- 0167 62D000            mov REG[0xd0],>_Flags2
- 016A 470002            tst [_Flags2],2
- 016D A049              jz L9
- 016F                   .dbline 179
- 016F           ;    {
- 016F           ;       // Read the count on negative edge
- 016F           ;       CaptureNegEdge2 = Timer2_wReadCompareValue();
- 016F                   .dbline 179
- 016F 10                push X
- 0170 7C0000            xcall _Timer2_wReadCompareValue
- 0173 62D000            mov REG[0xd0],>__r0
- 0176 5A00              mov [__r0],X
- 0178 20                pop X
- 0179 08                push A
- 017A 5100              mov A,[__r0]
- 017C 62D000            mov REG[0xd0],>_CaptureNegEdge2
- 017F 5300              mov [_CaptureNegEdge2],A
- 0181 18                pop A
- 0182 5301              mov [_CaptureNegEdge2+1],A
- 0184                   .dbline 182
- 0184           ; 
- 0184           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
- 0184           ;       Timer2_FUNC_LSB_REG &= ~0x80;
- 0184 7110              or F,0x10  ; iopage = 1
- 0186 41287F            and REG[0x28],127
- 0189                   .dbline 183
- 0189           ;       Flags2 &= ~FALLING_EDGE2;// clearing faling edge bit in flags
- 0189 70CF              and F,0xCF      ; iopage = 0
- 018B 62D000            mov REG[0xd0],>_Flags2
- 018E 2600FD            and [_Flags2],-3
- 0191                   .dbline 191
- 0191           ;       
- 0191           ; 
- 0191           ;       // Calculate the pulswidth by finding difference between positive edge
- 0191           ;       // and negative edge counts.  As both the numbers are unsigned numbers
- 0191           ;       // the result will be correct even if there is an underflow in the counter
- 0191           ;       // The result will be accurate as long as the total pulsewidth is less than
- 0191           ;       // 65535 timer ticks.
- 0191           ;       PulseWidth2 = CapturePosEdge2 - CaptureNegEdge2;
- 0191 62D000            mov REG[0xd0],>_CapturePosEdge2
- 0194 5101              mov A,[_CapturePosEdge2+1]
- 0196 62D000            mov REG[0xd0],>_CaptureNegEdge2
- 0199 1201              sub A,[_CaptureNegEdge2+1]
- 019B 62D000            mov REG[0xd0],>_PulseWidth2
- 019E 5301              mov [_PulseWidth2+1],A
- 01A0 62D000            mov REG[0xd0],>_CapturePosEdge2
- 01A3 5100              mov A,[_CapturePosEdge2]
- 01A5 62D000            mov REG[0xd0],>_CaptureNegEdge2
- 01A8 1A00              sbb A,[_CaptureNegEdge2]
- 01AA 62D000            mov REG[0xd0],>_PulseWidth2
- 01AD 5300              mov [_PulseWidth2],A
- 01AF                   .dbline 194
- 01AF           ;       
- 01AF           ;       // Set the Data available flag
- 01AF           ;       Flags2 |= DATA_AVAILABLE2;
- 01AF 62D000            mov REG[0xd0],>_Flags2
- 01B2 2E0001            or [_Flags2],1
- 01B5                   .dbline 195
- 01B5           ;    }
- 01B5 8023              xjmp L10
- 01B7           L9:
- 01B7                   .dbline 197
- 01B7           ;    else
- 01B7           ;    {
- 01B7                   .dbline 199
- 01B7           ;       // Read the count on positive edge
- 01B7           ;       CapturePosEdge2 = Timer2_wReadCompareValue();
- 01B7 10                push X
- 01B8 7C0000            xcall _Timer2_wReadCompareValue
- 01BB 62D000            mov REG[0xd0],>__r0
- 01BE 5A00              mov [__r0],X
- 01C0 20                pop X
- 01C1 08                push A
- 01C2 5100              mov A,[__r0]
- 01C4 62D000            mov REG[0xd0],>_CapturePosEdge2
- 01C7 5300              mov [_CapturePosEdge2],A
- 01C9 18                pop A
- 01CA 5301              mov [_CapturePosEdge2+1],A
- 01CC                   .dbline 202
- 01CC           ;       
- 01CC           ;       // Change the capture to negative edge and set flag
- 01CC           ;       Timer2_FUNC_LSB_REG |= 0x80;//0x80
- 01CC 7110              or F,0x10  ; iopage = 1
- 01CE 432880            or REG[0x28],-128
- 01D1                   .dbline 203
- 01D1           ;       Flags2 |= FALLING_EDGE2;
- 01D1 70CF              and F,0xCF      ; iopage = 0
- 01D3 62D000            mov REG[0xd0],>_Flags2
- 01D6 2E0002            or [_Flags2],2
- 01D9                   .dbline 204
- 01D9           ;    }
- 01D9           L10:
- 01D9                   .dbline -2
- 01D9           L8:
- 01D9 62D000            mov REG[0xD0],>__r0
- 01DC 18                pop A
- 01DD 5300              mov [__rZ],A
- 01DF 18                pop A
- 01E0 5300              mov [__rY],A
- 01E2 18                pop A
- 01E3 5300              mov [__rX],A
- 01E5 18                pop A
- 01E6 5300              mov [__r11],A
- 01E8 18                pop A
- 01E9 5300              mov [__r10],A
- 01EB 18                pop A
- 01EC 5300              mov [__r9],A
- 01EE 18                pop A
- 01EF 5300              mov [__r8],A
+ 0167 5100              mov A,[__r8]
+ 0169 08                push A
+ 016A 5100              mov A,[__r9]
+ 016C 08                push A
+ 016D 5100              mov A,[__r10]
+ 016F 08                push A
+ 0170 5100              mov A,[__r11]
+ 0172 08                push A
+ 0173 5100              mov A,[__rX]
+ 0175 08                push A
+ 0176 5100              mov A,[__rY]
+ 0178 08                push A
+ 0179 5100              mov A,[__rZ]
+ 017B 08                push A
+ 017C                   .dbline 179
+ 017C           ; }
+ 017C           ; 
+ 017C           ; void Timer2CaptureISR(void)// new function for motorcontroll2
+ 017C           ; {
+ 017C                   .dbline 180
+ 017C           ;        if(Flags2 & FALLING_EDGE)//
+ 017C 62D000            mov REG[0xd0],>_Flags2
+ 017F 470002            tst [_Flags2],2
+ 0182 A049              jz L9
+ 0184                   .dbline 183
+ 0184           ;    {
+ 0184           ;       // Read the count on negative edge
+ 0184           ;       CaptureNegEdge2 = Timer2_wReadCompareValue();
+ 0184                   .dbline 183
+ 0184 10                push X
+ 0185 7C0000            xcall _Timer2_wReadCompareValue
+ 0188 62D000            mov REG[0xd0],>__r0
+ 018B 5A00              mov [__r0],X
+ 018D 20                pop X
+ 018E 08                push A
+ 018F 5100              mov A,[__r0]
+ 0191 62D000            mov REG[0xd0],>_CaptureNegEdge2
+ 0194 5300              mov [_CaptureNegEdge2],A
+ 0196 18                pop A
+ 0197 5301              mov [_CaptureNegEdge2+1],A
+ 0199                   .dbline 186
+ 0199           ; 
+ 0199           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
+ 0199           ;       Timer2_FUNC_LSB_REG &= ~0x80;
+ 0199 7110              or F,0x10  ; iopage = 1
+ 019B 41287F            and REG[0x28],127
+ 019E                   .dbline 187
+ 019E           ;       Flags2 &= ~FALLING_EDGE2;// clearing faling edge bit in flags
+ 019E 70CF              and F,0xCF      ; iopage = 0
+ 01A0 62D000            mov REG[0xd0],>_Flags2
+ 01A3 2600FD            and [_Flags2],-3
+ 01A6                   .dbline 195
+ 01A6           ;       
+ 01A6           ; 
+ 01A6           ;       // Calculate the pulswidth by finding difference between positive edge
+ 01A6           ;       // and negative edge counts.  As both the numbers are unsigned numbers
+ 01A6           ;       // the result will be correct even if there is an underflow in the counter
+ 01A6           ;       // The result will be accurate as long as the total pulsewidth is less than
+ 01A6           ;       // 65535 timer ticks.
+ 01A6           ;       PulseWidth2 = CapturePosEdge2 - CaptureNegEdge2;
+ 01A6 62D000            mov REG[0xd0],>_CapturePosEdge2
+ 01A9 5101              mov A,[_CapturePosEdge2+1]
+ 01AB 62D000            mov REG[0xd0],>_CaptureNegEdge2
+ 01AE 1201              sub A,[_CaptureNegEdge2+1]
+ 01B0 62D000            mov REG[0xd0],>_PulseWidth2
+ 01B3 5301              mov [_PulseWidth2+1],A
+ 01B5 62D000            mov REG[0xd0],>_CapturePosEdge2
+ 01B8 5100              mov A,[_CapturePosEdge2]
+ 01BA 62D000            mov REG[0xd0],>_CaptureNegEdge2
+ 01BD 1A00              sbb A,[_CaptureNegEdge2]
+ 01BF 62D000            mov REG[0xd0],>_PulseWidth2
+ 01C2 5300              mov [_PulseWidth2],A
+ 01C4                   .dbline 198
+ 01C4           ;       
+ 01C4           ;       // Set the Data available flag
+ 01C4           ;       Flags2 |= DATA_AVAILABLE2;
+ 01C4 62D000            mov REG[0xd0],>_Flags2
+ 01C7 2E0001            or [_Flags2],1
+ 01CA                   .dbline 199
+ 01CA           ;    }
+ 01CA 8023              xjmp L10
+ 01CC           L9:
+ 01CC                   .dbline 201
+ 01CC           ;    else
+ 01CC           ;    {
+ 01CC                   .dbline 203
+ 01CC           ;       // Read the count on positive edge
+ 01CC           ;       CapturePosEdge2 = Timer2_wReadCompareValue();
+ 01CC 10                push X
+ 01CD 7C0000            xcall _Timer2_wReadCompareValue
+ 01D0 62D000            mov REG[0xd0],>__r0
+ 01D3 5A00              mov [__r0],X
+ 01D5 20                pop X
+ 01D6 08                push A
+ 01D7 5100              mov A,[__r0]
+ 01D9 62D000            mov REG[0xd0],>_CapturePosEdge2
+ 01DC 5300              mov [_CapturePosEdge2],A
+ 01DE 18                pop A
+ 01DF 5301              mov [_CapturePosEdge2+1],A
+ 01E1                   .dbline 206
+ 01E1           ;       
+ 01E1           ;       // Change the capture to negative edge and set flag
+ 01E1           ;       Timer2_FUNC_LSB_REG |= 0x80;//0x80
+ 01E1 7110              or F,0x10  ; iopage = 1
+ 01E3 432880            or REG[0x28],-128
+ 01E6                   .dbline 207
+ 01E6           ;       Flags2 |= FALLING_EDGE2;
+ 01E6 70CF              and F,0xCF      ; iopage = 0
+ 01E8 62D000            mov REG[0xd0],>_Flags2
+ 01EB 2E0002            or [_Flags2],2
+ 01EE                   .dbline 208
+ 01EE           ;    }
+ 01EE           L10:
+ 01EE                   .dbline -2
+ 01EE           L8:
+ 01EE 62D000            mov REG[0xD0],>__r0
  01F1 18                pop A
- 01F2 5300              mov [__r7],A
+ 01F2 5300              mov [__rZ],A
  01F4 18                pop A
- 01F5 5300              mov [__r6],A
+ 01F5 5300              mov [__rY],A
  01F7 18                pop A
- 01F8 5300              mov [__r5],A
+ 01F8 5300              mov [__rX],A
  01FA 18                pop A
- 01FB 5300              mov [__r4],A
+ 01FB 5300              mov [__r11],A
  01FD 18                pop A
- 01FE 5300              mov [__r3],A
+ 01FE 5300              mov [__r10],A
  0200 18                pop A
- 0201 5300              mov [__r2],A
+ 0201 5300              mov [__r9],A
  0203 18                pop A
- 0204 5300              mov [__r1],A
+ 0204 5300              mov [__r8],A
  0206 18                pop A
- 0207 5300              mov [__r0],A
+ 0207 5300              mov [__r7],A
  0209 18                pop A
- 020A 60D5              mov REG[213],A
+ 020A 5300              mov [__r6],A
  020C 18                pop A
- 020D 60D4              mov REG[212],A
+ 020D 5300              mov [__r5],A
  020F 18                pop A
- 0210 60D3              mov REG[211],A
+ 0210 5300              mov [__r4],A
  0212 18                pop A
- 0213 60D0              mov REG[208],A
+ 0213 5300              mov [__r3],A
  0215 18                pop A
- 0216                   .dbline 0 ; func end
- 0216 7E                reti
- 0217                   .dbend
- 0217                   .dbfunc e Timer3CaptureISR _Timer3CaptureISR fV
- 0217           _Timer3CaptureISR::
- 0217                   .dbline -1
- 0217 71C0              or F,-64
- 0219 08                push A
- 021A 5DD0              mov A,REG[0xd0]
- 021C 08                push A
- 021D 5DD3              mov A,REG[0xd3]
- 021F 08                push A
- 0220 5DD4              mov A,REG[0xd4]
- 0222 08                push A
- 0223 5DD5              mov A,REG[0xd5]
- 0225 08                push A
- 0226 62D000            mov REG[0xd0],>__r0
- 0229 5100              mov A,[__r0]
- 022B 08                push A
- 022C 5100              mov A,[__r1]
+ 0216 5300              mov [__r2],A
+ 0218 18                pop A
+ 0219 5300              mov [__r1],A
+ 021B 18                pop A
+ 021C 5300              mov [__r0],A
+ 021E 18                pop A
+ 021F 60D5              mov REG[213],A
+ 0221 18                pop A
+ 0222 60D4              mov REG[212],A
+ 0224 18                pop A
+ 0225 60D3              mov REG[211],A
+ 0227 18                pop A
+ 0228 60D0              mov REG[208],A
+ 022A 18                pop A
+ 022B                   .dbline 0 ; func end
+ 022B 7E                reti
+ 022C                   .dbend
+ 022C                   .dbfunc e Timer3CaptureISR _Timer3CaptureISR fV
+ 022C           _Timer3CaptureISR::
+ 022C                   .dbline -1
+ 022C 71C0              or F,-64
  022E 08                push A
- 022F 5100              mov A,[__r2]
+ 022F 5DD0              mov A,REG[0xd0]
  0231 08                push A
- 0232 5100              mov A,[__r3]
+ 0232 5DD3              mov A,REG[0xd3]
  0234 08                push A
- 0235 5100              mov A,[__r4]
+ 0235 5DD4              mov A,REG[0xd4]
  0237 08                push A
- 0238 5100              mov A,[__r5]
+ 0238 5DD5              mov A,REG[0xd5]
  023A 08                push A
- 023B 5100              mov A,[__r6]
- 023D 08                push A
- 023E 5100              mov A,[__r7]
+ 023B 62D000            mov REG[0xd0],>__r0
+ 023E 5100              mov A,[__r0]
  0240 08                push A
- 0241 5100              mov A,[__r8]
+ 0241 5100              mov A,[__r1]
  0243 08                push A
- 0244 5100              mov A,[__r9]
+ 0244 5100              mov A,[__r2]
  0246 08                push A
- 0247 5100              mov A,[__r10]
+ 0247 5100              mov A,[__r3]
  0249 08                push A
- 024A 5100              mov A,[__r11]
+ 024A 5100              mov A,[__r4]
  024C 08                push A
- 024D 5100              mov A,[__rX]
+ 024D 5100              mov A,[__r5]
  024F 08                push A
- 0250 5100              mov A,[__rY]
+ 0250 5100              mov A,[__r6]
  0252 08                push A
- 0253 5100              mov A,[__rZ]
+ 0253 5100              mov A,[__r7]
  0255 08                push A
- 0256                   .dbline 208
- 0256           ; }
- 0256           ; 
- 0256           ; void Timer3CaptureISR(void)
- 0256           ; {
- 0256                   .dbline 209
- 0256           ;    if(Flags3 & FALLING_EDGE3)
- 0256 62D000            mov REG[0xd0],>_Flags3
- 0259 470002            tst [_Flags3],2
- 025C A04F              jz L12
- 025E                   .dbline 212
- 025E           ;    {
- 025E           ;       // Read the count on negative edge
- 025E           ;       CaptureNegEdge3 = Timer3_wReadCompareValue();
- 025E                   .dbline 212
- 025E 10                push X
- 025F 7C0000            xcall _Timer3_wReadCompareValue
- 0262 62D000            mov REG[0xd0],>__r0
- 0265 5A00              mov [__r0],X
- 0267 20                pop X
- 0268 08                push A
- 0269 5100              mov A,[__r0]
- 026B 62D000            mov REG[0xd0],>_CaptureNegEdge3
- 026E 5300              mov [_CaptureNegEdge3],A
- 0270 18                pop A
- 0271 5301              mov [_CaptureNegEdge3+1],A
- 0273                   .dbline 215
- 0273           ; 
- 0273           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
- 0273           ;       Timer3_FUNC_LSB_REG &= ~0x80;
- 0273 7110              or F,0x10  ; iopage = 1
- 0275 41307F            and REG[0x30],127
- 0278                   .dbline 216
- 0278           ;       Flags3 &= ~FALLING_EDGE3;
- 0278 70CF              and F,0xCF      ; iopage = 0
- 027A 62D000            mov REG[0xd0],>_Flags3
- 027D 2600FD            and [_Flags3],-3
- 0280                   .dbline 223
- 0280           ; 
- 0280           ;       // Calculate the pulswidth by finding difference between positive edge
- 0280           ;       // and negative edge counts.  As both the numbers are unsigned numbers
- 0280           ;       // the result will be correct even if there is an underflow in the counter
- 0280           ;       // The result will be accurate as long as the total pulsewidth is less than
- 0280           ;       // 65535 timer ticks.
- 0280           ;       PulseWidth3 = CapturePosEdge3 - CaptureNegEdge3;
- 0280 62D000            mov REG[0xd0],>_CapturePosEdge3
- 0283 5101              mov A,[_CapturePosEdge3+1]
- 0285 62D000            mov REG[0xd0],>_CaptureNegEdge3
- 0288 1201              sub A,[_CaptureNegEdge3+1]
- 028A 62D000            mov REG[0xd0],>_PulseWidth3
- 028D 5301              mov [_PulseWidth3+1],A
- 028F 62D000            mov REG[0xd0],>_CapturePosEdge3
- 0292 5100              mov A,[_CapturePosEdge3]
- 0294 62D000            mov REG[0xd0],>_CaptureNegEdge3
- 0297 1A00              sbb A,[_CaptureNegEdge3]
- 0299 62D000            mov REG[0xd0],>_PulseWidth3
- 029C 5300              mov [_PulseWidth3],A
- 029E                   .dbline 226
- 029E           ;       
- 029E           ;       // Set the Data available flag
- 029E           ;       Flags3 |= DATA_AVAILABLE3;
- 029E 62D000            mov REG[0xd0],>_Flags3
- 02A1 2E0001            or [_Flags3],1
- 02A4                   .dbline 227
- 02A4           ;         done = TRUE ;// 
- 02A4 62D000            mov REG[0xd0],>_done
- 02A7 550001            mov [_done],1
- 02AA                   .dbline 228
- 02AA           ;    }
- 02AA 8023              xjmp L13
- 02AC           L12:
- 02AC                   .dbline 230
- 02AC           ;    else
- 02AC           ;    {
- 02AC                   .dbline 232
- 02AC           ;       // Read the count on positive edge
- 02AC           ;       CapturePosEdge3 = Timer3_wReadCompareValue();
- 02AC 10                push X
- 02AD 7C0000            xcall _Timer3_wReadCompareValue
- 02B0 62D000            mov REG[0xd0],>__r0
- 02B3 5A00              mov [__r0],X
- 02B5 20                pop X
- 02B6 08                push A
- 02B7 5100              mov A,[__r0]
- 02B9 62D000            mov REG[0xd0],>_CapturePosEdge3
- 02BC 5300              mov [_CapturePosEdge3],A
- 02BE 18                pop A
- 02BF 5301              mov [_CapturePosEdge3+1],A
- 02C1                   .dbline 235
- 02C1           ;       
- 02C1           ;       // Change the capture to negative edge and set flag
- 02C1           ;       Timer3_FUNC_LSB_REG |= 0x80;
- 02C1 7110              or F,0x10  ; iopage = 1
- 02C3 433080            or REG[0x30],-128
- 02C6                   .dbline 236
- 02C6           ;       Flags3 |= FALLING_EDGE3;
- 02C6 70CF              and F,0xCF      ; iopage = 0
- 02C8 62D000            mov REG[0xd0],>_Flags3
- 02CB 2E0002            or [_Flags3],2
- 02CE                   .dbline 237
- 02CE           ;    }
- 02CE           L13:
- 02CE                   .dbline -2
- 02CE           L11:
- 02CE 62D000            mov REG[0xD0],>__r0
- 02D1 18                pop A
- 02D2 5300              mov [__rZ],A
- 02D4 18                pop A
- 02D5 5300              mov [__rY],A
- 02D7 18                pop A
- 02D8 5300              mov [__rX],A
- 02DA 18                pop A
- 02DB 5300              mov [__r11],A
- 02DD 18                pop A
- 02DE 5300              mov [__r10],A
- 02E0 18                pop A
- 02E1 5300              mov [__r9],A
- 02E3 18                pop A
- 02E4 5300              mov [__r8],A
+ 0256 5100              mov A,[__r8]
+ 0258 08                push A
+ 0259 5100              mov A,[__r9]
+ 025B 08                push A
+ 025C 5100              mov A,[__r10]
+ 025E 08                push A
+ 025F 5100              mov A,[__r11]
+ 0261 08                push A
+ 0262 5100              mov A,[__rX]
+ 0264 08                push A
+ 0265 5100              mov A,[__rY]
+ 0267 08                push A
+ 0268 5100              mov A,[__rZ]
+ 026A 08                push A
+ 026B                   .dbline 212
+ 026B           ; }
+ 026B           ; 
+ 026B           ; void Timer3CaptureISR(void)
+ 026B           ; {
+ 026B                   .dbline 213
+ 026B           ;    if(Flags3 & FALLING_EDGE3)
+ 026B 62D000            mov REG[0xd0],>_Flags3
+ 026E 470002            tst [_Flags3],2
+ 0271 A04F              jz L12
+ 0273                   .dbline 216
+ 0273           ;    {
+ 0273           ;       // Read the count on negative edge
+ 0273           ;       CaptureNegEdge3 = Timer3_wReadCompareValue();
+ 0273                   .dbline 216
+ 0273 10                push X
+ 0274 7C0000            xcall _Timer3_wReadCompareValue
+ 0277 62D000            mov REG[0xd0],>__r0
+ 027A 5A00              mov [__r0],X
+ 027C 20                pop X
+ 027D 08                push A
+ 027E 5100              mov A,[__r0]
+ 0280 62D000            mov REG[0xd0],>_CaptureNegEdge3
+ 0283 5300              mov [_CaptureNegEdge3],A
+ 0285 18                pop A
+ 0286 5301              mov [_CaptureNegEdge3+1],A
+ 0288                   .dbline 219
+ 0288           ; 
+ 0288           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
+ 0288           ;       Timer3_FUNC_LSB_REG &= ~0x80;
+ 0288 7110              or F,0x10  ; iopage = 1
+ 028A 41307F            and REG[0x30],127
+ 028D                   .dbline 220
+ 028D           ;       Flags3 &= ~FALLING_EDGE3;
+ 028D 70CF              and F,0xCF      ; iopage = 0
+ 028F 62D000            mov REG[0xd0],>_Flags3
+ 0292 2600FD            and [_Flags3],-3
+ 0295                   .dbline 227
+ 0295           ; 
+ 0295           ;       // Calculate the pulswidth by finding difference between positive edge
+ 0295           ;       // and negative edge counts.  As both the numbers are unsigned numbers
+ 0295           ;       // the result will be correct even if there is an underflow in the counter
+ 0295           ;       // The result will be accurate as long as the total pulsewidth is less than
+ 0295           ;       // 65535 timer ticks.
+ 0295           ;       PulseWidth3 = CapturePosEdge3 - CaptureNegEdge3;
+ 0295 62D000            mov REG[0xd0],>_CapturePosEdge3
+ 0298 5101              mov A,[_CapturePosEdge3+1]
+ 029A 62D000            mov REG[0xd0],>_CaptureNegEdge3
+ 029D 1201              sub A,[_CaptureNegEdge3+1]
+ 029F 62D000            mov REG[0xd0],>_PulseWidth3
+ 02A2 5301              mov [_PulseWidth3+1],A
+ 02A4 62D000            mov REG[0xd0],>_CapturePosEdge3
+ 02A7 5100              mov A,[_CapturePosEdge3]
+ 02A9 62D000            mov REG[0xd0],>_CaptureNegEdge3
+ 02AC 1A00              sbb A,[_CaptureNegEdge3]
+ 02AE 62D000            mov REG[0xd0],>_PulseWidth3
+ 02B1 5300              mov [_PulseWidth3],A
+ 02B3                   .dbline 230
+ 02B3           ;       
+ 02B3           ;       // Set the Data available flag
+ 02B3           ;       Flags3 |= DATA_AVAILABLE3;
+ 02B3 62D000            mov REG[0xd0],>_Flags3
+ 02B6 2E0001            or [_Flags3],1
+ 02B9                   .dbline 231
+ 02B9           ;         done = TRUE ;// 
+ 02B9 62D000            mov REG[0xd0],>_done
+ 02BC 550001            mov [_done],1
+ 02BF                   .dbline 232
+ 02BF           ;    }
+ 02BF 8023              xjmp L13
+ 02C1           L12:
+ 02C1                   .dbline 234
+ 02C1           ;    else
+ 02C1           ;    {
+ 02C1                   .dbline 236
+ 02C1           ;       // Read the count on positive edge
+ 02C1           ;       CapturePosEdge3 = Timer3_wReadCompareValue();
+ 02C1 10                push X
+ 02C2 7C0000            xcall _Timer3_wReadCompareValue
+ 02C5 62D000            mov REG[0xd0],>__r0
+ 02C8 5A00              mov [__r0],X
+ 02CA 20                pop X
+ 02CB 08                push A
+ 02CC 5100              mov A,[__r0]
+ 02CE 62D000            mov REG[0xd0],>_CapturePosEdge3
+ 02D1 5300              mov [_CapturePosEdge3],A
+ 02D3 18                pop A
+ 02D4 5301              mov [_CapturePosEdge3+1],A
+ 02D6                   .dbline 239
+ 02D6           ;       
+ 02D6           ;       // Change the capture to negative edge and set flag
+ 02D6           ;       Timer3_FUNC_LSB_REG |= 0x80;
+ 02D6 7110              or F,0x10  ; iopage = 1
+ 02D8 433080            or REG[0x30],-128
+ 02DB                   .dbline 240
+ 02DB           ;       Flags3 |= FALLING_EDGE3;
+ 02DB 70CF              and F,0xCF      ; iopage = 0
+ 02DD 62D000            mov REG[0xd0],>_Flags3
+ 02E0 2E0002            or [_Flags3],2
+ 02E3                   .dbline 241
+ 02E3           ;    }
+ 02E3           L13:
+ 02E3                   .dbline -2
+ 02E3           L11:
+ 02E3 62D000            mov REG[0xD0],>__r0
  02E6 18                pop A
- 02E7 5300              mov [__r7],A
+ 02E7 5300              mov [__rZ],A
  02E9 18                pop A
- 02EA 5300              mov [__r6],A
+ 02EA 5300              mov [__rY],A
  02EC 18                pop A
- 02ED 5300              mov [__r5],A
+ 02ED 5300              mov [__rX],A
  02EF 18                pop A
- 02F0 5300              mov [__r4],A
+ 02F0 5300              mov [__r11],A
  02F2 18                pop A
- 02F3 5300              mov [__r3],A
+ 02F3 5300              mov [__r10],A
  02F5 18                pop A
- 02F6 5300              mov [__r2],A
+ 02F6 5300              mov [__r9],A
  02F8 18                pop A
- 02F9 5300              mov [__r1],A
+ 02F9 5300              mov [__r8],A
  02FB 18                pop A
- 02FC 5300              mov [__r0],A
+ 02FC 5300              mov [__r7],A
  02FE 18                pop A
- 02FF 60D5              mov REG[213],A
+ 02FF 5300              mov [__r6],A
  0301 18                pop A
- 0302 60D4              mov REG[212],A
+ 0302 5300              mov [__r5],A
  0304 18                pop A
- 0305 60D3              mov REG[211],A
+ 0305 5300              mov [__r4],A
  0307 18                pop A
- 0308 60D0              mov REG[208],A
+ 0308 5300              mov [__r3],A
  030A 18                pop A
- 030B                   .dbline 0 ; func end
- 030B 7E                reti
- 030C                   .dbend
- 030C                   .dbfunc e motorControll1 _motorControll1 fV
- 030C           _motorControll1::
- 030C                   .dbline -1
- 030C                   .dbline 241
- 030C           ; }
- 030C           ; 
- 030C           ; void motorControll1(void)//long OutputDistance
- 030C           ; {
- 030C                   .dbline 244
- 030C           ;                       
- 030C           ;          // Check if pulsewidth data is available
- 030C           ;       if(Flags & DATA_AVAILABLE)
- 030C 62D000            mov REG[0xd0],>_Flags
- 030F 470001            tst [_Flags],1
- 0312 A004              jz L15
- 0314                   .dbline 248
- 0314           ;        {
- 0314           ; //         LCD_Position(0,0);
- 0314           ; //         LCD_PrHexInt(PulseWidth);
- 0314           ;        Flags &= ~DATA_AVAILABLE;
- 0314                   .dbline 248
- 0314 2600FE            and [_Flags],-2
- 0317                   .dbline 251
- 0317           ;                       
- 0317           ;                       
- 0317           ;               }
- 0317           L15:
- 0317                   .dbline -2
- 0317           L14:
- 0317                   .dbline 0 ; func end
- 0317 7F                ret
- 0318                   .dbend
- 0318                   .dbfunc e motorControll2 _motorControll2 fV
- 0318           _motorControll2::
- 0318                   .dbline -1
- 0318                   .dbline 258
- 0318           ;    
- 0318           ;        
- 0318           ;       
- 0318           ; }
- 0318           ; 
- 0318           ; void motorControll2(void)// long OutputDistance
- 0318           ; {
- 0318                   .dbline 259
- 0318           ;       if(Flags2 & DATA_AVAILABLE2)
- 0318 62D000            mov REG[0xd0],>_Flags2
- 031B 470001            tst [_Flags2],1
- 031E A01C              jz L18
- 0320                   .dbline 261
- 0320           ;       {
- 0320           ;                LCD_Position(5,0);
- 0320                   .dbline 261
- 0320 10                push X
- 0321 5700              mov X,0
- 0323 5005              mov A,5
- 0325 7C0000            xcall _LCD_Position
- 0328                   .dbline 262
- 0328           ;          LCD_PrHexInt(PulseWidth2);
- 0328 62D000            mov REG[0xd0],>_PulseWidth2
- 032B 5100              mov A,[_PulseWidth2]
- 032D 08                push A
- 032E 5101              mov A,[_PulseWidth2+1]
- 0330 20                pop X
- 0331 7C0000            xcall _LCD_PrHexInt
- 0334 20                pop X
- 0335                   .dbline 264
- 0335           ;        
- 0335           ;          Flags2 &= ~DATA_AVAILABLE2;
- 0335 62D000            mov REG[0xd0],>_Flags2
- 0338 2600FE            and [_Flags2],-2
- 033B                   .dbline 265
- 033B           ;       }
- 033B           L18:
- 033B                   .dbline -2
- 033B           L17:
- 033B                   .dbline 0 ; func end
- 033B 7F                ret
- 033C                   .dbend
- 033C                   .dbfunc e ultrasoonSensor _ultrasoonSensor fV
- 033C           ;       distance -> X+0
- 033C           _ultrasoonSensor::
- 033C                   .dbline -1
- 033C 10                push X
- 033D 4F                mov X,SP
- 033E 3804              add SP,4
- 0340                   .dbline 272
- 0340           ;        
- 0340           ;       
- 0340           ; }
- 0340           ; 
- 0340           ; 
- 0340           ; void ultrasoonSensor(void)
- 0340           ; {
- 0340                   .dbline 276
- 0340           ;       long distance;
- 0340           ;       //this if statmend ensure's the trig pin is trigerd when needed
- 0340           ;       
- 0340           ;    if(done == FALSE)
- 0340 62D000            mov REG[0xd0],>_done
- 0343 3C0000            cmp [_done],0
- 0346 B019              jnz L21
- 0348                   .dbline 278
- 0348           ;       {
- 0348           ;               PRT1DR |= 0x01;
- 0348                   .dbline 278
- 0348 430401            or REG[0x4],1
- 034B                   .dbline 279
- 034B           ;           asm("nop");
- 034B 40                        nop
- 034C           
- 034C                   .dbline 280
- 034C           ;               asm("nop");
- 034C 40                        nop
- 034D           
- 034D                   .dbline 281
- 034D           ;               asm("nop");
- 034D 40                        nop
- 034E           
- 034E                   .dbline 282
- 034E           ;               asm("nop");
- 034E 40                        nop
- 034F           
- 034F                   .dbline 283
- 034F           ;               asm("nop");
- 034F 40                        nop
- 0350           
- 0350                   .dbline 284
- 0350           ;               asm("nop");
- 0350 40                        nop
- 0351           
- 0351                   .dbline 285
- 0351           ;               asm("nop");
- 0351 40                        nop
- 0352           
- 0352                   .dbline 286
- 0352           ;               asm("nop");
- 0352 40                        nop
- 0353           
- 0353                   .dbline 287
- 0353           ;               asm("nop");
- 0353 40                        nop
- 0354           
- 0354                   .dbline 288
- 0354           ;               asm("nop");
- 0354 40                        nop
- 0355           
- 0355                   .dbline 289
- 0355           ;               asm("nop");
- 0355 40                        nop
- 0356           
- 0356                   .dbline 290
- 0356           ;               asm("nop");
- 0356 40                        nop
- 0357           
- 0357                   .dbline 291
- 0357           ;               asm("nop");
- 0357 40                        nop
- 0358           
- 0358                   .dbline 292
- 0358           ;               asm("nop");
- 0358 40                        nop
- 0359           
- 0359                   .dbline 293
- 0359           ;               asm("nop");
- 0359 40                        nop
- 035A           
- 035A                   .dbline 294
- 035A           ;               asm("nop");
- 035A 40                        nop
- 035B           
- 035B                   .dbline 295
- 035B           ;               asm("nop");
- 035B 40                        nop
- 035C           
- 035C                   .dbline 296
- 035C           ;               asm("nop");
- 035C 40                        nop
- 035D           
- 035D                   .dbline 297
- 035D           ;               PRT1DR &= ~0x01;
- 035D 4104FE            and REG[0x4],-2
- 0360                   .dbline 299
- 0360           ; 
- 0360           ;       }
- 0360           L21:
- 0360                   .dbline 300
- 0360           ;       if(Flags3 & DATA_AVAILABLE3)// do if databit is set 
- 0360 62D000            mov REG[0xd0],>_Flags3
- 0363 470001            tst [_Flags3],1
- 0366 A022              jz L23
- 0368                   .dbline 303
- 0368           ;     {
- 0368           ;       
- 0368           ;                LCD_Position(5,5);
- 0368                   .dbline 303
- 0368 10                push X
- 0369 5005              mov A,5
- 036B 5705              mov X,5
- 036D 7C0000            xcall _LCD_Position
- 0370                   .dbline 304
- 0370           ;          LCD_PrHexInt(PulseWidth3);
- 0370 62D000            mov REG[0xd0],>_PulseWidth3
- 0373 5100              mov A,[_PulseWidth3]
- 0375 08                push A
- 0376 5101              mov A,[_PulseWidth3+1]
- 0378 20                pop X
- 0379 7C0000            xcall _LCD_PrHexInt
- 037C 20                pop X
- 037D                   .dbline 306
- 037D           ;        
- 037D           ;          Flags3 &= ~DATA_AVAILABLE3;
- 037D 62D000            mov REG[0xd0],>_Flags3
- 0380 2600FE            and [_Flags3],-2
- 0383                   .dbline 307
- 0383           ;               done = FALSE;
- 0383 62D000            mov REG[0xd0],>_done
- 0386 550000            mov [_done],0
- 0389                   .dbline 308
- 0389           ;     }  
- 0389           L23:
- 0389                   .dbline -2
- 0389           L20:
- 0389 38FC              add SP,-4
- 038B 20                pop X
- 038C                   .dbline 0 ; func end
- 038C 7F                ret
- 038D                   .dbsym l distance 0 L
- 038D                   .dbend
+ 030B 5300              mov [__r2],A
+ 030D 18                pop A
+ 030E 5300              mov [__r1],A
+ 0310 18                pop A
+ 0311 5300              mov [__r0],A
+ 0313 18                pop A
+ 0314 60D5              mov REG[213],A
+ 0316 18                pop A
+ 0317 60D4              mov REG[212],A
+ 0319 18                pop A
+ 031A 60D3              mov REG[211],A
+ 031C 18                pop A
+ 031D 60D0              mov REG[208],A
+ 031F 18                pop A
+ 0320                   .dbline 0 ; func end
+ 0320 7E                reti
+ 0321                   .dbend
+ 0321                   .dbfunc e motorControll1 _motorControll1 fV
+ 0321           _motorControll1::
+ 0321                   .dbline -1
+ 0321                   .dbline 245
+ 0321           ; }
+ 0321           ; 
+ 0321           ; void motorControll1(void)//long OutputDistance
+ 0321           ; {
+ 0321                   .dbline 248
+ 0321           ;                       
+ 0321           ;          // Check if pulsewidth data is available
+ 0321           ;     if(Flags & DATA_AVAILABLE)
+ 0321 62D000            mov REG[0xd0],>_Flags
+ 0324 470001            tst [_Flags],1
+ 0327 A01C              jz L15
+ 0329                   .dbline 250
+ 0329           ;    {
+ 0329           ;          LCD_Position(0,0);
+ 0329                   .dbline 250
+ 0329 10                push X
+ 032A 5000              mov A,0
+ 032C 5700              mov X,0
+ 032E 7C0000            xcall _LCD_Position
+ 0331                   .dbline 251
+ 0331           ;          LCD_PrHexInt(PulseWidth);
+ 0331 62D000            mov REG[0xd0],>_PulseWidth
+ 0334 5100              mov A,[_PulseWidth]
+ 0336 08                push A
+ 0337 5101              mov A,[_PulseWidth+1]
+ 0339 20                pop X
+ 033A 7C0000            xcall _LCD_PrHexInt
+ 033D 20                pop X
+ 033E                   .dbline 252
+ 033E           ;                Flags &= ~DATA_AVAILABLE;
+ 033E 62D000            mov REG[0xd0],>_Flags
+ 0341 2600FE            and [_Flags],-2
+ 0344                   .dbline 255
+ 0344           ;                       
+ 0344           ;                       
+ 0344           ;       }
+ 0344           L15:
+ 0344                   .dbline -2
+ 0344           L14:
+ 0344                   .dbline 0 ; func end
+ 0344 7F                ret
+ 0345                   .dbend
+ 0345                   .dbfunc e motorControll2 _motorControll2 fV
+ 0345           _motorControll2::
+ 0345                   .dbline -1
+ 0345                   .dbline 262
+ 0345           ;    
+ 0345           ;        
+ 0345           ;       
+ 0345           ; }
+ 0345           ; 
+ 0345           ; void motorControll2(void)// long OutputDistance
+ 0345           ; {
+ 0345                   .dbline 263
+ 0345           ;       if(Flags2 & DATA_AVAILABLE2)
+ 0345 62D000            mov REG[0xd0],>_Flags2
+ 0348 470001            tst [_Flags2],1
+ 034B A01C              jz L18
+ 034D                   .dbline 265
+ 034D           ;       {
+ 034D           ;                LCD_Position(5,0);
+ 034D                   .dbline 265
+ 034D 10                push X
+ 034E 5700              mov X,0
+ 0350 5005              mov A,5
+ 0352 7C0000            xcall _LCD_Position
+ 0355                   .dbline 266
+ 0355           ;          LCD_PrHexInt(PulseWidth2);
+ 0355 62D000            mov REG[0xd0],>_PulseWidth2
+ 0358 5100              mov A,[_PulseWidth2]
+ 035A 08                push A
+ 035B 5101              mov A,[_PulseWidth2+1]
+ 035D 20                pop X
+ 035E 7C0000            xcall _LCD_PrHexInt
+ 0361 20                pop X
+ 0362                   .dbline 268
+ 0362           ;        
+ 0362           ;          Flags2 &= ~DATA_AVAILABLE2;
+ 0362 62D000            mov REG[0xd0],>_Flags2
+ 0365 2600FE            and [_Flags2],-2
+ 0368                   .dbline 269
+ 0368           ;       }
+ 0368           L18:
+ 0368                   .dbline -2
+ 0368           L17:
+ 0368                   .dbline 0 ; func end
+ 0368 7F                ret
+ 0369                   .dbend
+ 0369                   .dbfunc e ultrasoonSensor _ultrasoonSensor fV
+ 0369           ;       distance -> X+0
+ 0369           _ultrasoonSensor::
+ 0369                   .dbline -1
+ 0369 10                push X
+ 036A 4F                mov X,SP
+ 036B 3804              add SP,4
+ 036D                   .dbline 276
+ 036D           ;        
+ 036D           ;       
+ 036D           ; }
+ 036D           ; 
+ 036D           ; 
+ 036D           ; void ultrasoonSensor(void)
+ 036D           ; {
+ 036D                   .dbline 280
+ 036D           ;       long distance;
+ 036D           ;       //this if statmend ensure's the trig pin is trigerd when needed
+ 036D           ;       
+ 036D           ;    if(done == FALSE)
+ 036D 62D000            mov REG[0xd0],>_done
+ 0370 3C0000            cmp [_done],0
+ 0373 B019              jnz L21
+ 0375                   .dbline 282
+ 0375           ;       {
+ 0375           ;               PRT1DR |= 0x01;
+ 0375                   .dbline 282
+ 0375 430401            or REG[0x4],1
+ 0378                   .dbline 283
+ 0378           ;           asm("nop");
+ 0378 40                        nop
+ 0379           
+ 0379                   .dbline 284
+ 0379           ;               asm("nop");
+ 0379 40                        nop
+ 037A           
+ 037A                   .dbline 285
+ 037A           ;               asm("nop");
+ 037A 40                        nop
+ 037B           
+ 037B                   .dbline 286
+ 037B           ;               asm("nop");
+ 037B 40                        nop
+ 037C           
+ 037C                   .dbline 287
+ 037C           ;               asm("nop");
+ 037C 40                        nop
+ 037D           
+ 037D                   .dbline 288
+ 037D           ;               asm("nop");
+ 037D 40                        nop
+ 037E           
+ 037E                   .dbline 289
+ 037E           ;               asm("nop");
+ 037E 40                        nop
+ 037F           
+ 037F                   .dbline 290
+ 037F           ;               asm("nop");
+ 037F 40                        nop
+ 0380           
+ 0380                   .dbline 291
+ 0380           ;               asm("nop");
+ 0380 40                        nop
+ 0381           
+ 0381                   .dbline 292
+ 0381           ;               asm("nop");
+ 0381 40                        nop
+ 0382           
+ 0382                   .dbline 293
+ 0382           ;               asm("nop");
+ 0382 40                        nop
+ 0383           
+ 0383                   .dbline 294
+ 0383           ;               asm("nop");
+ 0383 40                        nop
+ 0384           
+ 0384                   .dbline 295
+ 0384           ;               asm("nop");
+ 0384 40                        nop
+ 0385           
+ 0385                   .dbline 296
+ 0385           ;               asm("nop");
+ 0385 40                        nop
+ 0386           
+ 0386                   .dbline 297
+ 0386           ;               asm("nop");
+ 0386 40                        nop
+ 0387           
+ 0387                   .dbline 298
+ 0387           ;               asm("nop");
+ 0387 40                        nop
+ 0388           
+ 0388                   .dbline 299
+ 0388           ;               asm("nop");
+ 0388 40                        nop
+ 0389           
+ 0389                   .dbline 300
+ 0389           ;               asm("nop");
+ 0389 40                        nop
+ 038A           
+ 038A                   .dbline 301
+ 038A           ;               PRT1DR &= ~0x01;// pin P1[0]
+ 038A 4104FE            and REG[0x4],-2
+ 038D                   .dbline 303
+ 038D           ; 
+ 038D           ;       }
+ 038D           L21:
+ 038D                   .dbline 304
+ 038D           ;       if(Flags3 & DATA_AVAILABLE3)// do if databit is set 
+ 038D 62D000            mov REG[0xd0],>_Flags3
+ 0390 470001            tst [_Flags3],1
+ 0393 A022              jz L23
+ 0395                   .dbline 307
+ 0395           ;     {
+ 0395           ;       
+ 0395           ;                LCD_Position(5,5);
+ 0395                   .dbline 307
+ 0395 10                push X
+ 0396 5005              mov A,5
+ 0398 5705              mov X,5
+ 039A 7C0000            xcall _LCD_Position
+ 039D                   .dbline 308
+ 039D           ;          LCD_PrHexInt(PulseWidth3);
+ 039D 62D000            mov REG[0xd0],>_PulseWidth3
+ 03A0 5100              mov A,[_PulseWidth3]
+ 03A2 08                push A
+ 03A3 5101              mov A,[_PulseWidth3+1]
+ 03A5 20                pop X
+ 03A6 7C0000            xcall _LCD_PrHexInt
+ 03A9 20                pop X
+ 03AA                   .dbline 310
+ 03AA           ;        
+ 03AA           ;          Flags3 &= ~DATA_AVAILABLE3;
+ 03AA 62D000            mov REG[0xd0],>_Flags3
+ 03AD 2600FE            and [_Flags3],-2
+ 03B0                   .dbline 311
+ 03B0           ;               done = FALSE;
+ 03B0 62D000            mov REG[0xd0],>_done
+ 03B3 550000            mov [_done],0
+ 03B6                   .dbline 312
+ 03B6           ;     }  
+ 03B6           L23:
+ 03B6                   .dbline -2
+ 03B6           L20:
+ 03B6 38FC              add SP,-4
+ 03B8 20                pop X
+ 03B9                   .dbline 0 ; func end
+ 03B9 7F                ret
+ 03BA                   .dbsym l distance 0 L
+ 03BA                   .dbend
                         .area data(ram, con, rel)
  0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
  0000           _Flags3::

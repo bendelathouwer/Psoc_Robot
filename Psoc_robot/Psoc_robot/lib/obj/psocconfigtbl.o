@@ -6,111 +6,111 @@ dbfile lib/psocconfigtbl.asm
 dbfunc 0 ? 0 I
 dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
 dbfunc 0 ? 0 I
-A lit size EC flags 0
+A lit size 104 flags 0
 S LoadConfigTBL_psoc_robot_Bank0 Def0000
-S LoadConfigTBL_psoc_robot_Bank1 Def008B
+S LoadConfigTBL_psoc_robot_Bank1 Def0097
 A psoc_config size 105 flags 0
 dbfile lib/psocconfigtbl.asm
 dbfunc 0 ? 0 I
 dbline 2 0
-dbline B5 2
+dbline C7 2
 dbline 2 5
-dbline B7 7
-dbline B8 A
+dbline C9 7
+dbline CA A
 dbline 2 D
-dbline BA F
-dbline BB 12
+dbline CC F
+dbline CD 12
 dbline 2 15
-dbline BD 17
-dbline BE 1A
+dbline CF 17
+dbline D0 1A
 dbline 2 1D
-dbline C0 1F
-dbline C1 22
+dbline D2 1F
+dbline D3 22
 dbline 2 25
-dbline C3 27
-dbline C4 2A
+dbline D5 27
+dbline D6 2A
 dbline 2 2D
-dbline C6 2F
-dbline C7 32
+dbline D8 2F
+dbline D9 32
 dbline 2 35
-dbline C9 37
-dbline CA 3A
+dbline DB 37
+dbline DC 3A
 dbline 2 3D
-dbline CC 3F
-dbline CD 42
+dbline DE 3F
+dbline DF 42
 dbline 2 45
-dbline CF 47
-dbline D0 4A
+dbline E1 47
+dbline E2 4A
 dbline 2 4D
-dbline D2 4F
-dbline D3 52
+dbline E4 4F
+dbline E5 52
 dbline 2 55
-dbline D5 57
-dbline D6 5A
+dbline E7 57
+dbline E8 5A
 dbline 2 5D
-dbline D8 5F
-dbline D9 62
+dbline EA 5F
+dbline EB 62
 dbline 2 65
-dbline DB 67
-dbline DC 6A
+dbline ED 67
+dbline EE 6A
 dbline 2 6D
-dbline DE 6F
-dbline DF 72
+dbline F0 6F
+dbline F1 72
 dbline 2 75
-dbline E1 77
-dbline E2 7A
+dbline F3 77
+dbline F4 7A
 dbline 2 7D
-dbline E4 7F
-dbline E5 82
+dbline F6 7F
+dbline F7 82
 dbline 2 85
-dbline E7 87
-dbline E8 8A
+dbline F9 87
+dbline FA 8A
 dbline 2 8D
-dbline EA 8F
-dbline EB 92
+dbline FC 8F
+dbline FD 92
 dbline 2 95
-dbline ED 97
-dbline EE 9A
+dbline FF 97
+dbline 100 9A
 dbline 2 9D
-dbline F0 9F
-dbline F1 A2
+dbline 102 9F
+dbline 103 A2
 dbline 2 A5
-dbline F3 A7
-dbline F4 AA
+dbline 105 A7
+dbline 106 AA
 dbline 2 AD
-dbline F6 AF
-dbline F7 B2
+dbline 108 AF
+dbline 109 B2
 dbline 2 B5
-dbline F9 B7
-dbline FA BA
+dbline 10B B7
+dbline 10C BA
 dbline 2 BD
-dbline FC BF
-dbline FD C2
+dbline 10E BF
+dbline 10F C2
 dbline 2 C5
-dbline FF C7
-dbline 100 CA
+dbline 111 C7
+dbline 112 CA
 dbline 2 CD
-dbline 102 CF
-dbline 103 D2
+dbline 114 CF
+dbline 115 D2
 dbline 2 D5
-dbline 105 D7
-dbline 106 DA
+dbline 117 D7
+dbline 118 DA
 dbline 2 DD
-dbline 108 DF
-dbline 109 E2
+dbline 11A DF
+dbline 11B E2
 dbline 2 E5
-dbline 10B E7
-dbline 10C EA
+dbline 11D E7
+dbline 11E EA
 dbline 2 ED
-dbline 10E EF
-dbline 10F F2
+dbline 120 EF
+dbline 121 F2
 dbline 2 F5
-dbline 111 F7
-dbline 112 FA
+dbline 123 F7
+dbline 124 FA
 dbline 2 FD
-dbline 114 FF
+dbline 126 FF
 dbline 2 102
-dbline 116 104
+dbline 128 104
 S LoadConfigTBL_psoc_robot_Ordered Def0000
 T 00 00 43 00 41 E7 42 00 47 00 45 03 46 00 4B 00
 R 00 00 00 01
@@ -120,39 +120,43 @@ T 00 1C 22 00 27 06 25 FF 26 00 2B 00 29 FF 2A 00
 R 00 00 00 01
 T 00 2A 2F 06 2D FF 2E 00 33 00 31 FF 32 00 37 06
 R 00 00 00 01
-T 00 38 35 FF 36 00 60 28 66 00 63 05 65 00 E6 00
+T 00 38 35 FF 36 00 3F 00 3D 00 3E 00 3B 00 39 00
 R 00 00 00 01
-T 00 46 E7 00 D6 00 B0 00 B1 00 B2 00 B3 33 B4 33
+T 00 46 3A 00 60 28 66 00 63 05 65 00 E6 00 E7 00
 R 00 00 00 01
-T 00 54 B5 00 B6 00 B8 15 B9 00 BA 10 BB 33 BC 33
+T 00 54 D6 00 B0 00 B1 00 B2 00 B3 33 B4 33 B5 00
 R 00 00 00 01
-T 00 62 BD 00 BE 00 C0 00 C1 00 C2 20 C3 33 C4 33
+T 00 62 B6 00 B8 15 B9 00 BA 10 BB 33 BC 33 BD 00
 R 00 00 00 01
-T 00 70 C5 22 C6 00 C8 56 C9 00 CA 30 CB 33 CC 33
+T 00 70 BE 21 C0 00 C1 00 C2 20 C3 33 C4 33 C5 22
 R 00 00 00 01
-T 00 7E CD 00 CE 00 6C 00 6D 00 6E 00 6F 00 FF 40
+T 00 7E C6 00 C8 56 C9 00 CA 30 CB 33 CC 33 CD 00
 R 00 00 00 01
-T 00 8C 11 41 11 42 40 44 31 45 31 46 44 48 11 49
+T 00 8C CE 00 6C 00 6D 00 6E 00 6F 00 FF 40 11 41
 R 00 00 00 01
-T 00 9A 16 4A 00 4C 31 4D 36 4E 05 20 00 21 C6 22
+T 00 9A 11 42 40 44 31 45 31 46 44 48 11 49 16 4A
 R 00 00 00 01
-T 00 A8 40 24 20 25 36 26 40 28 00 29 D6 2A 40 2C
+T 00 A8 00 4C 31 4D 36 4E 05 20 00 21 C6 22 40 24
 R 00 00 00 01
-T 00 B6 20 2D 36 2E 40 30 00 31 F6 32 40 34 20 35
+T 00 B6 20 25 36 26 40 28 00 29 D6 2A 40 2C 20 2D
 R 00 00 00 01
-T 00 C4 36 36 40 61 00 69 00 60 00 62 00 67 33 68
+T 00 C4 36 2E 40 30 00 31 F6 32 40 34 20 35 36 36
 R 00 00 00 01
-T 00 D2 33 63 00 66 00 D1 00 D3 00 D0 00 D2 00 E1
+T 00 D2 40 3C 05 3D 00 3E 06 38 0D 39 00 3A 07 61
 R 00 00 00 01
-T 00 E0 FF E2 00 DF FF DE 02 DD 00 E7 00 FF
+T 00 E0 00 69 00 60 00 62 00 67 33 68 33 63 00 66
 R 00 00 00 01
-T 00 00 70 EF 62 00 00 71 10 62 00 70 62 01 8F 70
+T 00 EE 00 D1 00 D3 00 D0 00 D2 00 E1 FF E2 00 DF
+R 00 00 00 01
+T 00 FC FF DE 02 DD 00 E7 00 FF
+R 00 00 00 01
+T 00 00 70 EF 62 00 00 71 10 62 00 F4 62 01 0B 70
 R 00 00 00 02
-T 00 0E EF 62 03 84 62 02 7B 71 10 62 02 00 62 03
+T 00 0E EF 62 03 00 62 02 FF 71 10 62 02 00 62 03
 R 00 00 00 02
-T 00 1C 00 70 EF 62 01 00 62 04 00 71 10 62 04 01
+T 00 1C 00 70 EF 62 01 00 62 04 00 71 10 62 04 00
 R 00 00 00 02
-T 00 2A 62 05 FE 70 EF 62 07 FE 62 06 00 71 10 62
+T 00 2A 62 05 FF 70 EF 62 07 FF 62 06 00 71 10 62
 R 00 00 00 02
 T 00 38 06 00 62 07 00 70 EF 62 05 00 62 08 00 71
 R 00 00 00 02

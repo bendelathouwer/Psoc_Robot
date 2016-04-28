@@ -130,9 +130,8 @@ void main(void)
    PWM1_Start();	
    PWM2_Start();
    LCD_Start();
-	LCD_Position(0,0);
-         LCD_PrHexInt(0x55);
-   PRT1DR = 0x80;
+   
+	PRT1DR = 0x80;
 
    while(1)
    {

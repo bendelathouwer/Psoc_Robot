@@ -1,0 +1,11 @@
+Removed Pin From Net: NetName=+5V Pin=CON5-2
+Removed Pin From Net: NetName=GND Pin=CON5-3
+Removed Member From Class: ClassName=U_Reciever Member=CON5
+Added Pin To Net: NetName=+5V Pin=CON6-2
+Added Room: Name=top
+Added Room: Name=U_ESP8266
+Added Room: Name=U_motor
+Added Room: Name=U_Psoc-robot
+Added Room: Name=U_PSU
+Added Room: Name=U_Reciever
+Added Room: Name=U_UltraSoonSensor

@@ -1518,11 +1518,11 @@
  0037 7E            reti
  0038           
                     org   38h                      ;PSoC Block DCB12 Interrupt Vector
- 0038 7D0000        ljmp        _UART_1_TX_ISR
+ 0038 7D0000        ljmp        _UART_TX_ISR
  003B 7E            reti
  003C           
                     org   3Ch                      ;PSoC Block DCB13 Interrupt Vector
- 003C 7D0000        ljmp        _UART_1_RX_ISR
+ 003C 7D0000        ljmp        _UART_RX_ISR
  003F 7E            reti
  0040           
                     org   40h                      ;PSoC Block DBB20 Interrupt Vector

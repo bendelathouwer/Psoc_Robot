@@ -1,6 +1,6 @@
 Project:      output/Pwm_Test
 Build Number: 0
-Date:         Sat Apr 30 12:52:37 2016
+Date:         Mon May 02 11:00:51 2016
 Compiler:     ICCM8C
 Version:      7.05.00
 
@@ -68,15 +68,22 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   03F2   003B =     59. bytes (rel,con,rom,code)
+                            text   03F2   006F =    111. bytes (rel,con,rom,code)
 
        Addr  Global Symbol
       -----  --------------------------------
        03F2  __text_start
-       03F2  _main
-       042D  __xidata_start
-       042D  __text_end
-       042F  __xidata_end
+       03F2  Delay10msTimes
+       03F2  _Delay10msTimes
+       03FF  Delay50uTimes
+       03FF  _Delay50uTimes
+       0405  Delay50u_Table
+       040D  Delay50u
+       040D  _Delay50u
+       0421  _main
+       0461  __xidata_start
+       0461  __text_end
+       0463  __xidata_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -100,6 +107,7 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 Files Linked      [ module(s) ]
 
 ./obj/boot.o	[ boot.asm ]
+obj/delay.o	[ delay.asm ]
 obj/main.o	[ main.c ]
 <library>	[ pwmint.asm, pwm.asm, psocconfigtbl.asm, psocconfig.asm, r1.asm, r0.asm ]
 

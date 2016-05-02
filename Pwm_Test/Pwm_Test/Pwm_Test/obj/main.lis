@@ -10,34 +10,35 @@
  0000 10                push X
  0001 4F                mov X,SP
  0002 3802              add SP,2
- 0004                   .dbline 12
+ 0004                   .dbline 13
  0004           ; //----------------------------------------------------------------------------
  0004           ; // C main line
  0004           ; //----------------------------------------------------------------------------
  0004           ; 
  0004           ; #include <m8c.h>        // part specific constants and macros
  0004           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0004           ; #include "delay.h"
  0004           ; 
  0004           ; #define PWM_PERIOD1     999
  0004           ; //#define PWM_Width1   332
  0004           ; 
  0004           ; void main(void)
  0004           ; {
- 0004 802F              xjmp L3
+ 0004 8034              xjmp L3
  0006           L2:
- 0006                   .dbline 16
+ 0006                   .dbline 17
  0006           ;       int t;
  0006           ;       // M8C_EnableGInt ; // Uncomment this line to enable Global Interrupts
  0006           ;       while (1)
  0006           ;       {
- 0006                   .dbline 17
+ 0006                   .dbline 18
  0006           ;               for(t=0 ;t<1000;t++)
  0006 560100            mov [X+1],0
  0009 560000            mov [X+0],0
  000C           L5:
- 000C                   .dbline 18
+ 000C                   .dbline 19
  000C           ;               {
- 000C                   .dbline 20
+ 000C                   .dbline 21
  000C           ;                       //PWM_Stop();
  000C           ;                   PWM_WritePeriod(PWM_PERIOD1);
  000C 10                push X
@@ -45,7 +46,7 @@
  000F 50E7              mov A,-25
  0011 7C0000            xcall _PWM_WritePeriod
  0014 20                pop X
- 0015                   .dbline 21
+ 0015                   .dbline 22
  0015           ;                       PWM_WritePulseWidth(t);  // Set pulse width to generate a 33%                                             //duty cycle
  0015 10                push X
  0016 5200              mov A,[X+0]
@@ -53,37 +54,41 @@
  0019 5201              mov A,[X+1]
  001B 20                pop X
  001C 7C0000            xcall _PWM_WritePulseWidth
- 001F                   .dbline 22
+ 001F                   .dbline 23
  001F           ;                       PWM_Start();
  001F 7C0000            xcall _PWM_Start
- 0022 20                pop X
- 0023                   .dbline 24
- 0023           ;                       
- 0023           ;               }       
- 0023           L6:
- 0023                   .dbline 17
- 0023 7701              inc [X+1]
- 0025 0F0000            adc [X+0],0
- 0028                   .dbline 17
- 0028 5201              mov A,[X+1]
- 002A 11E8              sub A,-24
- 002C 5200              mov A,[X+0]
- 002E 3180              xor A,-128
- 0030 1983              sbb A,(3 ^ 0x80)
- 0032 CFD9              jc L5
- 0034           X1:
- 0034                   .dbline 26
- 0034           ;               
- 0034           ;       }
- 0034           L3:
- 0034                   .dbline 15
- 0034 8FD1              xjmp L2
- 0036           X0:
- 0036                   .dbline -2
- 0036           L1:
- 0036 38FE              add SP,-2
- 0038 20                pop X
- 0039                   .dbline 0 ; func end
- 0039 8FFF              jmp .
- 003B                   .dbsym l t 0 I
- 003B                   .dbend
+ 0022                   .dbline 24
+ 0022           ;                       Delay10msTimes(10);
+ 0022 500A              mov A,10
+ 0024 7C0000            xcall _Delay10msTimes
+ 0027 20                pop X
+ 0028                   .dbline 26
+ 0028           ;                       
+ 0028           ;               }       
+ 0028           L6:
+ 0028                   .dbline 18
+ 0028 7701              inc [X+1]
+ 002A 0F0000            adc [X+0],0
+ 002D                   .dbline 18
+ 002D 5201              mov A,[X+1]
+ 002F 11E8              sub A,-24
+ 0031 5200              mov A,[X+0]
+ 0033 3180              xor A,-128
+ 0035 1983              sbb A,(3 ^ 0x80)
+ 0037 CFD4              jc L5
+ 0039           X1:
+ 0039                   .dbline 28
+ 0039           ;               
+ 0039           ;       }
+ 0039           L3:
+ 0039                   .dbline 16
+ 0039 8FCC              xjmp L2
+ 003B           X0:
+ 003B                   .dbline -2
+ 003B           L1:
+ 003B 38FE              add SP,-2
+ 003D 20                pop X
+ 003E                   .dbline 0 ; func end
+ 003E 8FFF              jmp .
+ 0040                   .dbsym l t 0 I
+ 0040                   .dbend

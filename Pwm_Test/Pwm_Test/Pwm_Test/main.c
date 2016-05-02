@@ -4,6 +4,7 @@
 
 #include <m8c.h>        // part specific constants and macros
 #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+#include "delay.h"
 
 #define PWM_PERIOD1     999
 //#define PWM_Width1   332
@@ -20,6 +21,7 @@ void main(void)
 		    PWM_WritePeriod(PWM_PERIOD1);
 			PWM_WritePulseWidth(t);  // Set pulse width to generate a 33%                                             //duty cycle
 			PWM_Start();
+			Delay10msTimes(10);
    			
 		}	
 		

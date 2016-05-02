@@ -248,11 +248,20 @@ void motorControll1(void)//long OutputDistance
    {
          LCD_Position(0,0);
          LCD_PrHexInt(PulseWidth);
-   		 Flags &= ~DATA_AVAILABLE;
-			
-			
+   		// Flags &= ~DATA_AVAILABLE;
+		// if controll stick is centerd	
+		// then 
+		//PRT2DR |=0x80 && PRT2DR |=0x20;
+		PRT2DR |=0x80;
+		PRT2DR |=0x20;
+		PWM1_PULSE_WIDTH(0);
+		//if controlstick is pusht down 
+		//then
+		PRT2DR |=0x80;
+		PRT2DR &= ~0x20;
+		PWM1_PULSE_WIDTH(0);
 	}
-   
+   	 Flags &= ~DATA_AVAILABLE;
 	 
 	
 }

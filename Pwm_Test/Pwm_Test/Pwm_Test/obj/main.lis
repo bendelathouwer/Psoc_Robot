@@ -1,0 +1,89 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\main.c
+ 0000                   .dbfunc e main _main fV
+ 0000           ;              t -> X+0
+ 0000           _main::
+ 0000                   .dbline -1
+ 0000 10                push X
+ 0001 4F                mov X,SP
+ 0002 3802              add SP,2
+ 0004                   .dbline 12
+ 0004           ; //----------------------------------------------------------------------------
+ 0004           ; // C main line
+ 0004           ; //----------------------------------------------------------------------------
+ 0004           ; 
+ 0004           ; #include <m8c.h>        // part specific constants and macros
+ 0004           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0004           ; 
+ 0004           ; #define PWM_PERIOD1     999
+ 0004           ; //#define PWM_Width1   332
+ 0004           ; 
+ 0004           ; void main(void)
+ 0004           ; {
+ 0004 802F              xjmp L3
+ 0006           L2:
+ 0006                   .dbline 16
+ 0006           ;       int t;
+ 0006           ;       // M8C_EnableGInt ; // Uncomment this line to enable Global Interrupts
+ 0006           ;       while (1)
+ 0006           ;       {
+ 0006                   .dbline 17
+ 0006           ;               for(t=0 ;t<1000;t++)
+ 0006 560100            mov [X+1],0
+ 0009 560000            mov [X+0],0
+ 000C           L5:
+ 000C                   .dbline 18
+ 000C           ;               {
+ 000C                   .dbline 20
+ 000C           ;                       //PWM_Stop();
+ 000C           ;                   PWM_WritePeriod(PWM_PERIOD1);
+ 000C 10                push X
+ 000D 5703              mov X,3
+ 000F 50E7              mov A,-25
+ 0011 7C0000            xcall _PWM_WritePeriod
+ 0014 20                pop X
+ 0015                   .dbline 21
+ 0015           ;                       PWM_WritePulseWidth(t);  // Set pulse width to generate a 33%                                             //duty cycle
+ 0015 10                push X
+ 0016 5200              mov A,[X+0]
+ 0018 08                push A
+ 0019 5201              mov A,[X+1]
+ 001B 20                pop X
+ 001C 7C0000            xcall _PWM_WritePulseWidth
+ 001F                   .dbline 22
+ 001F           ;                       PWM_Start();
+ 001F 7C0000            xcall _PWM_Start
+ 0022 20                pop X
+ 0023                   .dbline 24
+ 0023           ;                       
+ 0023           ;               }       
+ 0023           L6:
+ 0023                   .dbline 17
+ 0023 7701              inc [X+1]
+ 0025 0F0000            adc [X+0],0
+ 0028                   .dbline 17
+ 0028 5201              mov A,[X+1]
+ 002A 11E8              sub A,-24
+ 002C 5200              mov A,[X+0]
+ 002E 3180              xor A,-128
+ 0030 1983              sbb A,(3 ^ 0x80)
+ 0032 CFD9              jc L5
+ 0034           X1:
+ 0034                   .dbline 26
+ 0034           ;               
+ 0034           ;       }
+ 0034           L3:
+ 0034                   .dbline 15
+ 0034 8FD1              xjmp L2
+ 0036           X0:
+ 0036                   .dbline -2
+ 0036           L1:
+ 0036 38FE              add SP,-2
+ 0038 20                pop X
+ 0039                   .dbline 0 ; func end
+ 0039 8FFF              jmp .
+ 003B                   .dbsym l t 0 I
+ 003B                   .dbend

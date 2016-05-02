@@ -1,0 +1,5 @@
+<PSOC_DB>
+  <PSOC_PROJECT_LIST>
+    <PSOC_PROJECT PATH="\Pwm_Test\Pwm_Test.cmx" IS_ACTIVE="TRUE" />
+  </PSOC_PROJECT_LIST>
+</PSOC_DB>

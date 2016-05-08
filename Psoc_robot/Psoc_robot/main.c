@@ -26,14 +26,15 @@
 //      VC1                               Sysclk/12
 //      VC2                               VC1/2 = Sysclk/24
 //      
-//		Timer:				`			  For reading one joystick channel 	
+//		Timer:				`			  For reading one joystick channel aileron puls with 
 //      Clock 							   VC2
 //      Period                             65535
 //      CompareValue                       0
 //      CompareType                        Less than or equal to
 //      Conected to port                   Port_0_0
 
-//  	Timer2:				`			  For reading one joystick channel 	
+
+//  	Timer2:				`			  For reading one joystick channel 	elevation puls with 1
 //      Clock 							   VC2
 //      Period                             65535
 //      CompareValue                       0
@@ -44,8 +45,8 @@
 //      Clock 							   VC2
 //      Period                             65535
 //      CompareValue                       0
-//      CompareTy pe                        Less than or equal to
-//      Conected to port                   Port_0_3
+//      CompareType                        Less than or equal to
+//      Conected to port                   Port_0_2
 //		
 //		
 //    Pwm conected to port                 Port_0_4
@@ -67,260 +68,403 @@
 //---------------------------------------------------------------------------------
 
 #include <m8c.h>        // part specific constants and macros
+#include <math.h>      
 #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
 
+#define DEBUG 1
 
+//volatile BOOL ultrasoonInitDone;//dit gedaan om compiler te verplichten waarde terug in te lezen (Caching tegen te gaan )
 
-// for timer 1 and motorcontrol 1
-#define DATA_AVAILABLE 0x01//staat in de eerste bit van de flag 
-#define FALLING_EDGE 0x02 // staat in de 2de bit van de flag 
-WORD CapturePosEdge;
-WORD CaptureNegEdge;
-WORD PulseWidth;
-BYTE Flags;
+//
+#define MAX_POWER 1000
+#define MIN_POWER 0
 
+//
+#define DATA_AVAILABLE_AILERON 0x01//staat in de eerste bit van de flag 
+#define FALLING_EDGE_AILERON 0x02 // staat in de 2de bit van de flag 
+WORD CapturePosEdgeAileron;
+WORD CaptureNegEdgeAileron;
+WORD PulseWidthAileron;
+BYTE FlagsAileron;
+#define MARGIN_AILERON 2
+#define MIN_AILERON 0x70
+#define CENTER_AILERON 0x8C
+#define MAX_AILERON 0xA9
 
-volatile BOOL done;//dit gedaan om compiler te verplichten waarde terug in te lezen (Caching tegen te gaan )
-
-// for timer 2 and motor controll 2
-#define DATA_AVAILABLE2 0x01 // new for motorcontroll2
-#define FALLING_EDGE2 0x02    // new for motorcontroll2
-WORD CapturePosEdge2;// new for motorcontroll2
-WORD CaptureNegEdge2;// new for motorcontroll2
-WORD PulseWidth2;// new for motorcontroll2
-BYTE Flags2;
+// 
+#define DATA_AVAILABLE_ELEVATOR 0x01 // new for motorcontroll2
+#define FALLING_EDGE_ELEVATOR 0x02    // new for motorcontroll2
+WORD CapturePosEdgeElevator;
+WORD CaptureNegEdgeElevator;
+WORD PulseWidthElevator;
+BYTE FlagsElevator;
+#define MARGIN_ELEVATOR 2
+#define MIN_ELEVATOR 0x70
+#define CENTER_ELEVATOR 0x8C
+#define MAX_ELEVATOR 0xA9
 
 // for timer 3 and ultrasoon sensor 1
-#define DATA_AVAILABLE3 0x01 
-#define FALLING_EDGE3 0x02    
-#define Set_Distance  50;
+#define DATA_AVAILABLE_ULTRASOON 0x01 
+#define FALLING_EDGE_ULTRASOON 0x02    
+#define MIN_SAFE_DISTANCE  50
 
-WORD CapturePosEdge3;
-WORD CaptureNegEdge3;
-WORD PulseWidth3;
-BYTE Flags3;
 
-void motorControll1(void);
-void motorController(void);
+WORD CapturePosEdgeUltrasoon;
+WORD CaptureNegEdgeUltrasoon;
+WORD PulseWidthUltrasoon;
+BYTE FlagUltrasoon;
+
 void ultrasoonSensor(void);//long ultrasoon sensor(void);
- 
+
 #pragma interrupt_handler TimerCaptureISR// for motorcontroll2
 #pragma interrupt_handler Timer2CaptureISR// new for motorcontroll2
 #pragma interrupt_handler Timer3CaptureISR
 
+
+BOOL Within(WORD value, WORD border, WORD margin)
+{
+	WORD lower = border - margin;
+	WORD upper = border + margin;
+	
+	if (value >= lower
+	&&  value <= upper)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+float EvaluateAileron(DWORD value)
+{	
+	// Check if pulsewidth data is available
+	if(FlagsAileron & DATA_AVAILABLE_AILERON)
+	{
+#ifdef DEBUG
+		LCD_Position(0,0);
+		LCD_PrHexInt(value);
+#endif	
+		// stick in center 
+		if (Within(value, CENTER_AILERON, MARGIN_AILERON))
+		{
+#ifdef DEBUG
+			LCD_Position(0,5);
+			LCD_PrCString("C");
+#endif		
+			return 0;
+		}
+		else if (value > CENTER_AILERON) // stick left
+		{
+#ifdef DEBUG
+			LCD_Position(0,5);
+			LCD_PrCString("L");
+#endif	
+			return -((float)value - CENTER_AILERON) / (float)(MAX_AILERON - CENTER_AILERON);
+		}
+		else if (value < CENTER_AILERON) // stick right
+		{			
+#ifdef DEBUG
+			LCD_Position(0,5);
+			LCD_PrCString("R");
+#endif			
+			return (CENTER_AILERON - (float)value) / (float)(CENTER_AILERON - MIN_AILERON); // BEN float om afronding te vermijden
+		}
+		
+		// action finished, clear flag to avoid doing it again
+		FlagsAileron &= ~DATA_AVAILABLE_AILERON;
+	}
+	
+	return 0;
+}
+	 
+float EvaluateElevator(DWORD value)
+{
+	// Check if pulsewidth data is available
+	if(FlagsElevator & DATA_AVAILABLE_ELEVATOR)
+	{
+#ifdef DEBUG
+		LCD_Position(1,0);
+		LCD_PrHexInt(value);
+#endif 	
+		// stick in center 
+		if (Within(value, CENTER_ELEVATOR, MARGIN_ELEVATOR))
+		{
+#ifdef DEBUG
+			LCD_Position(1,5);
+			LCD_PrCString("C");
+#endif 	
+			return 0;
+		}
+		else if (value > CENTER_ELEVATOR) // stick up
+		{
+#ifdef DEBUG
+			LCD_Position(1,5);
+			LCD_PrCString("U");
+#endif			
+			return ((float)value - CENTER_ELEVATOR) / (float)(MAX_ELEVATOR - CENTER_ELEVATOR);
+		}
+		else if (value < CENTER_ELEVATOR) // stick down
+		{			
+#ifdef DEBUG
+			LCD_Position(1,5);
+			LCD_PrCString("D");
+#endif			
+			return -(CENTER_ELEVATOR - (float)value) / (float)(CENTER_ELEVATOR - MIN_ELEVATOR); // BEN float om afronding te vermijden
+		}
+		
+		// action finished, clear flag to avoid doing it again
+		FlagsElevator &= ~DATA_AVAILABLE_ELEVATOR;
+	}
+	
+	return 0;
+}
+
+void TriggerUltrasoon(void)
+{
+	PRT1DR |= 0x01;// setting pin1[0]
+    asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	asm("nop");
+	PRT1DR &= ~0x01;// clearing  pin P1[0]
+}
+
+float EvaluateUltrasoonSensor(void)
+{
+	if (FlagUltrasoon & DATA_AVAILABLE_ULTRASOON)// do if databit is set 
+    {    
+		WORD pulseWidthUltrasoon = PulseWidthUltrasoon;
+
+#ifdef DEBUG
+		LCD_Position(1,12);
+		LCD_PrHexInt(pulseWidthUltrasoon);
+#endif
+		FlagUltrasoon &= ~DATA_AVAILABLE_ULTRASOON;
+		
+		// als meting gebeurt is trigger sensor opnieuw 
+		TriggerUltrasoon();	
+
+		return pulseWidthUltrasoon;
+    }  
+	
+	return MIN_SAFE_DISTANCE + 1;
+}
+
 void main(void)
 {
-   // Enable Global Interrupt   
-   M8C_EnableGInt;
-   
-   // Clear the flags
-   Flags = 0;
-   Flags2 = 0;// new for motorcontroll2
-   Flags3 = 0;
-   // Start timers and enable interrupt
-   Timer_Start();
-   Timer_EnableInt();
-   
-   Timer2_Start();// new for motorcontroll2
-   Timer2_EnableInt();// new for motorcontroll2
-  
-   Timer3_Start();
-   Timer3_EnableInt();
-   
-   PWM1_Start();	
-   PWM2_Start();
-   LCD_Start();
-   
-	PRT1DR = 0x80;
+	// Enable Global Interrupt   
+	M8C_EnableGInt;
 
-   while(1)
-   {
-	//long OutputDistance = ultrasoonSensor(); 
-	motorControll1();//OutputDistance
-    motorControll2();//OutputDistance
-	ultrasoonSensor();
+	// Clear the flags
+	FlagsElevator = 0;
+	FlagsAileron = 0;// new for motorcontroll2
+	FlagUltrasoon = 0;
+
+	// Start timers and enable interrupt
+	Timer_Start();
+	Timer_EnableInt();
+
+	Timer2_Start();// new for motorcontroll2
+	Timer2_EnableInt();// new for motorcontroll2
+
+	Timer3_Start();
+	Timer3_EnableInt();
+   
+	TriggerUltrasoon();	
+
+	// Init motors
+	PWM1_Start();
+	PWM2_Start();
+
+#ifdef DEBUG
+	LCD_Start();
+#endif  
+	
+//	PRT1DR = 0x80; // BEN ????
+
+	while (TRUE)
+	{
+		float aileronNormalized,
+			  elevatorNormalized;
+		float distance;
+		float speed, direction;
+		float motorLeft, motorRight;
+		BOOL forward;
+		
+		//long OutputDistance = ultrasoonSensor(); 
+		aileronNormalized = EvaluateAileron(PulseWidthAileron);
+		direction  = fabs(aileronNormalized);
+
+		elevatorNormalized = EvaluateElevator(PulseWidthElevator);
+		speed  = fabs(elevatorNormalized);
+		forward = (elevatorNormalized >= 0);
+		
+		distance = EvaluateUltrasoonSensor();
+//		if (distance < MIN_SAFE_DISTANCE)
+//		{
+//			elevatorNormalized = 0;
+//			aileronNormalized  = 0;
+//		}
+		
+		motorLeft  = speed; // default is straight forward
+		motorRight = speed;
+		
+		if (aileronNormalized < 0) // turning left
+		{
+			motorRight = speed;
+			motorLeft  = speed * (1 - direction);
+		}
+		else if (aileronNormalized > 0) // turning right
+		{
+			motorLeft  = speed;
+			motorRight = speed * (1 - direction);
+		}
+				
+		if (forward)
+		{
+			PRT2DR |=  0x80; // AIN1
+			PRT2DR &= ~0x20; // AIN2
+			
+			PRT2DR |=  0x02; // BIN1
+			PRT1DR &= ~0x80; // BIN2
+		}
+		else 
+		{
+			PRT2DR &= ~0x80; // AIN1
+			PRT2DR |=  0x20; // AIN2
+			
+			PRT2DR &= ~0x02; // BIN1
+			PRT1DR |=  0x80; // BIN2
+		}
+	
+		// Denormalize to Engine
+		motorLeft *= (MAX_POWER - MIN_POWER);
+		motorLeft += MIN_POWER;
+		motorRight *= (MAX_POWER - MIN_POWER);
+		motorRight += MIN_POWER;
+
+#ifdef DEBUG
+		LCD_Position(0,7);
+		LCD_PrHexInt(motorLeft);
+		LCD_Position(1,7);
+		LCD_PrHexInt(motorRight);
+		
+		LCD_Position(0,12);
+		LCD_PrCString(forward ? "F" : "B");
+#endif 	
+
+		PWM1_WritePulseWidth(motorLeft);
+		PWM2_WritePulseWidth(motorRight);
    }
 }
 
 void TimerCaptureISR(void)
 {
-   if(Flags & FALLING_EDGE)
+   if (FlagsAileron & FALLING_EDGE_AILERON)
    {
       // Read the count on negative edge
-      CaptureNegEdge = Timer_wReadCompareValue();
+      CaptureNegEdgeAileron = Timer_wReadCompareValue();
 
       // Change the capture to positive edge and clear the FALLING_EDGE flag
       Timer_FUNC_LSB_REG &= ~0x80;
-      Flags &= ~FALLING_EDGE;
+      FlagsAileron &= ~FALLING_EDGE_AILERON;
 
       // Calculate the pulswidth by finding difference between positive edge
       // and negative edge counts.  As both the numbers are unsigned numbers
       // the result will be correct even if there is an underflow in the counter
       // The result will be accurate as long as the total pulsewidth is less than
       // 65535 timer ticks.
-      PulseWidth = CapturePosEdge - CaptureNegEdge;
+      PulseWidthAileron = CapturePosEdgeAileron - CaptureNegEdgeAileron;
       
       // Set the Data available flag
-      Flags |= DATA_AVAILABLE;
+      FlagsAileron |= DATA_AVAILABLE_AILERON;
    }
    else
    {
       // Read the count on positive edge
-      CapturePosEdge = Timer_wReadCompareValue();
+      CapturePosEdgeAileron = Timer_wReadCompareValue();
       
       // Change the capture to negative edge and set flag
       Timer_FUNC_LSB_REG |= 0x80;
-      Flags |= FALLING_EDGE;
+      FlagsAileron |= FALLING_EDGE_AILERON;
    }
 }
 
 void Timer2CaptureISR(void)// new function for motorcontroll2
 {
-	 if(Flags2 & FALLING_EDGE)//
-   {
-      // Read the count on negative edge
-      CaptureNegEdge2 = Timer2_wReadCompareValue();
+	if(FlagsElevator & FALLING_EDGE_ELEVATOR)//
+	{
+		// Read the count on negative edge
+		CaptureNegEdgeElevator = Timer2_wReadCompareValue();
 
-      // Change the capture to positive edge and clear the FALLING_EDGE flag
-      Timer2_FUNC_LSB_REG &= ~0x80;
-      Flags2 &= ~FALLING_EDGE2;// clearing faling edge bit in flags
+		// Change the capture to positive edge and clear the FALLING_EDGE flag
+		Timer2_FUNC_LSB_REG &= ~0x80;
+		FlagsElevator &= ~FALLING_EDGE_ELEVATOR;// clearing faling edge bit in flags
 	
 
-      // Calculate the pulswidth by finding difference between positive edge
-      // and negative edge counts.  As both the numbers are unsigned numbers
-      // the result will be correct even if there is an underflow in the counter
-      // The result will be accurate as long as the total pulsewidth is less than
-      // 65535 timer ticks.
-      PulseWidth2 = CapturePosEdge2 - CaptureNegEdge2;
-      
-      // Set the Data available flag
-      Flags2 |= DATA_AVAILABLE2;
-   }
-   else
-   {
-      // Read the count on positive edge
-      CapturePosEdge2 = Timer2_wReadCompareValue();
-      
-      // Change the capture to negative edge and set flag
-      Timer2_FUNC_LSB_REG |= 0x80;//0x80
-      Flags2 |= FALLING_EDGE2;
-   }
+		// Calculate the pulswidth by finding difference between positive edge
+		// and negative edge counts.  As both the numbers are unsigned numbers
+		// the result will be correct even if there is an underflow in the counter
+		// The result will be accurate as long as the total pulsewidth is less than
+		// 65535 timer ticks.
+		PulseWidthElevator = CapturePosEdgeElevator - CaptureNegEdgeElevator;
+
+		// Set the Data available flag
+		FlagsElevator |= DATA_AVAILABLE_ELEVATOR; // BEN: set the correct bit on or off
+	}
+	else
+	{
+		// Read the count on positive edge
+		CapturePosEdgeElevator = Timer2_wReadCompareValue();
+
+		// Change the capture to negative edge and set flag
+		Timer2_FUNC_LSB_REG |= 0x80;
+		FlagsElevator |= FALLING_EDGE_ELEVATOR;
+	}
 }
 
 void Timer3CaptureISR(void)
-{
-   if(Flags3 & FALLING_EDGE3)
+{	
+   if(FlagUltrasoon & FALLING_EDGE_ULTRASOON)
    {
       // Read the count on negative edge
-      CaptureNegEdge3 = Timer3_wReadCompareValue();
+      CaptureNegEdgeUltrasoon = Timer3_wReadCompareValue();
 
       // Change the capture to positive edge and clear the FALLING_EDGE flag
       Timer3_FUNC_LSB_REG &= ~0x80;
-      Flags3 &= ~FALLING_EDGE3;
+      FlagUltrasoon &= ~FALLING_EDGE_ULTRASOON;
 
       // Calculate the pulswidth by finding difference between positive edge
       // and negative edge counts.  As both the numbers are unsigned numbers
       // the result will be correct even if there is an underflow in the counter
       // The result will be accurate as long as the total pulsewidth is less than
       // 65535 timer ticks.
-      PulseWidth3 = CapturePosEdge3 - CaptureNegEdge3;
-      
+      PulseWidthUltrasoon = CapturePosEdgeUltrasoon - CaptureNegEdgeUltrasoon;
+
       // Set the Data available flag
-      Flags3 |= DATA_AVAILABLE3;
-	  done = TRUE ;// 
+      FlagUltrasoon |= DATA_AVAILABLE_ULTRASOON;
    }
    else
    {
       // Read the count on positive edge
-      CapturePosEdge3 = Timer3_wReadCompareValue();
+      CapturePosEdgeUltrasoon = Timer3_wReadCompareValue();
       
       // Change the capture to negative edge and set flag
       Timer3_FUNC_LSB_REG |= 0x80;
-      Flags3 |= FALLING_EDGE3;
+      FlagUltrasoon |= FALLING_EDGE_ULTRASOON;
    }
-}
-
-void motorControll1(void)//long OutputDistance
-{
-			
-	   // Check if pulsewidth data is available
-    if(Flags & DATA_AVAILABLE)
-   {
-         LCD_Position(0,0);
-         LCD_PrHexInt(PulseWidth);
-   		// Flags &= ~DATA_AVAILABLE;
-		// if controll stick is centerd	
-		// then 
-		//PRT2DR |=0x80 && PRT2DR |=0x20;
-		PRT2DR |=0x80;
-		PRT2DR |=0x20;
-		PWM1_PULSE_WIDTH(0);
-		//if controlstick is pusht down 
-		//then
-		PRT2DR |=0x80;
-		PRT2DR &= ~0x20;
-		PWM1_PULSE_WIDTH(0);
-	}
-   	 Flags &= ~DATA_AVAILABLE;
-	 
-	
-}
-
-void motorControll2(void)// long OutputDistance
-{
-	if(Flags2 & DATA_AVAILABLE2)
-      {
-		 LCD_Position(5,0);
-         LCD_PrHexInt(PulseWidth2);
-       
-         Flags2 &= ~DATA_AVAILABLE2;
-      }
-       
-	
-}
-
-
-void ultrasoonSensor(void)
-{
-	long distance;
-	//this if statmend ensure's the trig pin is trigerd when needed
-	
-   if(done == FALSE)
-	{
-		PRT1DR |= 0x01;
-  	    asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		asm("nop");
-		PRT1DR &= ~0x01;// pin P1[0]
-
-	}
-	if(Flags3 & DATA_AVAILABLE3)// do if databit is set 
-    {
-      
-		 LCD_Position(5,5);
-         LCD_PrHexInt(PulseWidth3);
-       
-         Flags3 &= ~DATA_AVAILABLE3;
-		done = FALSE;
-    }  
-
-	
-
 }
 
 

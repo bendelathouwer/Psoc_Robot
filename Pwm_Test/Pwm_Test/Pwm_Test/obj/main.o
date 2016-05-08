@@ -1,39 +1,29 @@
 XH
-H 1 areas 5 global symbols
+H 1 areas 4 global symbols
 M main.c
 S _PWM_WritePeriod Ref0000
-S _Delay10msTimes Ref0000
 S _PWM_Start Ref0000
 S _PWM_WritePulseWidth Ref0000
-A text size 40 flags 0
+A text size 21 flags 0
 dbfile ./main.c
 dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\main.c
 dbfunc e main 0 fV
-dbsym l t 0 I
 dbline FFFFFFFF 0
-dbline D 4
-dbline 11 6
-dbline 12 6
-dbline 13 C
-dbline 15 C
-dbline 16 15
-dbline 17 1F
-dbline 18 22
-dbline 1A 28
-dbline 12 28
-dbline 12 2D
-dbline 1C 39
-dbline 10 39
-dbline FFFFFFFE 3B
-dbline 0 3E
+dbline 3F 0
+dbline 41 0
+dbline 42 8
+dbline 45 E
+dbline 46 E
+dbline 47 11
+dbline 4A 14
+dbline 4D 1D
+dbline 44 1D
+dbline FFFFFFFE 1F
+dbline 0 1F
 S _main Def0000
-T 00 00 10 4F 38 02 80 34 56 01 00 56 00 00 10 57
-R 00 00 00 00
-T 00 0E 03 50 E7 7C 00 00 20 10 52 00 08 52 01 20
-R 00 00 00 00 02 06 00 00
-T 00 1C 7C 00 00 7C 00 00 50 0A 7C 00 00 20 77 01
-R 00 00 00 00 02 03 00 03 02 06 00 02 02 0B 00 01
-T 00 2A 0F 00 00 52 01 11 E8 52 00 31 80 19 83 CF
-R 00 00 00 00
-T 00 38 D4 8F CC 38 FE 20 8F FF
+T 00 00 10 57 03 50 E7 7C 00 00 7C 00 00 20 80 10
+R 00 00 00 00 02 08 00 00 02 0B 00 01
+T 00 0E 43 08 80 41 08 DF 10 57 00 50 C8 7C 00 00
+R 00 00 00 00 02 0E 00 02
+T 00 1C 20 8F F0 8F FF
 R 00 00 00 00

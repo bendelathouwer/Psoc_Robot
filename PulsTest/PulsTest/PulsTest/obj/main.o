@@ -1,0 +1,41 @@
+XH
+H 1 areas 1 global symbols
+M main.c
+A text size 1E flags 0
+dbfile ./main.c
+dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PulsTest\PulsTest\PulsTest\main.c
+dbfunc e main 0 fV
+dbline FFFFFFFF 0
+dbline A 0
+dbline E 2
+dbline F 2
+dbline 10 5
+dbline 11 6
+dbline 12 7
+dbline 13 8
+dbline 14 9
+dbline 15 A
+dbline 16 B
+dbline 17 C
+dbline 18 D
+dbline 19 E
+dbline 1A F
+dbline 1B 10
+dbline 1C 11
+dbline 1D 12
+dbline 1E 13
+dbline 1F 14
+dbline 20 15
+dbline 21 16
+dbline 22 17
+dbline 23 1A
+dbline D 1A
+dbline FFFFFFFE 1C
+dbline 0 1C
+S _main Def0000
+T 00 00 80 19 43 08 01 40 40 40 40 40 40 40 40 40
+R 00 00 00 00
+T 00 0E 40 40 40 40 40 40 40 40 40 41 08 FE 8F E7
+R 00 00 00 00
+T 00 1C 8F FF
+R 00 00 00 00

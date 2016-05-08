@@ -1,0 +1,3006 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000                   .dbfunc e Within _Within fc
+ 0000           ;          upper -> X+2
+ 0000           ;          lower -> X+0
+ 0000           ;         margin -> X-9
+ 0000           ;         border -> X-7
+ 0000           ;          value -> X-5
+ 0000           _Within::
+ 0000                   .dbline -1
+ 0000 10                push X
+ 0001 4F                mov X,SP
+ 0002 3804              add SP,4
+ 0004                   .dbline 125
+ 0004           ; //****************************************************************************
+ 0004           ; //*****************************************************************************
+ 0004           ; //  FILENAME: main.c
+ 0004           ; //   Made for project 2 in the second semester of school
+ 0004           ; //
+ 0004           ; //  DESCRIPTION: Main file of the Psoc_robot project.
+ 0004           ; //
+ 0004           ; //-----------------------------------------------------------------------------
+ 0004           ; // 
+ 0004           ; //*****************************************************************************
+ 0004           ; //*****************************************************************************
+ 0004           ; ////***************************************************************************************
+ 0004           ; 
+ 0004           ; //------------------------------------------------------------------------------
+ 0004           ; // Name: Psoc_robot
+ 0004           ; //------------------------------------------------------------------------------
+ 0004           ; //------------------------------------------------------------------------------
+ 0004           ; // For Device: CY8C29466
+ 0004           ; //------------------------------------------------------------------------------
+ 0004           ; // Required Software:  PSoC Designer 5.3
+ 0004           ; 
+ 0004           ; // Project Settings: 
+ 0004           ; //      
+ 0004           ; //      Power Setting [Vcc/SysClk Freq]:  5.0V/24MHz
+ 0004           ; //      CPU Clock:                        Sysclk/1  
+ 0004           ; //      VC1                               Sysclk/12
+ 0004           ; //      VC2                               VC1/2 = Sysclk/24
+ 0004           ; //      
+ 0004           ; //            Timer:                          `                         For reading one joystick channel aileron puls with 
+ 0004           ; //      Clock                                                            VC2
+ 0004           ; //      Period                             65535
+ 0004           ; //      CompareValue                       0
+ 0004           ; //      CompareType                        Less than or equal to
+ 0004           ; //      Conected to port                   Port_0_0
+ 0004           ; 
+ 0004           ; 
+ 0004           ; //    Timer2:                         `                         For reading one joystick channel      elevation puls with 1
+ 0004           ; //      Clock                                                            VC2
+ 0004           ; //      Period                             65535
+ 0004           ; //      CompareValue                       0
+ 0004           ; //      CompareType                        Less than or equal to
+ 0004           ; //      Conected to port                   Port_0_1
+ 0004           ; //    
+ 0004           ; //      Timer3:                               `                         For reading the  ultrasonic sensor
+ 0004           ; //      Clock                                                            VC2
+ 0004           ; //      Period                             65535
+ 0004           ; //      CompareValue                       0
+ 0004           ; //      CompareType                        Less than or equal to
+ 0004           ; //      Conected to port                   Port_0_2
+ 0004           ; //            
+ 0004           ; //            
+ 0004           ; //    Pwm conected to port                 Port_0_4
+ 0004           ; //    PWM:                                                               For controlling one motor on one side
+ 0004           ; //      Clock                              VC2
+ 0004           ; //      Enable                             High
+ 0004           ; //      Period                             1000
+ 0004           ; //      PulseWidth                         0
+ 0004           ; //      CompareType                        Less than 
+ 0004           ; //      Interrupt Type                     Terminal count
+ 0004           ; //      LCD:
+ 0004           ; //      LCDPort                            Port_2
+ 0004           ; //      
+ 0004           ; //---------------------------------------------------------------------------------
+ 0004           ; //   Hardware Connections
+ 0004           ; // Connect P0.1 to P0.2 and press reset.
+ 0004           ; // You should note the Value of Pulse Width on the LCD.
+ 0004           ; //
+ 0004           ; //---------------------------------------------------------------------------------
+ 0004           ; 
+ 0004           ; #include <m8c.h>        // part specific constants and macros
+ 0004           ; #include <math.h>      
+ 0004           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0004           ; 
+ 0004           ; #define DEBUG 1
+ 0004           ; 
+ 0004           ; //volatile BOOL ultrasoonInitDone;//dit gedaan om compiler te verplichten waarde terug in te lezen (Caching tegen te gaan )
+ 0004           ; 
+ 0004           ; //
+ 0004           ; #define MAX_POWER 1000
+ 0004           ; #define MIN_POWER 0
+ 0004           ; 
+ 0004           ; //
+ 0004           ; #define DATA_AVAILABLE_AILERON 0x01//staat in de eerste bit van de flag 
+ 0004           ; #define FALLING_EDGE_AILERON 0x02 // staat in de 2de bit van de flag 
+ 0004           ; WORD CapturePosEdgeAileron;
+ 0004           ; WORD CaptureNegEdgeAileron;
+ 0004           ; WORD PulseWidthAileron;
+ 0004           ; BYTE FlagsAileron;
+ 0004           ; #define MARGIN_AILERON 2
+ 0004           ; #define MIN_AILERON 0x70
+ 0004           ; #define CENTER_AILERON 0x8C
+ 0004           ; #define MAX_AILERON 0xA9
+ 0004           ; 
+ 0004           ; // 
+ 0004           ; #define DATA_AVAILABLE_ELEVATOR 0x01 // new for motorcontroll2
+ 0004           ; #define FALLING_EDGE_ELEVATOR 0x02    // new for motorcontroll2
+ 0004           ; WORD CapturePosEdgeElevator;
+ 0004           ; WORD CaptureNegEdgeElevator;
+ 0004           ; WORD PulseWidthElevator;
+ 0004           ; BYTE FlagsElevator;
+ 0004           ; #define MARGIN_ELEVATOR 2
+ 0004           ; #define MIN_ELEVATOR 0x70
+ 0004           ; #define CENTER_ELEVATOR 0x8C
+ 0004           ; #define MAX_ELEVATOR 0xA9
+ 0004           ; 
+ 0004           ; // for timer 3 and ultrasoon sensor 1
+ 0004           ; #define DATA_AVAILABLE_ULTRASOON 0x01 
+ 0004           ; #define FALLING_EDGE_ULTRASOON 0x02    
+ 0004           ; #define MIN_SAFE_DISTANCE  50
+ 0004           ; 
+ 0004           ; 
+ 0004           ; WORD CapturePosEdgeUltrasoon;
+ 0004           ; WORD CaptureNegEdgeUltrasoon;
+ 0004           ; WORD PulseWidthUltrasoon;
+ 0004           ; BYTE FlagUltrasoon;
+ 0004           ; 
+ 0004           ; void ultrasoonSensor(void);//long ultrasoon sensor(void);
+ 0004           ; 
+ 0004           ; #pragma interrupt_handler TimerCaptureISR// for motorcontroll2
+ 0004           ; #pragma interrupt_handler Timer2CaptureISR// new for motorcontroll2
+ 0004           ; #pragma interrupt_handler Timer3CaptureISR
+ 0004           ; 
+ 0004           ; 
+ 0004           ; BOOL Within(WORD value, WORD border, WORD margin)
+ 0004           ; {
+ 0004                   .dbline 126
+ 0004           ;       WORD lower = border - margin;
+ 0004 52FA              mov A,[X-6]
+ 0006 13F8              sub A,[X-8]
+ 0008 5401              mov [X+1],A
+ 000A 52F9              mov A,[X-7]
+ 000C 1BF7              sbb A,[X-9]
+ 000E 5400              mov [X+0],A
+ 0010                   .dbline 127
+ 0010           ;       WORD upper = border + margin;
+ 0010 52FA              mov A,[X-6]
+ 0012 03F8              add A,[X-8]
+ 0014 5403              mov [X+3],A
+ 0016 52F9              mov A,[X-7]
+ 0018 0BF7              adc A,[X-9]
+ 001A 5402              mov [X+2],A
+ 001C                   .dbline 129
+ 001C           ;       
+ 001C           ;       if (value >= lower
+ 001C 52FC              mov A,[X-4]
+ 001E 1301              sub A,[X+1]
+ 0020 52FB              mov A,[X-5]
+ 0022 1B00              sbb A,[X+0]
+ 0024 C012              jc L2
+ 0026           X0:
+ 0026 5203              mov A,[X+3]
+ 0028 13FC              sub A,[X-4]
+ 002A 5202              mov A,[X+2]
+ 002C 1BFB              sbb A,[X-5]
+ 002E C008              jc L2
+ 0030           X1:
+ 0030                   .dbline 131
+ 0030           ;       &&  value <= upper)
+ 0030           ;               return TRUE;
+ 0030 62D000            mov REG[0xd0],>__r0
+ 0033 5001              mov A,1
+ 0035 8006              xjmp L1
+ 0037           L2:
+ 0037                   .dbline 133
+ 0037           ;       else
+ 0037           ;               return FALSE;
+ 0037 62D000            mov REG[0xd0],>__r0
+ 003A 5000              mov A,0
+ 003C                   .dbline -2
+ 003C           L1:
+ 003C 38FC              add SP,-4
+ 003E 20                pop X
+ 003F                   .dbline 0 ; func end
+ 003F 7F                ret
+ 0040                   .dbsym l upper 2 i
+ 0040                   .dbsym l lower 0 i
+ 0040                   .dbsym l margin -9 i
+ 0040                   .dbsym l border -7 i
+ 0040                   .dbsym l value -5 i
+ 0040                   .dbend
+ 0040                   .dbfunc e EvaluateAileron _EvaluateAileron fD
+ 0040           ;          value -> X-7
+ 0040           _EvaluateAileron::
+ 0040                   .dbline -1
+ 0040 10                push X
+ 0041 4F                mov X,SP
+ 0042                   .dbline 137
+ 0042           ; }
+ 0042           ; 
+ 0042           ; float EvaluateAileron(DWORD value)
+ 0042           ; {     
+ 0042                   .dbline 139
+ 0042           ;       // Check if pulsewidth data is available
+ 0042           ;       if(FlagsAileron & DATA_AVAILABLE_AILERON)
+ 0042 62D000            mov REG[0xd0],>_FlagsAileron
+ 0045 470001            tst [_FlagsAileron],1
+ 0048 A2B5              jz L5
+ 004A                   .dbline 142
+ 004A           ;       {
+ 004A           ; #ifdef DEBUG
+ 004A           ;               LCD_Position(0,0);
+ 004A                   .dbline 142
+ 004A 10                push X
+ 004B 5000              mov A,0
+ 004D 5700              mov X,0
+ 004F 7C0000            xcall _LCD_Position
+ 0052 20                pop X
+ 0053                   .dbline 143
+ 0053           ;               LCD_PrHexInt(value);
+ 0053 62D000            mov REG[0xd0],>__r0
+ 0056 52FC              mov A,[X-4]
+ 0058 5300              mov [__r1],A
+ 005A 52FB              mov A,[X-5]
+ 005C 10                push X
+ 005D 08                push A
+ 005E 5100              mov A,[__r1]
+ 0060 20                pop X
+ 0061 7C0000            xcall _LCD_PrHexInt
+ 0064 20                pop X
+ 0065                   .dbline 146
+ 0065           ; #endif        
+ 0065           ;               // stick in center 
+ 0065           ;               if (Within(value, CENTER_AILERON, MARGIN_AILERON))
+ 0065 5000              mov A,0
+ 0067 08                push A
+ 0068 5002              mov A,2
+ 006A 08                push A
+ 006B 5000              mov A,0
+ 006D 08                push A
+ 006E 508C              mov A,-116
+ 0070 08                push A
+ 0071 62D000            mov REG[0xd0],>__r0
+ 0074 52FC              mov A,[X-4]
+ 0076 5300              mov [__r1],A
+ 0078 52FB              mov A,[X-5]
+ 007A 08                push A
+ 007B 5100              mov A,[__r1]
+ 007D 08                push A
+ 007E 9F80              xcall _Within
+ 0080 38FA              add SP,-6
+ 0082 62D000            mov REG[0xd0],>__r0
+ 0085 3900              cmp A,0
+ 0087 A025              jz L7
+ 0089                   .dbline 149
+ 0089           ;               {
+ 0089           ; #ifdef DEBUG
+ 0089           ;                       LCD_Position(0,5);
+ 0089                   .dbline 149
+ 0089 10                push X
+ 008A 5705              mov X,5
+ 008C 5000              mov A,0
+ 008E 7C0000            xcall _LCD_Position
+ 0091                   .dbline 150
+ 0091           ;                       LCD_PrCString("C");
+ 0091 500C              mov A,>L9
+ 0093 08                push A
+ 0094 500C              mov A,<L9
+ 0096 5C                mov X,A
+ 0097 18                pop A
+ 0098 7C0000            xcall _LCD_PrCString
+ 009B 20                pop X
+ 009C                   .dbline 152
+ 009C           ; #endif                
+ 009C           ;                       return 0;
+ 009C 62D000            mov REG[0xd0],>__r0
+ 009F 550000            mov [__r0],0
+ 00A2 550000            mov [__r1],0
+ 00A5 550000            mov [__r2],0
+ 00A8 550000            mov [__r3],0
+ 00AB 8261              xjmp L4
+ 00AD           L7:
+ 00AD                   .dbline 154
+ 00AD           ;               }
+ 00AD           ;               else if (value > CENTER_AILERON) // stick left
+ 00AD 508C              mov A,-116
+ 00AF 13FC              sub A,[X-4]
+ 00B1 5000              mov A,0
+ 00B3 1BFB              sbb A,[X-5]
+ 00B5 5000              mov A,0
+ 00B7 1BFA              sbb A,[X-6]
+ 00B9 5000              mov A,0
+ 00BB 1BF9              sbb A,[X-7]
+ 00BD D118              jnc L10
+ 00BF           X2:
+ 00BF                   .dbline 157
+ 00BF           ;               {
+ 00BF           ; #ifdef DEBUG
+ 00BF           ;                       LCD_Position(0,5);
+ 00BF                   .dbline 157
+ 00BF 10                push X
+ 00C0 5705              mov X,5
+ 00C2 5000              mov A,0
+ 00C4 7C0000            xcall _LCD_Position
+ 00C7                   .dbline 158
+ 00C7           ;                       LCD_PrCString("L");
+ 00C7 500A              mov A,>L12
+ 00C9 08                push A
+ 00CA 500A              mov A,<L12
+ 00CC 5C                mov X,A
+ 00CD 18                pop A
+ 00CE 7C0000            xcall _LCD_PrCString
+ 00D1 20                pop X
+ 00D2                   .dbline 160
+ 00D2           ; #endif        
+ 00D2           ;                       return -((float)value - CENTER_AILERON) / (float)(MAX_AILERON - CENTER_AILERON);
+ 00D2 62D000            mov REG[0xd0],>__r0
+ 00D5 52FC              mov A,[X-4]
+ 00D7 2101              and A,1
+ 00D9 5300              mov [__r3],A
+ 00DB 52FB              mov A,[X-5]
+ 00DD 2100              and A,0
+ 00DF 5300              mov [__r2],A
+ 00E1 52FA              mov A,[X-6]
+ 00E3 2100              and A,0
+ 00E5 5300              mov [__r1],A
+ 00E7 52F9              mov A,[X-7]
+ 00E9 2100              and A,0
+ 00EB 08                push A
+ 00EC 5100              mov A,[__r1]
+ 00EE 08                push A
+ 00EF 5100              mov A,[__r2]
+ 00F1 08                push A
+ 00F2 5100              mov A,[__r3]
+ 00F4 08                push A
+ 00F5 7C0000            xcall __long2fp
+ 00F8 18                pop A
+ 00F9 5300              mov [__r3],A
+ 00FB 18                pop A
+ 00FC 5300              mov [__r2],A
+ 00FE 18                pop A
+ 00FF 5300              mov [__r1],A
+ 0101 18                pop A
+ 0102 5300              mov [__r0],A
+ 0104 52F9              mov A,[X-7]
+ 0106 5300              mov [__r4],A
+ 0108 52FA              mov A,[X-6]
+ 010A 5300              mov [__r5],A
+ 010C 52FB              mov A,[X-5]
+ 010E 5300              mov [__r6],A
+ 0110 52FC              mov A,[X-4]
+ 0112 5300              mov [__r7],A
+ 0114 70FB              and F,-5
+ 0116 6E00              rrc [__r4]
+ 0118 6E00              rrc [__r5]
+ 011A 6E00              rrc [__r6]
+ 011C 6E00              rrc [__r7]
+ 011E 5100              mov A,[__r4]
+ 0120 08                push A
+ 0121 5100              mov A,[__r5]
+ 0123 08                push A
+ 0124 5100              mov A,[__r6]
+ 0126 08                push A
+ 0127 5100              mov A,[__r7]
+ 0129 08                push A
+ 012A 7C0000            xcall __long2fp
+ 012D 18                pop A
+ 012E 5300              mov [__r7],A
+ 0130 18                pop A
+ 0131 5300              mov [__r6],A
+ 0133 18                pop A
+ 0134 5300              mov [__r5],A
+ 0136 18                pop A
+ 0137 08                push A
+ 0138 5100              mov A,[__r5]
+ 013A 08                push A
+ 013B 5100              mov A,[__r6]
+ 013D 08                push A
+ 013E 5100              mov A,[__r7]
+ 0140 08                push A
+ 0141 5040              mov A,64
+ 0143 08                push A
+ 0144 5000              mov A,0
+ 0146 08                push A
+ 0147 08                push A
+ 0148 08                push A
+ 0149 7C0000            xcall __fpmul
+ 014C 18                pop A
+ 014D 5300              mov [__r7],A
+ 014F 18                pop A
+ 0150 5300              mov [__r6],A
+ 0152 18                pop A
+ 0153 5300              mov [__r5],A
+ 0155 18                pop A
+ 0156 5300              mov [__r4],A
+ 0158 38FC              add SP,-4
+ 015A 5100              mov A,[__r0]
+ 015C 08                push A
+ 015D 5100              mov A,[__r1]
+ 015F 08                push A
+ 0160 5100              mov A,[__r2]
+ 0162 08                push A
+ 0163 5100              mov A,[__r3]
+ 0165 08                push A
+ 0166 5100              mov A,[__r4]
+ 0168 08                push A
+ 0169 5100              mov A,[__r5]
+ 016B 08                push A
+ 016C 5100              mov A,[__r6]
+ 016E 08                push A
+ 016F 5100              mov A,[__r7]
+ 0171 08                push A
+ 0172 7C0000            xcall __fpadd
+ 0175 18                pop A
+ 0176 5300              mov [__r3],A
+ 0178 18                pop A
+ 0179 5300              mov [__r2],A
+ 017B 18                pop A
+ 017C 5300              mov [__r1],A
+ 017E 18                pop A
+ 017F 5300              mov [__r0],A
+ 0181 38FC              add SP,-4
+ 0183 5043              mov A,67
+ 0185 08                push A
+ 0186 500C              mov A,12
+ 0188 08                push A
+ 0189 5000              mov A,0
+ 018B 08                push A
+ 018C 08                push A
+ 018D 5100              mov A,[__r0]
+ 018F 08                push A
+ 0190 5100              mov A,[__r1]
+ 0192 08                push A
+ 0193 5100              mov A,[__r2]
+ 0195 08                push A
+ 0196 5100              mov A,[__r3]
+ 0198 08                push A
+ 0199 7C0000            xcall __fpsub
+ 019C 18                pop A
+ 019D 5300              mov [__r3],A
+ 019F 18                pop A
+ 01A0 5300              mov [__r2],A
+ 01A2 18                pop A
+ 01A3 5300              mov [__r1],A
+ 01A5 18                pop A
+ 01A6 5300              mov [__r0],A
+ 01A8 38FC              add SP,-4
+ 01AA 360080            xor [__r0],-128
+ 01AD 5041              mov A,65
+ 01AF 08                push A
+ 01B0 50E8              mov A,-24
+ 01B2 08                push A
+ 01B3 5000              mov A,0
+ 01B5 08                push A
+ 01B6 08                push A
+ 01B7 5100              mov A,[__r0]
+ 01B9 08                push A
+ 01BA 5100              mov A,[__r1]
+ 01BC 08                push A
+ 01BD 5100              mov A,[__r2]
+ 01BF 08                push A
+ 01C0 5100              mov A,[__r3]
+ 01C2 08                push A
+ 01C3 7C0000            xcall __fpdiv
+ 01C6 18                pop A
+ 01C7 5300              mov [__r3],A
+ 01C9 18                pop A
+ 01CA 5300              mov [__r2],A
+ 01CC 18                pop A
+ 01CD 5300              mov [__r1],A
+ 01CF 18                pop A
+ 01D0 5300              mov [__r0],A
+ 01D2 38FC              add SP,-4
+ 01D4 8138              xjmp L4
+ 01D6           L10:
+ 01D6                   .dbline 162
+ 01D6           ;               }
+ 01D6           ;               else if (value < CENTER_AILERON) // stick right
+ 01D6 52FC              mov A,[X-4]
+ 01D8 118C              sub A,-116
+ 01DA 52FB              mov A,[X-5]
+ 01DC 1900              sbb A,0
+ 01DE 52FA              mov A,[X-6]
+ 01E0 1900              sbb A,0
+ 01E2 52F9              mov A,[X-7]
+ 01E4 1900              sbb A,0
+ 01E6 D111              jnc L13
+ 01E8           X3:
+ 01E8                   .dbline 165
+ 01E8           ;               {                       
+ 01E8           ; #ifdef DEBUG
+ 01E8           ;                       LCD_Position(0,5);
+ 01E8                   .dbline 165
+ 01E8 10                push X
+ 01E9 5705              mov X,5
+ 01EB 5000              mov A,0
+ 01ED 7C0000            xcall _LCD_Position
+ 01F0                   .dbline 166
+ 01F0           ;                       LCD_PrCString("R");
+ 01F0 5008              mov A,>L15
+ 01F2 08                push A
+ 01F3 5008              mov A,<L15
+ 01F5 5C                mov X,A
+ 01F6 18                pop A
+ 01F7 7C0000            xcall _LCD_PrCString
+ 01FA 20                pop X
+ 01FB                   .dbline 168
+ 01FB           ; #endif                        
+ 01FB           ;                       return (CENTER_AILERON - (float)value) / (float)(CENTER_AILERON - MIN_AILERON); // BEN float om afronding te vermijden
+ 01FB 62D000            mov REG[0xd0],>__r0
+ 01FE 52FC              mov A,[X-4]
+ 0200 2101              and A,1
+ 0202 5300              mov [__r3],A
+ 0204 52FB              mov A,[X-5]
+ 0206 2100              and A,0
+ 0208 5300              mov [__r2],A
+ 020A 52FA              mov A,[X-6]
+ 020C 2100              and A,0
+ 020E 5300              mov [__r1],A
+ 0210 52F9              mov A,[X-7]
+ 0212 2100              and A,0
+ 0214 08                push A
+ 0215 5100              mov A,[__r1]
+ 0217 08                push A
+ 0218 5100              mov A,[__r2]
+ 021A 08                push A
+ 021B 5100              mov A,[__r3]
+ 021D 08                push A
+ 021E 7C0000            xcall __long2fp
+ 0221 18                pop A
+ 0222 5300              mov [__r3],A
+ 0224 18                pop A
+ 0225 5300              mov [__r2],A
+ 0227 18                pop A
+ 0228 5300              mov [__r1],A
+ 022A 18                pop A
+ 022B 5300              mov [__r0],A
+ 022D 52F9              mov A,[X-7]
+ 022F 5300              mov [__r4],A
+ 0231 52FA              mov A,[X-6]
+ 0233 5300              mov [__r5],A
+ 0235 52FB              mov A,[X-5]
+ 0237 5300              mov [__r6],A
+ 0239 52FC              mov A,[X-4]
+ 023B 5300              mov [__r7],A
+ 023D 70FB              and F,-5
+ 023F 6E00              rrc [__r4]
+ 0241 6E00              rrc [__r5]
+ 0243 6E00              rrc [__r6]
+ 0245 6E00              rrc [__r7]
+ 0247 5100              mov A,[__r4]
+ 0249 08                push A
+ 024A 5100              mov A,[__r5]
+ 024C 08                push A
+ 024D 5100              mov A,[__r6]
+ 024F 08                push A
+ 0250 5100              mov A,[__r7]
+ 0252 08                push A
+ 0253 7C0000            xcall __long2fp
+ 0256 18                pop A
+ 0257 5300              mov [__r7],A
+ 0259 18                pop A
+ 025A 5300              mov [__r6],A
+ 025C 18                pop A
+ 025D 5300              mov [__r5],A
+ 025F 18                pop A
+ 0260 08                push A
+ 0261 5100              mov A,[__r5]
+ 0263 08                push A
+ 0264 5100              mov A,[__r6]
+ 0266 08                push A
+ 0267 5100              mov A,[__r7]
+ 0269 08                push A
+ 026A 5040              mov A,64
+ 026C 08                push A
+ 026D 5000              mov A,0
+ 026F 08                push A
+ 0270 08                push A
+ 0271 08                push A
+ 0272 7C0000            xcall __fpmul
+ 0275 18                pop A
+ 0276 5300              mov [__r7],A
+ 0278 18                pop A
+ 0279 5300              mov [__r6],A
+ 027B 18                pop A
+ 027C 5300              mov [__r5],A
+ 027E 18                pop A
+ 027F 5300              mov [__r4],A
+ 0281 38FC              add SP,-4
+ 0283 5100              mov A,[__r0]
+ 0285 08                push A
+ 0286 5100              mov A,[__r1]
+ 0288 08                push A
+ 0289 5100              mov A,[__r2]
+ 028B 08                push A
+ 028C 5100              mov A,[__r3]
+ 028E 08                push A
+ 028F 5100              mov A,[__r4]
+ 0291 08                push A
+ 0292 5100              mov A,[__r5]
+ 0294 08                push A
+ 0295 5100              mov A,[__r6]
+ 0297 08                push A
+ 0298 5100              mov A,[__r7]
+ 029A 08                push A
+ 029B 7C0000            xcall __fpadd
+ 029E 18                pop A
+ 029F 5300              mov [__r3],A
+ 02A1 18                pop A
+ 02A2 5300              mov [__r2],A
+ 02A4 18                pop A
+ 02A5 5300              mov [__r1],A
+ 02A7 18                pop A
+ 02A8 38FC              add SP,-4
+ 02AA 08                push A
+ 02AB 5100              mov A,[__r1]
+ 02AD 08                push A
+ 02AE 5100              mov A,[__r2]
+ 02B0 08                push A
+ 02B1 5100              mov A,[__r3]
+ 02B3 08                push A
+ 02B4 5043              mov A,67
+ 02B6 08                push A
+ 02B7 500C              mov A,12
+ 02B9 08                push A
+ 02BA 5000              mov A,0
+ 02BC 08                push A
+ 02BD 08                push A
+ 02BE 7C0000            xcall __fpsub
+ 02C1 18                pop A
+ 02C2 5300              mov [__r3],A
+ 02C4 18                pop A
+ 02C5 5300              mov [__r2],A
+ 02C7 18                pop A
+ 02C8 5300              mov [__r1],A
+ 02CA 18                pop A
+ 02CB 5300              mov [__r0],A
+ 02CD 38FC              add SP,-4
+ 02CF 5041              mov A,65
+ 02D1 08                push A
+ 02D2 50E0              mov A,-32
+ 02D4 08                push A
+ 02D5 5000              mov A,0
+ 02D7 08                push A
+ 02D8 08                push A
+ 02D9 5100              mov A,[__r0]
+ 02DB 08                push A
+ 02DC 5100              mov A,[__r1]
+ 02DE 08                push A
+ 02DF 5100              mov A,[__r2]
+ 02E1 08                push A
+ 02E2 5100              mov A,[__r3]
+ 02E4 08                push A
+ 02E5 7C0000            xcall __fpdiv
+ 02E8 18                pop A
+ 02E9 5300              mov [__r3],A
+ 02EB 18                pop A
+ 02EC 5300              mov [__r2],A
+ 02EE 18                pop A
+ 02EF 5300              mov [__r1],A
+ 02F1 18                pop A
+ 02F2 5300              mov [__r0],A
+ 02F4 38FC              add SP,-4
+ 02F6 8016              xjmp L4
+ 02F8           L13:
+ 02F8                   .dbline 172
+ 02F8           ;               }
+ 02F8           ;               
+ 02F8           ;               // action finished, clear flag to avoid doing it again
+ 02F8           ;               FlagsAileron &= ~DATA_AVAILABLE_AILERON;
+ 02F8 62D000            mov REG[0xd0],>_FlagsAileron
+ 02FB 2600FE            and [_FlagsAileron],-2
+ 02FE                   .dbline 173
+ 02FE           ;       }
+ 02FE           L5:
+ 02FE                   .dbline 175
+ 02FE           ;       
+ 02FE           ;       return 0;
+ 02FE 62D000            mov REG[0xd0],>__r0
+ 0301 550000            mov [__r0],0
+ 0304 550000            mov [__r1],0
+ 0307 550000            mov [__r2],0
+ 030A 550000            mov [__r3],0
+ 030D                   .dbline -2
+ 030D           L4:
+ 030D 20                pop X
+ 030E                   .dbline 0 ; func end
+ 030E 7F                ret
+ 030F                   .dbsym l value -7 l
+ 030F                   .dbend
+ 030F                   .dbfunc e EvaluateElevator _EvaluateElevator fD
+ 030F           ;          value -> X-7
+ 030F           _EvaluateElevator::
+ 030F                   .dbline -1
+ 030F 10                push X
+ 0310 4F                mov X,SP
+ 0311                   .dbline 179
+ 0311           ; }
+ 0311           ;        
+ 0311           ; float EvaluateElevator(DWORD value)
+ 0311           ; {
+ 0311                   .dbline 181
+ 0311           ;       // Check if pulsewidth data is available
+ 0311           ;       if(FlagsElevator & DATA_AVAILABLE_ELEVATOR)
+ 0311 62D000            mov REG[0xd0],>_FlagsElevator
+ 0314 470001            tst [_FlagsElevator],1
+ 0317 A2B5              jz L17
+ 0319                   .dbline 184
+ 0319           ;       {
+ 0319           ; #ifdef DEBUG
+ 0319           ;               LCD_Position(1,0);
+ 0319                   .dbline 184
+ 0319 10                push X
+ 031A 5700              mov X,0
+ 031C 5001              mov A,1
+ 031E 7C0000            xcall _LCD_Position
+ 0321 20                pop X
+ 0322                   .dbline 185
+ 0322           ;               LCD_PrHexInt(value);
+ 0322 62D000            mov REG[0xd0],>__r0
+ 0325 52FC              mov A,[X-4]
+ 0327 5300              mov [__r1],A
+ 0329 52FB              mov A,[X-5]
+ 032B 10                push X
+ 032C 08                push A
+ 032D 5100              mov A,[__r1]
+ 032F 20                pop X
+ 0330 7C0000            xcall _LCD_PrHexInt
+ 0333 20                pop X
+ 0334                   .dbline 188
+ 0334           ; #endif        
+ 0334           ;               // stick in center 
+ 0334           ;               if (Within(value, CENTER_ELEVATOR, MARGIN_ELEVATOR))
+ 0334 5000              mov A,0
+ 0336 08                push A
+ 0337 5002              mov A,2
+ 0339 08                push A
+ 033A 5000              mov A,0
+ 033C 08                push A
+ 033D 508C              mov A,-116
+ 033F 08                push A
+ 0340 62D000            mov REG[0xd0],>__r0
+ 0343 52FC              mov A,[X-4]
+ 0345 5300              mov [__r1],A
+ 0347 52FB              mov A,[X-5]
+ 0349 08                push A
+ 034A 5100              mov A,[__r1]
+ 034C 08                push A
+ 034D 9CB1              xcall _Within
+ 034F 38FA              add SP,-6
+ 0351 62D000            mov REG[0xd0],>__r0
+ 0354 3900              cmp A,0
+ 0356 A025              jz L19
+ 0358                   .dbline 191
+ 0358           ;               {
+ 0358           ; #ifdef DEBUG
+ 0358           ;                       LCD_Position(1,5);
+ 0358                   .dbline 191
+ 0358 10                push X
+ 0359 5705              mov X,5
+ 035B 5001              mov A,1
+ 035D 7C0000            xcall _LCD_Position
+ 0360                   .dbline 192
+ 0360           ;                       LCD_PrCString("C");
+ 0360 500C              mov A,>L9
+ 0362 08                push A
+ 0363 500C              mov A,<L9
+ 0365 5C                mov X,A
+ 0366 18                pop A
+ 0367 7C0000            xcall _LCD_PrCString
+ 036A 20                pop X
+ 036B                   .dbline 194
+ 036B           ; #endif        
+ 036B           ;                       return 0;
+ 036B 62D000            mov REG[0xd0],>__r0
+ 036E 550000            mov [__r0],0
+ 0371 550000            mov [__r1],0
+ 0374 550000            mov [__r2],0
+ 0377 550000            mov [__r3],0
+ 037A 8261              xjmp L16
+ 037C           L19:
+ 037C                   .dbline 196
+ 037C           ;               }
+ 037C           ;               else if (value > CENTER_ELEVATOR) // stick up
+ 037C 508C              mov A,-116
+ 037E 13FC              sub A,[X-4]
+ 0380 5000              mov A,0
+ 0382 1BFB              sbb A,[X-5]
+ 0384 5000              mov A,0
+ 0386 1BFA              sbb A,[X-6]
+ 0388 5000              mov A,0
+ 038A 1BF9              sbb A,[X-7]
+ 038C D115              jnc L21
+ 038E           X4:
+ 038E                   .dbline 199
+ 038E           ;               {
+ 038E           ; #ifdef DEBUG
+ 038E           ;                       LCD_Position(1,5);
+ 038E                   .dbline 199
+ 038E 10                push X
+ 038F 5705              mov X,5
+ 0391 5001              mov A,1
+ 0393 7C0000            xcall _LCD_Position
+ 0396                   .dbline 200
+ 0396           ;                       LCD_PrCString("U");
+ 0396 5006              mov A,>L23
+ 0398 08                push A
+ 0399 5006              mov A,<L23
+ 039B 5C                mov X,A
+ 039C 18                pop A
+ 039D 7C0000            xcall _LCD_PrCString
+ 03A0 20                pop X
+ 03A1                   .dbline 202
+ 03A1           ; #endif                        
+ 03A1           ;                       return ((float)value - CENTER_ELEVATOR) / (float)(MAX_ELEVATOR - CENTER_ELEVATOR);
+ 03A1 62D000            mov REG[0xd0],>__r0
+ 03A4 52FC              mov A,[X-4]
+ 03A6 2101              and A,1
+ 03A8 5300              mov [__r3],A
+ 03AA 52FB              mov A,[X-5]
+ 03AC 2100              and A,0
+ 03AE 5300              mov [__r2],A
+ 03B0 52FA              mov A,[X-6]
+ 03B2 2100              and A,0
+ 03B4 5300              mov [__r1],A
+ 03B6 52F9              mov A,[X-7]
+ 03B8 2100              and A,0
+ 03BA 08                push A
+ 03BB 5100              mov A,[__r1]
+ 03BD 08                push A
+ 03BE 5100              mov A,[__r2]
+ 03C0 08                push A
+ 03C1 5100              mov A,[__r3]
+ 03C3 08                push A
+ 03C4 7C0000            xcall __long2fp
+ 03C7 18                pop A
+ 03C8 5300              mov [__r3],A
+ 03CA 18                pop A
+ 03CB 5300              mov [__r2],A
+ 03CD 18                pop A
+ 03CE 5300              mov [__r1],A
+ 03D0 18                pop A
+ 03D1 5300              mov [__r0],A
+ 03D3 52F9              mov A,[X-7]
+ 03D5 5300              mov [__r4],A
+ 03D7 52FA              mov A,[X-6]
+ 03D9 5300              mov [__r5],A
+ 03DB 52FB              mov A,[X-5]
+ 03DD 5300              mov [__r6],A
+ 03DF 52FC              mov A,[X-4]
+ 03E1 5300              mov [__r7],A
+ 03E3 70FB              and F,-5
+ 03E5 6E00              rrc [__r4]
+ 03E7 6E00              rrc [__r5]
+ 03E9 6E00              rrc [__r6]
+ 03EB 6E00              rrc [__r7]
+ 03ED 5100              mov A,[__r4]
+ 03EF 08                push A
+ 03F0 5100              mov A,[__r5]
+ 03F2 08                push A
+ 03F3 5100              mov A,[__r6]
+ 03F5 08                push A
+ 03F6 5100              mov A,[__r7]
+ 03F8 08                push A
+ 03F9 7C0000            xcall __long2fp
+ 03FC 18                pop A
+ 03FD 5300              mov [__r7],A
+ 03FF 18                pop A
+ 0400 5300              mov [__r6],A
+ 0402 18                pop A
+ 0403 5300              mov [__r5],A
+ 0405 18                pop A
+ 0406 08                push A
+ 0407 5100              mov A,[__r5]
+ 0409 08                push A
+ 040A 5100              mov A,[__r6]
+ 040C 08                push A
+ 040D 5100              mov A,[__r7]
+ 040F 08                push A
+ 0410 5040              mov A,64
+ 0412 08                push A
+ 0413 5000              mov A,0
+ 0415 08                push A
+ 0416 08                push A
+ 0417 08                push A
+ 0418 7C0000            xcall __fpmul
+ 041B 18                pop A
+ 041C 5300              mov [__r7],A
+ 041E 18                pop A
+ 041F 5300              mov [__r6],A
+ 0421 18                pop A
+ 0422 5300              mov [__r5],A
+ 0424 18                pop A
+ 0425 5300              mov [__r4],A
+ 0427 38FC              add SP,-4
+ 0429 5100              mov A,[__r0]
+ 042B 08                push A
+ 042C 5100              mov A,[__r1]
+ 042E 08                push A
+ 042F 5100              mov A,[__r2]
+ 0431 08                push A
+ 0432 5100              mov A,[__r3]
+ 0434 08                push A
+ 0435 5100              mov A,[__r4]
+ 0437 08                push A
+ 0438 5100              mov A,[__r5]
+ 043A 08                push A
+ 043B 5100              mov A,[__r6]
+ 043D 08                push A
+ 043E 5100              mov A,[__r7]
+ 0440 08                push A
+ 0441 7C0000            xcall __fpadd
+ 0444 18                pop A
+ 0445 5300              mov [__r3],A
+ 0447 18                pop A
+ 0448 5300              mov [__r2],A
+ 044A 18                pop A
+ 044B 5300              mov [__r1],A
+ 044D 18                pop A
+ 044E 5300              mov [__r0],A
+ 0450 38FC              add SP,-4
+ 0452 5043              mov A,67
+ 0454 08                push A
+ 0455 500C              mov A,12
+ 0457 08                push A
+ 0458 5000              mov A,0
+ 045A 08                push A
+ 045B 08                push A
+ 045C 5100              mov A,[__r0]
+ 045E 08                push A
+ 045F 5100              mov A,[__r1]
+ 0461 08                push A
+ 0462 5100              mov A,[__r2]
+ 0464 08                push A
+ 0465 5100              mov A,[__r3]
+ 0467 08                push A
+ 0468 7C0000            xcall __fpsub
+ 046B 18                pop A
+ 046C 5300              mov [__r3],A
+ 046E 18                pop A
+ 046F 5300              mov [__r2],A
+ 0471 18                pop A
+ 0472 5300              mov [__r1],A
+ 0474 18                pop A
+ 0475 5300              mov [__r0],A
+ 0477 38FC              add SP,-4
+ 0479 5041              mov A,65
+ 047B 08                push A
+ 047C 50E8              mov A,-24
+ 047E 08                push A
+ 047F 5000              mov A,0
+ 0481 08                push A
+ 0482 08                push A
+ 0483 5100              mov A,[__r0]
+ 0485 08                push A
+ 0486 5100              mov A,[__r1]
+ 0488 08                push A
+ 0489 5100              mov A,[__r2]
+ 048B 08                push A
+ 048C 5100              mov A,[__r3]
+ 048E 08                push A
+ 048F 7C0000            xcall __fpdiv
+ 0492 18                pop A
+ 0493 5300              mov [__r3],A
+ 0495 18                pop A
+ 0496 5300              mov [__r2],A
+ 0498 18                pop A
+ 0499 5300              mov [__r1],A
+ 049B 18                pop A
+ 049C 5300              mov [__r0],A
+ 049E 38FC              add SP,-4
+ 04A0 813B              xjmp L16
+ 04A2           L21:
+ 04A2                   .dbline 204
+ 04A2           ;               }
+ 04A2           ;               else if (value < CENTER_ELEVATOR) // stick down
+ 04A2 52FC              mov A,[X-4]
+ 04A4 118C              sub A,-116
+ 04A6 52FB              mov A,[X-5]
+ 04A8 1900              sbb A,0
+ 04AA 52FA              mov A,[X-6]
+ 04AC 1900              sbb A,0
+ 04AE 52F9              mov A,[X-7]
+ 04B0 1900              sbb A,0
+ 04B2 D114              jnc L24
+ 04B4           X5:
+ 04B4                   .dbline 207
+ 04B4           ;               {                       
+ 04B4           ; #ifdef DEBUG
+ 04B4           ;                       LCD_Position(1,5);
+ 04B4                   .dbline 207
+ 04B4 10                push X
+ 04B5 5705              mov X,5
+ 04B7 5001              mov A,1
+ 04B9 7C0000            xcall _LCD_Position
+ 04BC                   .dbline 208
+ 04BC           ;                       LCD_PrCString("D");
+ 04BC 5004              mov A,>L26
+ 04BE 08                push A
+ 04BF 5004              mov A,<L26
+ 04C1 5C                mov X,A
+ 04C2 18                pop A
+ 04C3 7C0000            xcall _LCD_PrCString
+ 04C6 20                pop X
+ 04C7                   .dbline 210
+ 04C7           ; #endif                        
+ 04C7           ;                       return -(CENTER_ELEVATOR - (float)value) / (float)(CENTER_ELEVATOR - MIN_ELEVATOR); // BEN float om afronding te vermijden
+ 04C7 62D000            mov REG[0xd0],>__r0
+ 04CA 52FC              mov A,[X-4]
+ 04CC 2101              and A,1
+ 04CE 5300              mov [__r3],A
+ 04D0 52FB              mov A,[X-5]
+ 04D2 2100              and A,0
+ 04D4 5300              mov [__r2],A
+ 04D6 52FA              mov A,[X-6]
+ 04D8 2100              and A,0
+ 04DA 5300              mov [__r1],A
+ 04DC 52F9              mov A,[X-7]
+ 04DE 2100              and A,0
+ 04E0 08                push A
+ 04E1 5100              mov A,[__r1]
+ 04E3 08                push A
+ 04E4 5100              mov A,[__r2]
+ 04E6 08                push A
+ 04E7 5100              mov A,[__r3]
+ 04E9 08                push A
+ 04EA 7C0000            xcall __long2fp
+ 04ED 18                pop A
+ 04EE 5300              mov [__r3],A
+ 04F0 18                pop A
+ 04F1 5300              mov [__r2],A
+ 04F3 18                pop A
+ 04F4 5300              mov [__r1],A
+ 04F6 18                pop A
+ 04F7 5300              mov [__r0],A
+ 04F9 52F9              mov A,[X-7]
+ 04FB 5300              mov [__r4],A
+ 04FD 52FA              mov A,[X-6]
+ 04FF 5300              mov [__r5],A
+ 0501 52FB              mov A,[X-5]
+ 0503 5300              mov [__r6],A
+ 0505 52FC              mov A,[X-4]
+ 0507 5300              mov [__r7],A
+ 0509 70FB              and F,-5
+ 050B 6E00              rrc [__r4]
+ 050D 6E00              rrc [__r5]
+ 050F 6E00              rrc [__r6]
+ 0511 6E00              rrc [__r7]
+ 0513 5100              mov A,[__r4]
+ 0515 08                push A
+ 0516 5100              mov A,[__r5]
+ 0518 08                push A
+ 0519 5100              mov A,[__r6]
+ 051B 08                push A
+ 051C 5100              mov A,[__r7]
+ 051E 08                push A
+ 051F 7C0000            xcall __long2fp
+ 0522 18                pop A
+ 0523 5300              mov [__r7],A
+ 0525 18                pop A
+ 0526 5300              mov [__r6],A
+ 0528 18                pop A
+ 0529 5300              mov [__r5],A
+ 052B 18                pop A
+ 052C 08                push A
+ 052D 5100              mov A,[__r5]
+ 052F 08                push A
+ 0530 5100              mov A,[__r6]
+ 0532 08                push A
+ 0533 5100              mov A,[__r7]
+ 0535 08                push A
+ 0536 5040              mov A,64
+ 0538 08                push A
+ 0539 5000              mov A,0
+ 053B 08                push A
+ 053C 08                push A
+ 053D 08                push A
+ 053E 7C0000            xcall __fpmul
+ 0541 18                pop A
+ 0542 5300              mov [__r7],A
+ 0544 18                pop A
+ 0545 5300              mov [__r6],A
+ 0547 18                pop A
+ 0548 5300              mov [__r5],A
+ 054A 18                pop A
+ 054B 5300              mov [__r4],A
+ 054D 38FC              add SP,-4
+ 054F 5100              mov A,[__r0]
+ 0551 08                push A
+ 0552 5100              mov A,[__r1]
+ 0554 08                push A
+ 0555 5100              mov A,[__r2]
+ 0557 08                push A
+ 0558 5100              mov A,[__r3]
+ 055A 08                push A
+ 055B 5100              mov A,[__r4]
+ 055D 08                push A
+ 055E 5100              mov A,[__r5]
+ 0560 08                push A
+ 0561 5100              mov A,[__r6]
+ 0563 08                push A
+ 0564 5100              mov A,[__r7]
+ 0566 08                push A
+ 0567 7C0000            xcall __fpadd
+ 056A 18                pop A
+ 056B 5300              mov [__r3],A
+ 056D 18                pop A
+ 056E 5300              mov [__r2],A
+ 0570 18                pop A
+ 0571 5300              mov [__r1],A
+ 0573 18                pop A
+ 0574 38FC              add SP,-4
+ 0576 08                push A
+ 0577 5100              mov A,[__r1]
+ 0579 08                push A
+ 057A 5100              mov A,[__r2]
+ 057C 08                push A
+ 057D 5100              mov A,[__r3]
+ 057F 08                push A
+ 0580 5043              mov A,67
+ 0582 08                push A
+ 0583 500C              mov A,12
+ 0585 08                push A
+ 0586 5000              mov A,0
+ 0588 08                push A
+ 0589 08                push A
+ 058A 7C0000            xcall __fpsub
+ 058D 18                pop A
+ 058E 5300              mov [__r3],A
+ 0590 18                pop A
+ 0591 5300              mov [__r2],A
+ 0593 18                pop A
+ 0594 5300              mov [__r1],A
+ 0596 18                pop A
+ 0597 5300              mov [__r0],A
+ 0599 38FC              add SP,-4
+ 059B 360080            xor [__r0],-128
+ 059E 5041              mov A,65
+ 05A0 08                push A
+ 05A1 50E0              mov A,-32
+ 05A3 08                push A
+ 05A4 5000              mov A,0
+ 05A6 08                push A
+ 05A7 08                push A
+ 05A8 5100              mov A,[__r0]
+ 05AA 08                push A
+ 05AB 5100              mov A,[__r1]
+ 05AD 08                push A
+ 05AE 5100              mov A,[__r2]
+ 05B0 08                push A
+ 05B1 5100              mov A,[__r3]
+ 05B3 08                push A
+ 05B4 7C0000            xcall __fpdiv
+ 05B7 18                pop A
+ 05B8 5300              mov [__r3],A
+ 05BA 18                pop A
+ 05BB 5300              mov [__r2],A
+ 05BD 18                pop A
+ 05BE 5300              mov [__r1],A
+ 05C0 18                pop A
+ 05C1 5300              mov [__r0],A
+ 05C3 38FC              add SP,-4
+ 05C5 8016              xjmp L16
+ 05C7           L24:
+ 05C7                   .dbline 214
+ 05C7           ;               }
+ 05C7           ;               
+ 05C7           ;               // action finished, clear flag to avoid doing it again
+ 05C7           ;               FlagsElevator &= ~DATA_AVAILABLE_ELEVATOR;
+ 05C7 62D000            mov REG[0xd0],>_FlagsElevator
+ 05CA 2600FE            and [_FlagsElevator],-2
+ 05CD                   .dbline 215
+ 05CD           ;       }
+ 05CD           L17:
+ 05CD                   .dbline 217
+ 05CD           ;       
+ 05CD           ;       return 0;
+ 05CD 62D000            mov REG[0xd0],>__r0
+ 05D0 550000            mov [__r0],0
+ 05D3 550000            mov [__r1],0
+ 05D6 550000            mov [__r2],0
+ 05D9 550000            mov [__r3],0
+ 05DC                   .dbline -2
+ 05DC           L16:
+ 05DC 20                pop X
+ 05DD                   .dbline 0 ; func end
+ 05DD 7F                ret
+ 05DE                   .dbsym l value -7 l
+ 05DE                   .dbend
+ 05DE                   .dbfunc e TriggerUltrasoon _TriggerUltrasoon fV
+ 05DE           _TriggerUltrasoon::
+ 05DE                   .dbline -1
+ 05DE                   .dbline 221
+ 05DE           ; }
+ 05DE           ; 
+ 05DE           ; void TriggerUltrasoon(void)
+ 05DE           ; {
+ 05DE                   .dbline 222
+ 05DE           ;       PRT1DR |= 0x01;// setting pin1[0]
+ 05DE 430401            or REG[0x4],1
+ 05E1                   .dbline 223
+ 05E1           ;     asm("nop");
+ 05E1 40                        nop
+ 05E2           
+ 05E2                   .dbline 224
+ 05E2           ;       asm("nop");
+ 05E2 40                        nop
+ 05E3           
+ 05E3                   .dbline 225
+ 05E3           ;       asm("nop");
+ 05E3 40                        nop
+ 05E4           
+ 05E4                   .dbline 226
+ 05E4           ;       asm("nop");
+ 05E4 40                        nop
+ 05E5           
+ 05E5                   .dbline 227
+ 05E5           ;       asm("nop");
+ 05E5 40                        nop
+ 05E6           
+ 05E6                   .dbline 228
+ 05E6           ;       asm("nop");
+ 05E6 40                        nop
+ 05E7           
+ 05E7                   .dbline 229
+ 05E7           ;       asm("nop");
+ 05E7 40                        nop
+ 05E8           
+ 05E8                   .dbline 230
+ 05E8           ;       asm("nop");
+ 05E8 40                        nop
+ 05E9           
+ 05E9                   .dbline 231
+ 05E9           ;       asm("nop");
+ 05E9 40                        nop
+ 05EA           
+ 05EA                   .dbline 232
+ 05EA           ;       asm("nop");
+ 05EA 40                        nop
+ 05EB           
+ 05EB                   .dbline 233
+ 05EB           ;       asm("nop");
+ 05EB 40                        nop
+ 05EC           
+ 05EC                   .dbline 234
+ 05EC           ;       asm("nop");
+ 05EC 40                        nop
+ 05ED           
+ 05ED                   .dbline 235
+ 05ED           ;       asm("nop");
+ 05ED 40                        nop
+ 05EE           
+ 05EE                   .dbline 236
+ 05EE           ;       asm("nop");
+ 05EE 40                        nop
+ 05EF           
+ 05EF                   .dbline 237
+ 05EF           ;       asm("nop");
+ 05EF 40                        nop
+ 05F0           
+ 05F0                   .dbline 238
+ 05F0           ;       asm("nop");
+ 05F0 40                        nop
+ 05F1           
+ 05F1                   .dbline 239
+ 05F1           ;       asm("nop");
+ 05F1 40                        nop
+ 05F2           
+ 05F2                   .dbline 240
+ 05F2           ;       asm("nop");
+ 05F2 40                        nop
+ 05F3           
+ 05F3                   .dbline 241
+ 05F3           ;       PRT1DR &= ~0x01;// clearing  pin P1[0]
+ 05F3 4104FE            and REG[0x4],-2
+ 05F6                   .dbline -2
+ 05F6           L27:
+ 05F6                   .dbline 0 ; func end
+ 05F6 7F                ret
+ 05F7                   .dbend
+ 05F7                   .dbfunc e EvaluateUltrasoonSensor _EvaluateUltrasoonSensor fD
+ 05F7           ; pulseWidthUltrasoon -> X+0
+ 05F7           _EvaluateUltrasoonSensor::
+ 05F7                   .dbline -1
+ 05F7 10                push X
+ 05F8 4F                mov X,SP
+ 05F9 3802              add SP,2
+ 05FB                   .dbline 245
+ 05FB           ; }
+ 05FB           ; 
+ 05FB           ; float EvaluateUltrasoonSensor(void)
+ 05FB           ; {
+ 05FB                   .dbline 246
+ 05FB           ;       if (FlagUltrasoon & DATA_AVAILABLE_ULTRASOON)// do if databit is set 
+ 05FB 62D000            mov REG[0xd0],>_FlagUltrasoon
+ 05FE 470001            tst [_FlagUltrasoon],1
+ 0601 A109              jz L29
+ 0603                   .dbline 248
+ 0603           ;     {    
+ 0603           ;               WORD pulseWidthUltrasoon = PulseWidthUltrasoon;
+ 0603                   .dbline 248
+ 0603 62D000            mov REG[0xd0],>_PulseWidthUltrasoon
+ 0606 5101              mov A,[_PulseWidthUltrasoon+1]
+ 0608 5401              mov [X+1],A
+ 060A 5100              mov A,[_PulseWidthUltrasoon]
+ 060C 5400              mov [X+0],A
+ 060E                   .dbline 251
+ 060E           ; 
+ 060E           ; #ifdef DEBUG
+ 060E           ;               LCD_Position(1,12);
+ 060E 10                push X
+ 060F 570C              mov X,12
+ 0611 5001              mov A,1
+ 0613 7C0000            xcall _LCD_Position
+ 0616 20                pop X
+ 0617                   .dbline 252
+ 0617           ;               LCD_PrHexInt(pulseWidthUltrasoon);
+ 0617 10                push X
+ 0618 5200              mov A,[X+0]
+ 061A 08                push A
+ 061B 5201              mov A,[X+1]
+ 061D 20                pop X
+ 061E 7C0000            xcall _LCD_PrHexInt
+ 0621 20                pop X
+ 0622                   .dbline 254
+ 0622           ; #endif
+ 0622           ;               FlagUltrasoon &= ~DATA_AVAILABLE_ULTRASOON;
+ 0622 62D000            mov REG[0xd0],>_FlagUltrasoon
+ 0625 2600FE            and [_FlagUltrasoon],-2
+ 0628                   .dbline 257
+ 0628           ;               
+ 0628           ;               // als meting gebeurt is trigger sensor opnieuw 
+ 0628           ;               TriggerUltrasoon();     
+ 0628 9FB4              xcall _TriggerUltrasoon
+ 062A                   .dbline 259
+ 062A           ; 
+ 062A           ;               return pulseWidthUltrasoon;
+ 062A 62D000            mov REG[0xd0],>__r0
+ 062D 5201              mov A,[X+1]
+ 062F 2101              and A,1
+ 0631 5300              mov [__r1],A
+ 0633 5200              mov A,[X+0]
+ 0635 2100              and A,0
+ 0637 5300              mov [__r0],A
+ 0639 5100              mov A,[__r1]
+ 063B 5300              mov [__r3],A
+ 063D 5100              mov A,[__r0]
+ 063F 5300              mov [__r2],A
+ 0641 470080            tst [__r2],-128
+ 0644 A009              jz X6
+ 0646 5500FF            mov [__r1],-1
+ 0649 5500FF            mov [__r0],-1
+ 064C 800A              jmp X7
+ 064E           X6:
+ 064E 62D000            mov REG[0xd0],>__r0
+ 0651 550000            mov [__r1],0
+ 0654 550000            mov [__r0],0
+ 0657           X7:
+ 0657 62D000            mov REG[0xd0],>__r0
+ 065A 5100              mov A,[__r0]
+ 065C 08                push A
+ 065D 5100              mov A,[__r1]
+ 065F 08                push A
+ 0660 5100              mov A,[__r2]
+ 0662 08                push A
+ 0663 5100              mov A,[__r3]
+ 0665 08                push A
+ 0666 7C0000            xcall __long2fp
+ 0669 18                pop A
+ 066A 5300              mov [__r3],A
+ 066C 18                pop A
+ 066D 5300              mov [__r2],A
+ 066F 18                pop A
+ 0670 5300              mov [__r1],A
+ 0672 18                pop A
+ 0673 5300              mov [__r0],A
+ 0675 5201              mov A,[X+1]
+ 0677 5300              mov [__r5],A
+ 0679 5200              mov A,[X+0]
+ 067B 5300              mov [__r4],A
+ 067D 70FB              and F,-5
+ 067F 6E00              rrc [__r4]
+ 0681 6E00              rrc [__r5]
+ 0683 5100              mov A,[__r5]
+ 0685 5300              mov [__r7],A
+ 0687 5100              mov A,[__r4]
+ 0689 5300              mov [__r6],A
+ 068B 470080            tst [__r6],-128
+ 068E A009              jz X8
+ 0690 5500FF            mov [__r5],-1
+ 0693 5500FF            mov [__r4],-1
+ 0696 800A              jmp X9
+ 0698           X8:
+ 0698 62D000            mov REG[0xd0],>__r0
+ 069B 550000            mov [__r5],0
+ 069E 550000            mov [__r4],0
+ 06A1           X9:
+ 06A1 62D000            mov REG[0xd0],>__r0
+ 06A4 5100              mov A,[__r4]
+ 06A6 08                push A
+ 06A7 5100              mov A,[__r5]
+ 06A9 08                push A
+ 06AA 5100              mov A,[__r6]
+ 06AC 08                push A
+ 06AD 5100              mov A,[__r7]
+ 06AF 08                push A
+ 06B0 7C0000            xcall __long2fp
+ 06B3 18                pop A
+ 06B4 5300              mov [__r7],A
+ 06B6 18                pop A
+ 06B7 5300              mov [__r6],A
+ 06B9 18                pop A
+ 06BA 5300              mov [__r5],A
+ 06BC 18                pop A
+ 06BD 08                push A
+ 06BE 5100              mov A,[__r5]
+ 06C0 08                push A
+ 06C1 5100              mov A,[__r6]
+ 06C3 08                push A
+ 06C4 5100              mov A,[__r7]
+ 06C6 08                push A
+ 06C7 5040              mov A,64
+ 06C9 08                push A
+ 06CA 5000              mov A,0
+ 06CC 08                push A
+ 06CD 08                push A
+ 06CE 08                push A
+ 06CF 7C0000            xcall __fpmul
+ 06D2 18                pop A
+ 06D3 5300              mov [__r7],A
+ 06D5 18                pop A
+ 06D6 5300              mov [__r6],A
+ 06D8 18                pop A
+ 06D9 5300              mov [__r5],A
+ 06DB 18                pop A
+ 06DC 5300              mov [__r4],A
+ 06DE 38FC              add SP,-4
+ 06E0 5100              mov A,[__r0]
+ 06E2 08                push A
+ 06E3 5100              mov A,[__r1]
+ 06E5 08                push A
+ 06E6 5100              mov A,[__r2]
+ 06E8 08                push A
+ 06E9 5100              mov A,[__r3]
+ 06EB 08                push A
+ 06EC 5100              mov A,[__r4]
+ 06EE 08                push A
+ 06EF 5100              mov A,[__r5]
+ 06F1 08                push A
+ 06F2 5100              mov A,[__r6]
+ 06F4 08                push A
+ 06F5 5100              mov A,[__r7]
+ 06F7 08                push A
+ 06F8 7C0000            xcall __fpadd
+ 06FB 18                pop A
+ 06FC 5300              mov [__r3],A
+ 06FE 18                pop A
+ 06FF 5300              mov [__r2],A
+ 0701 18                pop A
+ 0702 5300              mov [__r1],A
+ 0704 18                pop A
+ 0705 5300              mov [__r0],A
+ 0707 38FC              add SP,-4
+ 0709 8010              xjmp L28
+ 070B           L29:
+ 070B                   .dbline 262
+ 070B           ;     }  
+ 070B           ;       
+ 070B           ;       return MIN_SAFE_DISTANCE + 1;
+ 070B 62D000            mov REG[0xd0],>__r0
+ 070E 550042            mov [__r0],66
+ 0711 55004C            mov [__r1],76
+ 0714 550000            mov [__r2],0
+ 0717 550000            mov [__r3],0
+ 071A                   .dbline -2
+ 071A           L28:
+ 071A 38FE              add SP,-2
+ 071C 20                pop X
+ 071D                   .dbline 0 ; func end
+ 071D 7F                ret
+ 071E                   .dbsym l pulseWidthUltrasoon 0 i
+ 071E                   .dbend
+ 071E                   .dbfunc e main _main fV
+ 071E           ;       distance -> X+25
+ 071E           ;      direction -> X+21
+ 071E           ;        forward -> X+20
+ 071E           ; elevatorNormalized -> X+16
+ 071E           ; aileronNormalized -> X+12
+ 071E           ;          speed -> X+8
+ 071E           ;     motorRight -> X+4
+ 071E           ;      motorLeft -> X+0
+ 071E           _main::
+ 071E                   .dbline -1
+ 071E 10                push X
+ 071F 4F                mov X,SP
+ 0720 3825              add SP,37
+ 0722                   .dbline 266
+ 0722           ; }
+ 0722           ; 
+ 0722           ; void main(void)
+ 0722           ; {
+ 0722                   .dbline 268
+ 0722           ;       // Enable Global Interrupt   
+ 0722           ;       M8C_EnableGInt;
+ 0722 7101                      or  F, 01h
+ 0724           
+ 0724                   .dbline 271
+ 0724           ; 
+ 0724           ;       // Clear the flags
+ 0724           ;       FlagsElevator = 0;
+ 0724 62D000            mov REG[0xd0],>_FlagsElevator
+ 0727 550000            mov [_FlagsElevator],0
+ 072A                   .dbline 272
+ 072A           ;       FlagsAileron = 0;// new for motorcontroll2
+ 072A 62D000            mov REG[0xd0],>_FlagsAileron
+ 072D 550000            mov [_FlagsAileron],0
+ 0730                   .dbline 273
+ 0730           ;       FlagUltrasoon = 0;
+ 0730 62D000            mov REG[0xd0],>_FlagUltrasoon
+ 0733 550000            mov [_FlagUltrasoon],0
+ 0736                   .dbline 276
+ 0736           ; 
+ 0736           ;       // Start timers and enable interrupt
+ 0736           ;       Timer_Start();
+ 0736 10                push X
+ 0737 7C0000            xcall _Timer_Start
+ 073A                   .dbline 277
+ 073A           ;       Timer_EnableInt();
+ 073A 7C0000            xcall _Timer_EnableInt
+ 073D                   .dbline 279
+ 073D           ; 
+ 073D           ;       Timer2_Start();// new for motorcontroll2
+ 073D 7C0000            xcall _Timer2_Start
+ 0740                   .dbline 280
+ 0740           ;       Timer2_EnableInt();// new for motorcontroll2
+ 0740 7C0000            xcall _Timer2_EnableInt
+ 0743                   .dbline 282
+ 0743           ; 
+ 0743           ;       Timer3_Start();
+ 0743 7C0000            xcall _Timer3_Start
+ 0746                   .dbline 283
+ 0746           ;       Timer3_EnableInt();
+ 0746 7C0000            xcall _Timer3_EnableInt
+ 0749 20                pop X
+ 074A                   .dbline 285
+ 074A           ;    
+ 074A           ;       TriggerUltrasoon();     
+ 074A 9E92              xcall _TriggerUltrasoon
+ 074C                   .dbline 288
+ 074C           ; 
+ 074C           ;       // Init motors
+ 074C           ;       PWM1_Start();
+ 074C 10                push X
+ 074D 7C0000            xcall _PWM1_Start
+ 0750                   .dbline 289
+ 0750           ;       PWM2_Start();
+ 0750 7C0000            xcall _PWM2_Start
+ 0753                   .dbline 292
+ 0753           ; 
+ 0753           ; #ifdef DEBUG
+ 0753           ;       LCD_Start();
+ 0753 7C0000            xcall _LCD_Start
+ 0756 20                pop X
+ 0757 8463              xjmp L33
+ 0759           L32:
+ 0759                   .dbline 298
+ 0759           ; #endif  
+ 0759           ;       
+ 0759           ; //    PRT1DR = 0x80; // BEN ????
+ 0759           ; 
+ 0759           ;       while (TRUE)
+ 0759           ;       {
+ 0759                   .dbline 307
+ 0759           ;               float aileronNormalized,
+ 0759           ;                         elevatorNormalized;
+ 0759           ;               float distance;
+ 0759           ;               float speed, direction;
+ 0759           ;               float motorLeft, motorRight;
+ 0759           ;               BOOL forward;
+ 0759           ;               
+ 0759           ;               //long OutputDistance = ultrasoonSensor(); 
+ 0759           ;               aileronNormalized = EvaluateAileron(PulseWidthAileron);
+ 0759 62D000            mov REG[0xd0],>_PulseWidthAileron
+ 075C 5101              mov A,[_PulseWidthAileron+1]
+ 075E 62D000            mov REG[0xd0],>__r0
+ 0761 5300              mov [__r3],A
+ 0763 62D000            mov REG[0xd0],>_PulseWidthAileron
+ 0766 5100              mov A,[_PulseWidthAileron]
+ 0768 62D000            mov REG[0xd0],>__r0
+ 076B 5300              mov [__r2],A
+ 076D 5000              mov A,0
+ 076F 08                push A
+ 0770 08                push A
+ 0771 5100              mov A,[__r2]
+ 0773 08                push A
+ 0774 5100              mov A,[__r3]
+ 0776 08                push A
+ 0777 98C7              xcall _EvaluateAileron
+ 0779 62D000            mov REG[0xd0],>__r0
+ 077C 5100              mov A,[__r0]
+ 077E 540C              mov [X+12],A
+ 0780 5100              mov A,[__r1]
+ 0782 540D              mov [X+13],A
+ 0784 5100              mov A,[__r2]
+ 0786 540E              mov [X+14],A
+ 0788 5100              mov A,[__r3]
+ 078A 540F              mov [X+15],A
+ 078C                   .dbline 308
+ 078C           ;               direction  = fabs(aileronNormalized);
+ 078C 520C              mov A,[X+12]
+ 078E 08                push A
+ 078F 520D              mov A,[X+13]
+ 0791 08                push A
+ 0792 520E              mov A,[X+14]
+ 0794 08                push A
+ 0795 520F              mov A,[X+15]
+ 0797 08                push A
+ 0798 7C0000            xcall _fabsfLMM
+ 079B 38F8              add SP,-8
+ 079D 62D000            mov REG[0xd0],>__r0
+ 07A0 5100              mov A,[__r0]
+ 07A2 5415              mov [X+21],A
+ 07A4 5100              mov A,[__r1]
+ 07A6 5416              mov [X+22],A
+ 07A8 5100              mov A,[__r2]
+ 07AA 5417              mov [X+23],A
+ 07AC 5100              mov A,[__r3]
+ 07AE 5418              mov [X+24],A
+ 07B0                   .dbline 310
+ 07B0           ; 
+ 07B0           ;               elevatorNormalized = EvaluateElevator(PulseWidthElevator);
+ 07B0 62D000            mov REG[0xd0],>_PulseWidthElevator
+ 07B3 5101              mov A,[_PulseWidthElevator+1]
+ 07B5 62D000            mov REG[0xd0],>__r0
+ 07B8 5300              mov [__r3],A
+ 07BA 62D000            mov REG[0xd0],>_PulseWidthElevator
+ 07BD 5100              mov A,[_PulseWidthElevator]
+ 07BF 62D000            mov REG[0xd0],>__r0
+ 07C2 5300              mov [__r2],A
+ 07C4 5000              mov A,0
+ 07C6 08                push A
+ 07C7 08                push A
+ 07C8 5100              mov A,[__r2]
+ 07CA 08                push A
+ 07CB 5100              mov A,[__r3]
+ 07CD 08                push A
+ 07CE 9B3F              xcall _EvaluateElevator
+ 07D0 62D000            mov REG[0xd0],>__r0
+ 07D3 5100              mov A,[__r0]
+ 07D5 5410              mov [X+16],A
+ 07D7 5100              mov A,[__r1]
+ 07D9 5411              mov [X+17],A
+ 07DB 5100              mov A,[__r2]
+ 07DD 5412              mov [X+18],A
+ 07DF 5100              mov A,[__r3]
+ 07E1 5413              mov [X+19],A
+ 07E3                   .dbline 311
+ 07E3           ;               speed  = fabs(elevatorNormalized);
+ 07E3 5210              mov A,[X+16]
+ 07E5 08                push A
+ 07E6 5211              mov A,[X+17]
+ 07E8 08                push A
+ 07E9 5212              mov A,[X+18]
+ 07EB 08                push A
+ 07EC 5213              mov A,[X+19]
+ 07EE 08                push A
+ 07EF 7C0000            xcall _fabsfLMM
+ 07F2 38F8              add SP,-8
+ 07F4 62D000            mov REG[0xd0],>__r0
+ 07F7 5100              mov A,[__r0]
+ 07F9 5408              mov [X+8],A
+ 07FB 5100              mov A,[__r1]
+ 07FD 5409              mov [X+9],A
+ 07FF 5100              mov A,[__r2]
+ 0801 540A              mov [X+10],A
+ 0803 5100              mov A,[__r3]
+ 0805 540B              mov [X+11],A
+ 0807                   .dbline 312
+ 0807           ;               forward = (elevatorNormalized >= 0);
+ 0807 5000              mov A,0
+ 0809 08                push A
+ 080A 08                push A
+ 080B 08                push A
+ 080C 08                push A
+ 080D 5210              mov A,[X+16]
+ 080F 08                push A
+ 0810 5211              mov A,[X+17]
+ 0812 08                push A
+ 0813 5212              mov A,[X+18]
+ 0815 08                push A
+ 0816 5213              mov A,[X+19]
+ 0818 08                push A
+ 0819 7C0000            xcall __fpcmp
+ 081C 38F8              add SP,-8
+ 081E 39FF              cmp A,-1
+ 0820 A009              jz L36
+ 0822 561E01            mov [X+30],1
+ 0825 561D00            mov [X+29],0
+ 0828 8007              xjmp L37
+ 082A           L36:
+ 082A 561E00            mov [X+30],0
+ 082D 561D00            mov [X+29],0
+ 0830           L37:
+ 0830 62D000            mov REG[0xd0],>__r0
+ 0833 521E              mov A,[X+30]
+ 0835 5414              mov [X+20],A
+ 0837                   .dbline 314
+ 0837           ;               
+ 0837           ;               distance = EvaluateUltrasoonSensor();
+ 0837 9DBE              xcall _EvaluateUltrasoonSensor
+ 0839 62D000            mov REG[0xd0],>__r0
+ 083C 5100              mov A,[__r0]
+ 083E 5419              mov [X+25],A
+ 0840 5100              mov A,[__r1]
+ 0842 541A              mov [X+26],A
+ 0844 5100              mov A,[__r2]
+ 0846 541B              mov [X+27],A
+ 0848 5100              mov A,[__r3]
+ 084A 541C              mov [X+28],A
+ 084C                   .dbline 321
+ 084C           ; //            if (distance < MIN_SAFE_DISTANCE)
+ 084C           ; //            {
+ 084C           ; //                    elevatorNormalized = 0;
+ 084C           ; //                    aileronNormalized  = 0;
+ 084C           ; //            }
+ 084C           ;               
+ 084C           ;               motorLeft  = speed; // default is straight forward
+ 084C 5208              mov A,[X+8]
+ 084E 5400              mov [X+0],A
+ 0850 5209              mov A,[X+9]
+ 0852 5401              mov [X+1],A
+ 0854 520A              mov A,[X+10]
+ 0856 5402              mov [X+2],A
+ 0858 520B              mov A,[X+11]
+ 085A 5403              mov [X+3],A
+ 085C                   .dbline 322
+ 085C           ;               motorRight = speed;
+ 085C 5208              mov A,[X+8]
+ 085E 5404              mov [X+4],A
+ 0860 5209              mov A,[X+9]
+ 0862 5405              mov [X+5],A
+ 0864 520A              mov A,[X+10]
+ 0866 5406              mov [X+6],A
+ 0868 520B              mov A,[X+11]
+ 086A 5407              mov [X+7],A
+ 086C                   .dbline 324
+ 086C           ;               
+ 086C           ;               if (aileronNormalized < 0) // turning left
+ 086C 5000              mov A,0
+ 086E 08                push A
+ 086F 08                push A
+ 0870 08                push A
+ 0871 08                push A
+ 0872 520C              mov A,[X+12]
+ 0874 08                push A
+ 0875 520D              mov A,[X+13]
+ 0877 08                push A
+ 0878 520E              mov A,[X+14]
+ 087A 08                push A
+ 087B 520F              mov A,[X+15]
+ 087D 08                push A
+ 087E 7C0000            xcall __fpcmp
+ 0881 38F8              add SP,-8
+ 0883 3900              cmp A,0
+ 0885 A063              jz L38
+ 0887 3901              cmp A,1
+ 0889 A05F              jz L38
+ 088B                   .dbline 326
+ 088B           ;               {
+ 088B           ;                       motorRight = speed;
+ 088B                   .dbline 326
+ 088B 5208              mov A,[X+8]
+ 088D 5404              mov [X+4],A
+ 088F 5209              mov A,[X+9]
+ 0891 5405              mov [X+5],A
+ 0893 520A              mov A,[X+10]
+ 0895 5406              mov [X+6],A
+ 0897 520B              mov A,[X+11]
+ 0899 5407              mov [X+7],A
+ 089B                   .dbline 327
+ 089B           ;                       motorLeft  = speed * (1 - direction);
+ 089B 5215              mov A,[X+21]
+ 089D 08                push A
+ 089E 5216              mov A,[X+22]
+ 08A0 08                push A
+ 08A1 5217              mov A,[X+23]
+ 08A3 08                push A
+ 08A4 5218              mov A,[X+24]
+ 08A6 08                push A
+ 08A7 503F              mov A,63
+ 08A9 08                push A
+ 08AA 5080              mov A,-128
+ 08AC 08                push A
+ 08AD 5000              mov A,0
+ 08AF 08                push A
+ 08B0 08                push A
+ 08B1 7C0000            xcall __fpsub
+ 08B4 18                pop A
+ 08B5 5300              mov [__r3],A
+ 08B7 18                pop A
+ 08B8 5300              mov [__r2],A
+ 08BA 18                pop A
+ 08BB 5300              mov [__r1],A
+ 08BD 18                pop A
+ 08BE 38FC              add SP,-4
+ 08C0 08                push A
+ 08C1 5100              mov A,[__r1]
+ 08C3 08                push A
+ 08C4 5100              mov A,[__r2]
+ 08C6 08                push A
+ 08C7 5100              mov A,[__r3]
+ 08C9 08                push A
+ 08CA 5208              mov A,[X+8]
+ 08CC 08                push A
+ 08CD 5209              mov A,[X+9]
+ 08CF 08                push A
+ 08D0 520A              mov A,[X+10]
+ 08D2 08                push A
+ 08D3 520B              mov A,[X+11]
+ 08D5 08                push A
+ 08D6 7C0000            xcall __fpmul
+ 08D9 18                pop A
+ 08DA 5403              mov [X+3],A
+ 08DC 18                pop A
+ 08DD 5402              mov [X+2],A
+ 08DF 18                pop A
+ 08E0 5401              mov [X+1],A
+ 08E2 18                pop A
+ 08E3 5400              mov [X+0],A
+ 08E5 38FC              add SP,-4
+ 08E7                   .dbline 328
+ 08E7           ;               }
+ 08E7 807F              xjmp L39
+ 08E9           L38:
+ 08E9                   .dbline 329
+ 08E9           ;               else if (aileronNormalized > 0) // turning right
+ 08E9 5000              mov A,0
+ 08EB 08                push A
+ 08EC 08                push A
+ 08ED 08                push A
+ 08EE 08                push A
+ 08EF 520C              mov A,[X+12]
+ 08F1 08                push A
+ 08F2 520D              mov A,[X+13]
+ 08F4 08                push A
+ 08F5 520E              mov A,[X+14]
+ 08F7 08                push A
+ 08F8 520F              mov A,[X+15]
+ 08FA 08                push A
+ 08FB 62D000            mov REG[0xd0],>__r0
+ 08FE 7C0000            xcall __fpcmp
+ 0901 38F8              add SP,-8
+ 0903 3900              cmp A,0
+ 0905 A061              jz L40
+ 0907 3901              cmp A,1
+ 0909 B05D              jnz L40
+ 090B                   .dbline 331
+ 090B           ;               {
+ 090B           ;                       motorLeft  = speed;
+ 090B                   .dbline 331
+ 090B 5208              mov A,[X+8]
+ 090D 5400              mov [X+0],A
+ 090F 5209              mov A,[X+9]
+ 0911 5401              mov [X+1],A
+ 0913 520A              mov A,[X+10]
+ 0915 5402              mov [X+2],A
+ 0917 520B              mov A,[X+11]
+ 0919 5403              mov [X+3],A
+ 091B                   .dbline 332
+ 091B           ;                       motorRight = speed * (1 - direction);
+ 091B 5215              mov A,[X+21]
+ 091D 08                push A
+ 091E 5216              mov A,[X+22]
+ 0920 08                push A
+ 0921 5217              mov A,[X+23]
+ 0923 08                push A
+ 0924 5218              mov A,[X+24]
+ 0926 08                push A
+ 0927 503F              mov A,63
+ 0929 08                push A
+ 092A 5080              mov A,-128
+ 092C 08                push A
+ 092D 5000              mov A,0
+ 092F 08                push A
+ 0930 08                push A
+ 0931 7C0000            xcall __fpsub
+ 0934 18                pop A
+ 0935 5300              mov [__r3],A
+ 0937 18                pop A
+ 0938 5300              mov [__r2],A
+ 093A 18                pop A
+ 093B 5300              mov [__r1],A
+ 093D 18                pop A
+ 093E 38FC              add SP,-4
+ 0940 08                push A
+ 0941 5100              mov A,[__r1]
+ 0943 08                push A
+ 0944 5100              mov A,[__r2]
+ 0946 08                push A
+ 0947 5100              mov A,[__r3]
+ 0949 08                push A
+ 094A 5208              mov A,[X+8]
+ 094C 08                push A
+ 094D 5209              mov A,[X+9]
+ 094F 08                push A
+ 0950 520A              mov A,[X+10]
+ 0952 08                push A
+ 0953 520B              mov A,[X+11]
+ 0955 08                push A
+ 0956 7C0000            xcall __fpmul
+ 0959 18                pop A
+ 095A 5407              mov [X+7],A
+ 095C 18                pop A
+ 095D 5406              mov [X+6],A
+ 095F 18                pop A
+ 0960 5405              mov [X+5],A
+ 0962 18                pop A
+ 0963 5404              mov [X+4],A
+ 0965 38FC              add SP,-4
+ 0967                   .dbline 333
+ 0967           ;               }
+ 0967           L40:
+ 0967           L39:
+ 0967                   .dbline 335
+ 0967           ;                               
+ 0967           ;               if (forward)
+ 0967 3D1400            cmp [X+20],0
+ 096A A00F              jz L42
+ 096C                   .dbline 337
+ 096C           ;               {
+ 096C           ;                       PRT2DR |=  0x80; // AIN1
+ 096C                   .dbline 337
+ 096C 430880            or REG[0x8],-128
+ 096F                   .dbline 338
+ 096F           ;                       PRT2DR &= ~0x20; // AIN2
+ 096F 4108DF            and REG[0x8],-33
+ 0972                   .dbline 340
+ 0972           ;                       
+ 0972           ;                       PRT2DR |=  0x02; // BIN1
+ 0972 430802            or REG[0x8],2
+ 0975                   .dbline 341
+ 0975           ;                       PRT1DR &= ~0x80; // BIN2
+ 0975 41047F            and REG[0x4],127
+ 0978                   .dbline 342
+ 0978           ;               }
+ 0978 800D              xjmp L43
+ 097A           L42:
+ 097A                   .dbline 344
+ 097A           ;               else 
+ 097A           ;               {
+ 097A                   .dbline 345
+ 097A           ;                       PRT2DR &= ~0x80; // AIN1
+ 097A 41087F            and REG[0x8],127
+ 097D                   .dbline 346
+ 097D           ;                       PRT2DR |=  0x20; // AIN2
+ 097D 430820            or REG[0x8],32
+ 0980                   .dbline 348
+ 0980           ;                       
+ 0980           ;                       PRT2DR &= ~0x02; // BIN1
+ 0980 4108FD            and REG[0x8],-3
+ 0983                   .dbline 349
+ 0983           ;                       PRT1DR |=  0x80; // BIN2
+ 0983 430480            or REG[0x4],-128
+ 0986                   .dbline 350
+ 0986           ;               }
+ 0986           L43:
+ 0986                   .dbline 353
+ 0986           ;       
+ 0986           ;               // Denormalize to Engine
+ 0986           ;               motorLeft *= (MAX_POWER - MIN_POWER);
+ 0986 5200              mov A,[X+0]
+ 0988 08                push A
+ 0989 5201              mov A,[X+1]
+ 098B 08                push A
+ 098C 5202              mov A,[X+2]
+ 098E 08                push A
+ 098F 5203              mov A,[X+3]
+ 0991 08                push A
+ 0992 5044              mov A,68
+ 0994 08                push A
+ 0995 507A              mov A,122
+ 0997 08                push A
+ 0998 5000              mov A,0
+ 099A 08                push A
+ 099B 08                push A
+ 099C 62D000            mov REG[0xd0],>__r0
+ 099F 7C0000            xcall __fpmul
+ 09A2 18                pop A
+ 09A3 5403              mov [X+3],A
+ 09A5 18                pop A
+ 09A6 5402              mov [X+2],A
+ 09A8 18                pop A
+ 09A9 5401              mov [X+1],A
+ 09AB 18                pop A
+ 09AC 5400              mov [X+0],A
+ 09AE 38FC              add SP,-4
+ 09B0                   .dbline 354
+ 09B0           ;               motorLeft += MIN_POWER;
+ 09B0 5000              mov A,0
+ 09B2 08                push A
+ 09B3 08                push A
+ 09B4 08                push A
+ 09B5 08                push A
+ 09B6 5200              mov A,[X+0]
+ 09B8 08                push A
+ 09B9 5201              mov A,[X+1]
+ 09BB 08                push A
+ 09BC 5202              mov A,[X+2]
+ 09BE 08                push A
+ 09BF 5203              mov A,[X+3]
+ 09C1 08                push A
+ 09C2 7C0000            xcall __fpadd
+ 09C5 18                pop A
+ 09C6 5403              mov [X+3],A
+ 09C8 18                pop A
+ 09C9 5402              mov [X+2],A
+ 09CB 18                pop A
+ 09CC 5401              mov [X+1],A
+ 09CE 18                pop A
+ 09CF 5400              mov [X+0],A
+ 09D1 38FC              add SP,-4
+ 09D3                   .dbline 355
+ 09D3           ;               motorRight *= (MAX_POWER - MIN_POWER);
+ 09D3 5204              mov A,[X+4]
+ 09D5 08                push A
+ 09D6 5205              mov A,[X+5]
+ 09D8 08                push A
+ 09D9 5206              mov A,[X+6]
+ 09DB 08                push A
+ 09DC 5207              mov A,[X+7]
+ 09DE 08                push A
+ 09DF 5044              mov A,68
+ 09E1 08                push A
+ 09E2 507A              mov A,122
+ 09E4 08                push A
+ 09E5 5000              mov A,0
+ 09E7 08                push A
+ 09E8 08                push A
+ 09E9 7C0000            xcall __fpmul
+ 09EC 18                pop A
+ 09ED 5407              mov [X+7],A
+ 09EF 18                pop A
+ 09F0 5406              mov [X+6],A
+ 09F2 18                pop A
+ 09F3 5405              mov [X+5],A
+ 09F5 18                pop A
+ 09F6 5404              mov [X+4],A
+ 09F8 38FC              add SP,-4
+ 09FA                   .dbline 356
+ 09FA           ;               motorRight += MIN_POWER;
+ 09FA 5000              mov A,0
+ 09FC 08                push A
+ 09FD 08                push A
+ 09FE 08                push A
+ 09FF 08                push A
+ 0A00 5204              mov A,[X+4]
+ 0A02 08                push A
+ 0A03 5205              mov A,[X+5]
+ 0A05 08                push A
+ 0A06 5206              mov A,[X+6]
+ 0A08 08                push A
+ 0A09 5207              mov A,[X+7]
+ 0A0B 08                push A
+ 0A0C 7C0000            xcall __fpadd
+ 0A0F 18                pop A
+ 0A10 5407              mov [X+7],A
+ 0A12 18                pop A
+ 0A13 5406              mov [X+6],A
+ 0A15 18                pop A
+ 0A16 5405              mov [X+5],A
+ 0A18 18                pop A
+ 0A19 5404              mov [X+4],A
+ 0A1B 38FC              add SP,-4
+ 0A1D                   .dbline 359
+ 0A1D           ; 
+ 0A1D           ; #ifdef DEBUG
+ 0A1D           ;               LCD_Position(0,7);
+ 0A1D 10                push X
+ 0A1E 5707              mov X,7
+ 0A20 5000              mov A,0
+ 0A22 7C0000            xcall _LCD_Position
+ 0A25 20                pop X
+ 0A26                   .dbline 360
+ 0A26           ;               LCD_PrHexInt(motorLeft);
+ 0A26 62D000            mov REG[0xd0],>__r0
+ 0A29 5200              mov A,[X+0]
+ 0A2B 08                push A
+ 0A2C 5201              mov A,[X+1]
+ 0A2E 08                push A
+ 0A2F 5202              mov A,[X+2]
+ 0A31 08                push A
+ 0A32 5203              mov A,[X+3]
+ 0A34 08                push A
+ 0A35 7C0000            xcall __fp2long
+ 0A38 18                pop A
+ 0A39 5300              mov [__r1],A
+ 0A3B 18                pop A
+ 0A3C 38FE              add SP,-2
+ 0A3E 10                push X
+ 0A3F 08                push A
+ 0A40 5100              mov A,[__r1]
+ 0A42 20                pop X
+ 0A43 7C0000            xcall _LCD_PrHexInt
+ 0A46                   .dbline 361
+ 0A46           ;               LCD_Position(1,7);
+ 0A46 5707              mov X,7
+ 0A48 5001              mov A,1
+ 0A4A 7C0000            xcall _LCD_Position
+ 0A4D 20                pop X
+ 0A4E                   .dbline 362
+ 0A4E           ;               LCD_PrHexInt(motorRight);
+ 0A4E 62D000            mov REG[0xd0],>__r0
+ 0A51 5204              mov A,[X+4]
+ 0A53 08                push A
+ 0A54 5205              mov A,[X+5]
+ 0A56 08                push A
+ 0A57 5206              mov A,[X+6]
+ 0A59 08                push A
+ 0A5A 5207              mov A,[X+7]
+ 0A5C 08                push A
+ 0A5D 7C0000            xcall __fp2long
+ 0A60 18                pop A
+ 0A61 5300              mov [__r1],A
+ 0A63 18                pop A
+ 0A64 38FE              add SP,-2
+ 0A66 10                push X
+ 0A67 08                push A
+ 0A68 5100              mov A,[__r1]
+ 0A6A 20                pop X
+ 0A6B 7C0000            xcall _LCD_PrHexInt
+ 0A6E                   .dbline 364
+ 0A6E           ;               
+ 0A6E           ;               LCD_Position(0,12);
+ 0A6E 570C              mov X,12
+ 0A70 5000              mov A,0
+ 0A72 7C0000            xcall _LCD_Position
+ 0A75 20                pop X
+ 0A76                   .dbline 365
+ 0A76           ;               LCD_PrCString(forward ? "F" : "B");
+ 0A76 3D1400            cmp [X+20],0
+ 0A79 A009              jz L47
+ 0A7B 562002            mov [X+32],<L44
+ 0A7E 561F02            mov [X+31],>L44
+ 0A81 8007              xjmp L48
+ 0A83           L47:
+ 0A83 562000            mov [X+32],<L45
+ 0A86 561F00            mov [X+31],>L45
+ 0A89           L48:
+ 0A89 10                push X
+ 0A8A 521F              mov A,[X+31]
+ 0A8C 08                push A
+ 0A8D 5220              mov A,[X+32]
+ 0A8F 5C                mov X,A
+ 0A90 18                pop A
+ 0A91 7C0000            xcall _LCD_PrCString
+ 0A94 20                pop X
+ 0A95                   .dbline 368
+ 0A95           ; #endif        
+ 0A95           ; 
+ 0A95           ;               PWM1_WritePulseWidth(motorLeft);
+ 0A95 5047              mov A,71
+ 0A97 08                push A
+ 0A98 5000              mov A,0
+ 0A9A 08                push A
+ 0A9B 08                push A
+ 0A9C 08                push A
+ 0A9D 5200              mov A,[X+0]
+ 0A9F 08                push A
+ 0AA0 5201              mov A,[X+1]
+ 0AA2 08                push A
+ 0AA3 5202              mov A,[X+2]
+ 0AA5 08                push A
+ 0AA6 5203              mov A,[X+3]
+ 0AA8 08                push A
+ 0AA9 62D000            mov REG[0xd0],>__r0
+ 0AAC 7C0000            xcall __fpcmp
+ 0AAF 38F8              add SP,-8
+ 0AB1 39FF              cmp A,-1
+ 0AB3 A047              jz L50
+ 0AB5 5047              mov A,71
+ 0AB7 08                push A
+ 0AB8 5000              mov A,0
+ 0ABA 08                push A
+ 0ABB 08                push A
+ 0ABC 08                push A
+ 0ABD 5200              mov A,[X+0]
+ 0ABF 08                push A
+ 0AC0 5201              mov A,[X+1]
+ 0AC2 08                push A
+ 0AC3 5202              mov A,[X+2]
+ 0AC5 08                push A
+ 0AC6 5203              mov A,[X+3]
+ 0AC8 08                push A
+ 0AC9 7C0000            xcall __fpsub
+ 0ACC 18                pop A
+ 0ACD 5300              mov [__r3],A
+ 0ACF 18                pop A
+ 0AD0 5300              mov [__r2],A
+ 0AD2 18                pop A
+ 0AD3 5300              mov [__r1],A
+ 0AD5 18                pop A
+ 0AD6 38FC              add SP,-4
+ 0AD8 08                push A
+ 0AD9 5100              mov A,[__r1]
+ 0ADB 08                push A
+ 0ADC 5100              mov A,[__r2]
+ 0ADE 08                push A
+ 0ADF 5100              mov A,[__r3]
+ 0AE1 08                push A
+ 0AE2 7C0000            xcall __fp2long
+ 0AE5 18                pop A
+ 0AE6 5300              mov [__r1],A
+ 0AE8 18                pop A
+ 0AE9 5300              mov [__r0],A
+ 0AEB 38FE              add SP,-2
+ 0AED 5100              mov A,[__r1]
+ 0AEF 0100              add A,0
+ 0AF1 5422              mov [X+34],A
+ 0AF3 5100              mov A,[__r0]
+ 0AF5 0980              adc A,-128
+ 0AF7 5421              mov [X+33],A
+ 0AF9 8023              xjmp L51
+ 0AFB           L50:
+ 0AFB 62D000            mov REG[0xd0],>__r0
+ 0AFE 5200              mov A,[X+0]
+ 0B00 08                push A
+ 0B01 5201              mov A,[X+1]
+ 0B03 08                push A
+ 0B04 5202              mov A,[X+2]
+ 0B06 08                push A
+ 0B07 5203              mov A,[X+3]
+ 0B09 08                push A
+ 0B0A 7C0000            xcall __fp2long
+ 0B0D 18                pop A
+ 0B0E 5300              mov [__r1],A
+ 0B10 18                pop A
+ 0B11 5300              mov [__r0],A
+ 0B13 38FE              add SP,-2
+ 0B15 5100              mov A,[__r1]
+ 0B17 5422              mov [X+34],A
+ 0B19 5100              mov A,[__r0]
+ 0B1B 5421              mov [X+33],A
+ 0B1D           L51:
+ 0B1D 10                push X
+ 0B1E 5221              mov A,[X+33]
+ 0B20 08                push A
+ 0B21 5222              mov A,[X+34]
+ 0B23 20                pop X
+ 0B24 7C0000            xcall _PWM1_WritePulseWidth
+ 0B27 20                pop X
+ 0B28                   .dbline 369
+ 0B28           ;               PWM2_WritePulseWidth(motorRight);
+ 0B28 5047              mov A,71
+ 0B2A 08                push A
+ 0B2B 5000              mov A,0
+ 0B2D 08                push A
+ 0B2E 08                push A
+ 0B2F 08                push A
+ 0B30 5204              mov A,[X+4]
+ 0B32 08                push A
+ 0B33 5205              mov A,[X+5]
+ 0B35 08                push A
+ 0B36 5206              mov A,[X+6]
+ 0B38 08                push A
+ 0B39 5207              mov A,[X+7]
+ 0B3B 08                push A
+ 0B3C 62D000            mov REG[0xd0],>__r0
+ 0B3F 7C0000            xcall __fpcmp
+ 0B42 38F8              add SP,-8
+ 0B44 39FF              cmp A,-1
+ 0B46 A047              jz L53
+ 0B48 5047              mov A,71
+ 0B4A 08                push A
+ 0B4B 5000              mov A,0
+ 0B4D 08                push A
+ 0B4E 08                push A
+ 0B4F 08                push A
+ 0B50 5204              mov A,[X+4]
+ 0B52 08                push A
+ 0B53 5205              mov A,[X+5]
+ 0B55 08                push A
+ 0B56 5206              mov A,[X+6]
+ 0B58 08                push A
+ 0B59 5207              mov A,[X+7]
+ 0B5B 08                push A
+ 0B5C 7C0000            xcall __fpsub
+ 0B5F 18                pop A
+ 0B60 5300              mov [__r3],A
+ 0B62 18                pop A
+ 0B63 5300              mov [__r2],A
+ 0B65 18                pop A
+ 0B66 5300              mov [__r1],A
+ 0B68 18                pop A
+ 0B69 38FC              add SP,-4
+ 0B6B 08                push A
+ 0B6C 5100              mov A,[__r1]
+ 0B6E 08                push A
+ 0B6F 5100              mov A,[__r2]
+ 0B71 08                push A
+ 0B72 5100              mov A,[__r3]
+ 0B74 08                push A
+ 0B75 7C0000            xcall __fp2long
+ 0B78 18                pop A
+ 0B79 5300              mov [__r1],A
+ 0B7B 18                pop A
+ 0B7C 5300              mov [__r0],A
+ 0B7E 38FE              add SP,-2
+ 0B80 5100              mov A,[__r1]
+ 0B82 0100              add A,0
+ 0B84 5424              mov [X+36],A
+ 0B86 5100              mov A,[__r0]
+ 0B88 0980              adc A,-128
+ 0B8A 5423              mov [X+35],A
+ 0B8C 8023              xjmp L54
+ 0B8E           L53:
+ 0B8E 62D000            mov REG[0xd0],>__r0
+ 0B91 5204              mov A,[X+4]
+ 0B93 08                push A
+ 0B94 5205              mov A,[X+5]
+ 0B96 08                push A
+ 0B97 5206              mov A,[X+6]
+ 0B99 08                push A
+ 0B9A 5207              mov A,[X+7]
+ 0B9C 08                push A
+ 0B9D 7C0000            xcall __fp2long
+ 0BA0 18                pop A
+ 0BA1 5300              mov [__r1],A
+ 0BA3 18                pop A
+ 0BA4 5300              mov [__r0],A
+ 0BA6 38FE              add SP,-2
+ 0BA8 5100              mov A,[__r1]
+ 0BAA 5424              mov [X+36],A
+ 0BAC 5100              mov A,[__r0]
+ 0BAE 5423              mov [X+35],A
+ 0BB0           L54:
+ 0BB0 10                push X
+ 0BB1 5223              mov A,[X+35]
+ 0BB3 08                push A
+ 0BB4 5224              mov A,[X+36]
+ 0BB6 20                pop X
+ 0BB7 7C0000            xcall _PWM2_WritePulseWidth
+ 0BBA 20                pop X
+ 0BBB                   .dbline 370
+ 0BBB           ;    }
+ 0BBB           L33:
+ 0BBB                   .dbline 297
+ 0BBB 8B9D              xjmp L32
+ 0BBD           X10:
+ 0BBD                   .dbline -2
+ 0BBD           L31:
+ 0BBD 38DB              add SP,-37
+ 0BBF 20                pop X
+ 0BC0                   .dbline 0 ; func end
+ 0BC0 8FFF              jmp .
+ 0BC2                   .dbsym l distance 25 D
+ 0BC2                   .dbsym l direction 21 D
+ 0BC2                   .dbsym l forward 20 c
+ 0BC2                   .dbsym l elevatorNormalized 16 D
+ 0BC2                   .dbsym l aileronNormalized 12 D
+ 0BC2                   .dbsym l speed 8 D
+ 0BC2                   .dbsym l motorRight 4 D
+ 0BC2                   .dbsym l motorLeft 0 D
+ 0BC2                   .dbend
+ 0BC2                   .dbfunc e TimerCaptureISR _TimerCaptureISR fV
+ 0BC2           _TimerCaptureISR::
+ 0BC2                   .dbline -1
+ 0BC2 71C0              or F,-64
+ 0BC4 08                push A
+ 0BC5 5DD0              mov A,REG[0xd0]
+ 0BC7 08                push A
+ 0BC8 5DD3              mov A,REG[0xd3]
+ 0BCA 08                push A
+ 0BCB 5DD4              mov A,REG[0xd4]
+ 0BCD 08                push A
+ 0BCE 5DD5              mov A,REG[0xd5]
+ 0BD0 08                push A
+ 0BD1 62D000            mov REG[0xd0],>__r0
+ 0BD4 5100              mov A,[__r0]
+ 0BD6 08                push A
+ 0BD7 5100              mov A,[__r1]
+ 0BD9 08                push A
+ 0BDA 5100              mov A,[__r2]
+ 0BDC 08                push A
+ 0BDD 5100              mov A,[__r3]
+ 0BDF 08                push A
+ 0BE0 5100              mov A,[__r4]
+ 0BE2 08                push A
+ 0BE3 5100              mov A,[__r5]
+ 0BE5 08                push A
+ 0BE6 5100              mov A,[__r6]
+ 0BE8 08                push A
+ 0BE9 5100              mov A,[__r7]
+ 0BEB 08                push A
+ 0BEC 5100              mov A,[__r8]
+ 0BEE 08                push A
+ 0BEF 5100              mov A,[__r9]
+ 0BF1 08                push A
+ 0BF2 5100              mov A,[__r10]
+ 0BF4 08                push A
+ 0BF5 5100              mov A,[__r11]
+ 0BF7 08                push A
+ 0BF8 5100              mov A,[__rX]
+ 0BFA 08                push A
+ 0BFB 5100              mov A,[__rY]
+ 0BFD 08                push A
+ 0BFE 5100              mov A,[__rZ]
+ 0C00 08                push A
+ 0C01                   .dbline 374
+ 0C01           ; }
+ 0C01           ; 
+ 0C01           ; void TimerCaptureISR(void)
+ 0C01           ; {
+ 0C01                   .dbline 375
+ 0C01           ;    if (FlagsAileron & FALLING_EDGE_AILERON)
+ 0C01 62D000            mov REG[0xd0],>_FlagsAileron
+ 0C04 470002            tst [_FlagsAileron],2
+ 0C07 A049              jz L56
+ 0C09                   .dbline 378
+ 0C09           ;    {
+ 0C09           ;       // Read the count on negative edge
+ 0C09           ;       CaptureNegEdgeAileron = Timer_wReadCompareValue();
+ 0C09                   .dbline 378
+ 0C09 10                push X
+ 0C0A 7C0000            xcall _Timer_wReadCompareValue
+ 0C0D 62D000            mov REG[0xd0],>__r0
+ 0C10 5A00              mov [__r0],X
+ 0C12 20                pop X
+ 0C13 08                push A
+ 0C14 5100              mov A,[__r0]
+ 0C16 62D000            mov REG[0xd0],>_CaptureNegEdgeAileron
+ 0C19 5300              mov [_CaptureNegEdgeAileron],A
+ 0C1B 18                pop A
+ 0C1C 5301              mov [_CaptureNegEdgeAileron+1],A
+ 0C1E                   .dbline 381
+ 0C1E           ; 
+ 0C1E           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
+ 0C1E           ;       Timer_FUNC_LSB_REG &= ~0x80;
+ 0C1E 7110              or F,0x10  ; iopage = 1
+ 0C20 41207F            and REG[0x20],127
+ 0C23                   .dbline 382
+ 0C23           ;       FlagsAileron &= ~FALLING_EDGE_AILERON;
+ 0C23 70CF              and F,0xCF      ; iopage = 0
+ 0C25 62D000            mov REG[0xd0],>_FlagsAileron
+ 0C28 2600FD            and [_FlagsAileron],-3
+ 0C2B                   .dbline 389
+ 0C2B           ; 
+ 0C2B           ;       // Calculate the pulswidth by finding difference between positive edge
+ 0C2B           ;       // and negative edge counts.  As both the numbers are unsigned numbers
+ 0C2B           ;       // the result will be correct even if there is an underflow in the counter
+ 0C2B           ;       // The result will be accurate as long as the total pulsewidth is less than
+ 0C2B           ;       // 65535 timer ticks.
+ 0C2B           ;       PulseWidthAileron = CapturePosEdgeAileron - CaptureNegEdgeAileron;
+ 0C2B 62D000            mov REG[0xd0],>_CapturePosEdgeAileron
+ 0C2E 5101              mov A,[_CapturePosEdgeAileron+1]
+ 0C30 62D000            mov REG[0xd0],>_CaptureNegEdgeAileron
+ 0C33 1201              sub A,[_CaptureNegEdgeAileron+1]
+ 0C35 62D000            mov REG[0xd0],>_PulseWidthAileron
+ 0C38 5301              mov [_PulseWidthAileron+1],A
+ 0C3A 62D000            mov REG[0xd0],>_CapturePosEdgeAileron
+ 0C3D 5100              mov A,[_CapturePosEdgeAileron]
+ 0C3F 62D000            mov REG[0xd0],>_CaptureNegEdgeAileron
+ 0C42 1A00              sbb A,[_CaptureNegEdgeAileron]
+ 0C44 62D000            mov REG[0xd0],>_PulseWidthAileron
+ 0C47 5300              mov [_PulseWidthAileron],A
+ 0C49                   .dbline 392
+ 0C49           ;       
+ 0C49           ;       // Set the Data available flag
+ 0C49           ;       FlagsAileron |= DATA_AVAILABLE_AILERON;
+ 0C49 62D000            mov REG[0xd0],>_FlagsAileron
+ 0C4C 2E0001            or [_FlagsAileron],1
+ 0C4F                   .dbline 393
+ 0C4F           ;    }
+ 0C4F 8023              xjmp L57
+ 0C51           L56:
+ 0C51                   .dbline 395
+ 0C51           ;    else
+ 0C51           ;    {
+ 0C51                   .dbline 397
+ 0C51           ;       // Read the count on positive edge
+ 0C51           ;       CapturePosEdgeAileron = Timer_wReadCompareValue();
+ 0C51 10                push X
+ 0C52 7C0000            xcall _Timer_wReadCompareValue
+ 0C55 62D000            mov REG[0xd0],>__r0
+ 0C58 5A00              mov [__r0],X
+ 0C5A 20                pop X
+ 0C5B 08                push A
+ 0C5C 5100              mov A,[__r0]
+ 0C5E 62D000            mov REG[0xd0],>_CapturePosEdgeAileron
+ 0C61 5300              mov [_CapturePosEdgeAileron],A
+ 0C63 18                pop A
+ 0C64 5301              mov [_CapturePosEdgeAileron+1],A
+ 0C66                   .dbline 400
+ 0C66           ;       
+ 0C66           ;       // Change the capture to negative edge and set flag
+ 0C66           ;       Timer_FUNC_LSB_REG |= 0x80;
+ 0C66 7110              or F,0x10  ; iopage = 1
+ 0C68 432080            or REG[0x20],-128
+ 0C6B                   .dbline 401
+ 0C6B           ;       FlagsAileron |= FALLING_EDGE_AILERON;
+ 0C6B 70CF              and F,0xCF      ; iopage = 0
+ 0C6D 62D000            mov REG[0xd0],>_FlagsAileron
+ 0C70 2E0002            or [_FlagsAileron],2
+ 0C73                   .dbline 402
+ 0C73           ;    }
+ 0C73           L57:
+ 0C73                   .dbline -2
+ 0C73           L55:
+ 0C73 62D000            mov REG[0xD0],>__r0
+ 0C76 18                pop A
+ 0C77 5300              mov [__rZ],A
+ 0C79 18                pop A
+ 0C7A 5300              mov [__rY],A
+ 0C7C 18                pop A
+ 0C7D 5300              mov [__rX],A
+ 0C7F 18                pop A
+ 0C80 5300              mov [__r11],A
+ 0C82 18                pop A
+ 0C83 5300              mov [__r10],A
+ 0C85 18                pop A
+ 0C86 5300              mov [__r9],A
+ 0C88 18                pop A
+ 0C89 5300              mov [__r8],A
+ 0C8B 18                pop A
+ 0C8C 5300              mov [__r7],A
+ 0C8E 18                pop A
+ 0C8F 5300              mov [__r6],A
+ 0C91 18                pop A
+ 0C92 5300              mov [__r5],A
+ 0C94 18                pop A
+ 0C95 5300              mov [__r4],A
+ 0C97 18                pop A
+ 0C98 5300              mov [__r3],A
+ 0C9A 18                pop A
+ 0C9B 5300              mov [__r2],A
+ 0C9D 18                pop A
+ 0C9E 5300              mov [__r1],A
+ 0CA0 18                pop A
+ 0CA1 5300              mov [__r0],A
+ 0CA3 18                pop A
+ 0CA4 60D5              mov REG[213],A
+ 0CA6 18                pop A
+ 0CA7 60D4              mov REG[212],A
+ 0CA9 18                pop A
+ 0CAA 60D3              mov REG[211],A
+ 0CAC 18                pop A
+ 0CAD 60D0              mov REG[208],A
+ 0CAF 18                pop A
+ 0CB0                   .dbline 0 ; func end
+ 0CB0 7E                reti
+ 0CB1                   .dbend
+ 0CB1                   .dbfunc e Timer2CaptureISR _Timer2CaptureISR fV
+ 0CB1           _Timer2CaptureISR::
+ 0CB1                   .dbline -1
+ 0CB1 71C0              or F,-64
+ 0CB3 08                push A
+ 0CB4 5DD0              mov A,REG[0xd0]
+ 0CB6 08                push A
+ 0CB7 5DD3              mov A,REG[0xd3]
+ 0CB9 08                push A
+ 0CBA 5DD4              mov A,REG[0xd4]
+ 0CBC 08                push A
+ 0CBD 5DD5              mov A,REG[0xd5]
+ 0CBF 08                push A
+ 0CC0 62D000            mov REG[0xd0],>__r0
+ 0CC3 5100              mov A,[__r0]
+ 0CC5 08                push A
+ 0CC6 5100              mov A,[__r1]
+ 0CC8 08                push A
+ 0CC9 5100              mov A,[__r2]
+ 0CCB 08                push A
+ 0CCC 5100              mov A,[__r3]
+ 0CCE 08                push A
+ 0CCF 5100              mov A,[__r4]
+ 0CD1 08                push A
+ 0CD2 5100              mov A,[__r5]
+ 0CD4 08                push A
+ 0CD5 5100              mov A,[__r6]
+ 0CD7 08                push A
+ 0CD8 5100              mov A,[__r7]
+ 0CDA 08                push A
+ 0CDB 5100              mov A,[__r8]
+ 0CDD 08                push A
+ 0CDE 5100              mov A,[__r9]
+ 0CE0 08                push A
+ 0CE1 5100              mov A,[__r10]
+ 0CE3 08                push A
+ 0CE4 5100              mov A,[__r11]
+ 0CE6 08                push A
+ 0CE7 5100              mov A,[__rX]
+ 0CE9 08                push A
+ 0CEA 5100              mov A,[__rY]
+ 0CEC 08                push A
+ 0CED 5100              mov A,[__rZ]
+ 0CEF 08                push A
+ 0CF0                   .dbline 406
+ 0CF0           ; }
+ 0CF0           ; 
+ 0CF0           ; void Timer2CaptureISR(void)// new function for motorcontroll2
+ 0CF0           ; {
+ 0CF0                   .dbline 407
+ 0CF0           ;       if(FlagsElevator & FALLING_EDGE_ELEVATOR)//
+ 0CF0 62D000            mov REG[0xd0],>_FlagsElevator
+ 0CF3 470002            tst [_FlagsElevator],2
+ 0CF6 A049              jz L59
+ 0CF8                   .dbline 410
+ 0CF8           ;       {
+ 0CF8           ;               // Read the count on negative edge
+ 0CF8           ;               CaptureNegEdgeElevator = Timer2_wReadCompareValue();
+ 0CF8                   .dbline 410
+ 0CF8 10                push X
+ 0CF9 7C0000            xcall _Timer2_wReadCompareValue
+ 0CFC 62D000            mov REG[0xd0],>__r0
+ 0CFF 5A00              mov [__r0],X
+ 0D01 20                pop X
+ 0D02 08                push A
+ 0D03 5100              mov A,[__r0]
+ 0D05 62D000            mov REG[0xd0],>_CaptureNegEdgeElevator
+ 0D08 5300              mov [_CaptureNegEdgeElevator],A
+ 0D0A 18                pop A
+ 0D0B 5301              mov [_CaptureNegEdgeElevator+1],A
+ 0D0D                   .dbline 413
+ 0D0D           ; 
+ 0D0D           ;               // Change the capture to positive edge and clear the FALLING_EDGE flag
+ 0D0D           ;               Timer2_FUNC_LSB_REG &= ~0x80;
+ 0D0D 7110              or F,0x10  ; iopage = 1
+ 0D0F 41287F            and REG[0x28],127
+ 0D12                   .dbline 414
+ 0D12           ;               FlagsElevator &= ~FALLING_EDGE_ELEVATOR;// clearing faling edge bit in flags
+ 0D12 70CF              and F,0xCF      ; iopage = 0
+ 0D14 62D000            mov REG[0xd0],>_FlagsElevator
+ 0D17 2600FD            and [_FlagsElevator],-3
+ 0D1A                   .dbline 422
+ 0D1A           ;       
+ 0D1A           ; 
+ 0D1A           ;               // Calculate the pulswidth by finding difference between positive edge
+ 0D1A           ;               // and negative edge counts.  As both the numbers are unsigned numbers
+ 0D1A           ;               // the result will be correct even if there is an underflow in the counter
+ 0D1A           ;               // The result will be accurate as long as the total pulsewidth is less than
+ 0D1A           ;               // 65535 timer ticks.
+ 0D1A           ;               PulseWidthElevator = CapturePosEdgeElevator - CaptureNegEdgeElevator;
+ 0D1A 62D000            mov REG[0xd0],>_CapturePosEdgeElevator
+ 0D1D 5101              mov A,[_CapturePosEdgeElevator+1]
+ 0D1F 62D000            mov REG[0xd0],>_CaptureNegEdgeElevator
+ 0D22 1201              sub A,[_CaptureNegEdgeElevator+1]
+ 0D24 62D000            mov REG[0xd0],>_PulseWidthElevator
+ 0D27 5301              mov [_PulseWidthElevator+1],A
+ 0D29 62D000            mov REG[0xd0],>_CapturePosEdgeElevator
+ 0D2C 5100              mov A,[_CapturePosEdgeElevator]
+ 0D2E 62D000            mov REG[0xd0],>_CaptureNegEdgeElevator
+ 0D31 1A00              sbb A,[_CaptureNegEdgeElevator]
+ 0D33 62D000            mov REG[0xd0],>_PulseWidthElevator
+ 0D36 5300              mov [_PulseWidthElevator],A
+ 0D38                   .dbline 425
+ 0D38           ; 
+ 0D38           ;               // Set the Data available flag
+ 0D38           ;               FlagsElevator |= DATA_AVAILABLE_ELEVATOR; // BEN: set the correct bit on or off
+ 0D38 62D000            mov REG[0xd0],>_FlagsElevator
+ 0D3B 2E0001            or [_FlagsElevator],1
+ 0D3E                   .dbline 426
+ 0D3E           ;       }
+ 0D3E 8023              xjmp L60
+ 0D40           L59:
+ 0D40                   .dbline 428
+ 0D40           ;       else
+ 0D40           ;       {
+ 0D40                   .dbline 430
+ 0D40           ;               // Read the count on positive edge
+ 0D40           ;               CapturePosEdgeElevator = Timer2_wReadCompareValue();
+ 0D40 10                push X
+ 0D41 7C0000            xcall _Timer2_wReadCompareValue
+ 0D44 62D000            mov REG[0xd0],>__r0
+ 0D47 5A00              mov [__r0],X
+ 0D49 20                pop X
+ 0D4A 08                push A
+ 0D4B 5100              mov A,[__r0]
+ 0D4D 62D000            mov REG[0xd0],>_CapturePosEdgeElevator
+ 0D50 5300              mov [_CapturePosEdgeElevator],A
+ 0D52 18                pop A
+ 0D53 5301              mov [_CapturePosEdgeElevator+1],A
+ 0D55                   .dbline 433
+ 0D55           ; 
+ 0D55           ;               // Change the capture to negative edge and set flag
+ 0D55           ;               Timer2_FUNC_LSB_REG |= 0x80;
+ 0D55 7110              or F,0x10  ; iopage = 1
+ 0D57 432880            or REG[0x28],-128
+ 0D5A                   .dbline 434
+ 0D5A           ;               FlagsElevator |= FALLING_EDGE_ELEVATOR;
+ 0D5A 70CF              and F,0xCF      ; iopage = 0
+ 0D5C 62D000            mov REG[0xd0],>_FlagsElevator
+ 0D5F 2E0002            or [_FlagsElevator],2
+ 0D62                   .dbline 435
+ 0D62           ;       }
+ 0D62           L60:
+ 0D62                   .dbline -2
+ 0D62           L58:
+ 0D62 62D000            mov REG[0xD0],>__r0
+ 0D65 18                pop A
+ 0D66 5300              mov [__rZ],A
+ 0D68 18                pop A
+ 0D69 5300              mov [__rY],A
+ 0D6B 18                pop A
+ 0D6C 5300              mov [__rX],A
+ 0D6E 18                pop A
+ 0D6F 5300              mov [__r11],A
+ 0D71 18                pop A
+ 0D72 5300              mov [__r10],A
+ 0D74 18                pop A
+ 0D75 5300              mov [__r9],A
+ 0D77 18                pop A
+ 0D78 5300              mov [__r8],A
+ 0D7A 18                pop A
+ 0D7B 5300              mov [__r7],A
+ 0D7D 18                pop A
+ 0D7E 5300              mov [__r6],A
+ 0D80 18                pop A
+ 0D81 5300              mov [__r5],A
+ 0D83 18                pop A
+ 0D84 5300              mov [__r4],A
+ 0D86 18                pop A
+ 0D87 5300              mov [__r3],A
+ 0D89 18                pop A
+ 0D8A 5300              mov [__r2],A
+ 0D8C 18                pop A
+ 0D8D 5300              mov [__r1],A
+ 0D8F 18                pop A
+ 0D90 5300              mov [__r0],A
+ 0D92 18                pop A
+ 0D93 60D5              mov REG[213],A
+ 0D95 18                pop A
+ 0D96 60D4              mov REG[212],A
+ 0D98 18                pop A
+ 0D99 60D3              mov REG[211],A
+ 0D9B 18                pop A
+ 0D9C 60D0              mov REG[208],A
+ 0D9E 18                pop A
+ 0D9F                   .dbline 0 ; func end
+ 0D9F 7E                reti
+ 0DA0                   .dbend
+ 0DA0                   .dbfunc e Timer3CaptureISR _Timer3CaptureISR fV
+ 0DA0           _Timer3CaptureISR::
+ 0DA0                   .dbline -1
+ 0DA0 71C0              or F,-64
+ 0DA2 08                push A
+ 0DA3 5DD0              mov A,REG[0xd0]
+ 0DA5 08                push A
+ 0DA6 5DD3              mov A,REG[0xd3]
+ 0DA8 08                push A
+ 0DA9 5DD4              mov A,REG[0xd4]
+ 0DAB 08                push A
+ 0DAC 5DD5              mov A,REG[0xd5]
+ 0DAE 08                push A
+ 0DAF 62D000            mov REG[0xd0],>__r0
+ 0DB2 5100              mov A,[__r0]
+ 0DB4 08                push A
+ 0DB5 5100              mov A,[__r1]
+ 0DB7 08                push A
+ 0DB8 5100              mov A,[__r2]
+ 0DBA 08                push A
+ 0DBB 5100              mov A,[__r3]
+ 0DBD 08                push A
+ 0DBE 5100              mov A,[__r4]
+ 0DC0 08                push A
+ 0DC1 5100              mov A,[__r5]
+ 0DC3 08                push A
+ 0DC4 5100              mov A,[__r6]
+ 0DC6 08                push A
+ 0DC7 5100              mov A,[__r7]
+ 0DC9 08                push A
+ 0DCA 5100              mov A,[__r8]
+ 0DCC 08                push A
+ 0DCD 5100              mov A,[__r9]
+ 0DCF 08                push A
+ 0DD0 5100              mov A,[__r10]
+ 0DD2 08                push A
+ 0DD3 5100              mov A,[__r11]
+ 0DD5 08                push A
+ 0DD6 5100              mov A,[__rX]
+ 0DD8 08                push A
+ 0DD9 5100              mov A,[__rY]
+ 0DDB 08                push A
+ 0DDC 5100              mov A,[__rZ]
+ 0DDE 08                push A
+ 0DDF                   .dbline 439
+ 0DDF           ; }
+ 0DDF           ; 
+ 0DDF           ; void Timer3CaptureISR(void)
+ 0DDF           ; {     
+ 0DDF                   .dbline 440
+ 0DDF           ;    if(FlagUltrasoon & FALLING_EDGE_ULTRASOON)
+ 0DDF 62D000            mov REG[0xd0],>_FlagUltrasoon
+ 0DE2 470002            tst [_FlagUltrasoon],2
+ 0DE5 A049              jz L62
+ 0DE7                   .dbline 443
+ 0DE7           ;    {
+ 0DE7           ;       // Read the count on negative edge
+ 0DE7           ;       CaptureNegEdgeUltrasoon = Timer3_wReadCompareValue();
+ 0DE7                   .dbline 443
+ 0DE7 10                push X
+ 0DE8 7C0000            xcall _Timer3_wReadCompareValue
+ 0DEB 62D000            mov REG[0xd0],>__r0
+ 0DEE 5A00              mov [__r0],X
+ 0DF0 20                pop X
+ 0DF1 08                push A
+ 0DF2 5100              mov A,[__r0]
+ 0DF4 62D000            mov REG[0xd0],>_CaptureNegEdgeUltrasoon
+ 0DF7 5300              mov [_CaptureNegEdgeUltrasoon],A
+ 0DF9 18                pop A
+ 0DFA 5301              mov [_CaptureNegEdgeUltrasoon+1],A
+ 0DFC                   .dbline 446
+ 0DFC           ; 
+ 0DFC           ;       // Change the capture to positive edge and clear the FALLING_EDGE flag
+ 0DFC           ;       Timer3_FUNC_LSB_REG &= ~0x80;
+ 0DFC 7110              or F,0x10  ; iopage = 1
+ 0DFE 41307F            and REG[0x30],127
+ 0E01                   .dbline 447
+ 0E01           ;       FlagUltrasoon &= ~FALLING_EDGE_ULTRASOON;
+ 0E01 70CF              and F,0xCF      ; iopage = 0
+ 0E03 62D000            mov REG[0xd0],>_FlagUltrasoon
+ 0E06 2600FD            and [_FlagUltrasoon],-3
+ 0E09                   .dbline 454
+ 0E09           ; 
+ 0E09           ;       // Calculate the pulswidth by finding difference between positive edge
+ 0E09           ;       // and negative edge counts.  As both the numbers are unsigned numbers
+ 0E09           ;       // the result will be correct even if there is an underflow in the counter
+ 0E09           ;       // The result will be accurate as long as the total pulsewidth is less than
+ 0E09           ;       // 65535 timer ticks.
+ 0E09           ;       PulseWidthUltrasoon = CapturePosEdgeUltrasoon - CaptureNegEdgeUltrasoon;
+ 0E09 62D000            mov REG[0xd0],>_CapturePosEdgeUltrasoon
+ 0E0C 5101              mov A,[_CapturePosEdgeUltrasoon+1]
+ 0E0E 62D000            mov REG[0xd0],>_CaptureNegEdgeUltrasoon
+ 0E11 1201              sub A,[_CaptureNegEdgeUltrasoon+1]
+ 0E13 62D000            mov REG[0xd0],>_PulseWidthUltrasoon
+ 0E16 5301              mov [_PulseWidthUltrasoon+1],A
+ 0E18 62D000            mov REG[0xd0],>_CapturePosEdgeUltrasoon
+ 0E1B 5100              mov A,[_CapturePosEdgeUltrasoon]
+ 0E1D 62D000            mov REG[0xd0],>_CaptureNegEdgeUltrasoon
+ 0E20 1A00              sbb A,[_CaptureNegEdgeUltrasoon]
+ 0E22 62D000            mov REG[0xd0],>_PulseWidthUltrasoon
+ 0E25 5300              mov [_PulseWidthUltrasoon],A
+ 0E27                   .dbline 457
+ 0E27           ; 
+ 0E27           ;       // Set the Data available flag
+ 0E27           ;       FlagUltrasoon |= DATA_AVAILABLE_ULTRASOON;
+ 0E27 62D000            mov REG[0xd0],>_FlagUltrasoon
+ 0E2A 2E0001            or [_FlagUltrasoon],1
+ 0E2D                   .dbline 458
+ 0E2D           ;    }
+ 0E2D 8023              xjmp L63
+ 0E2F           L62:
+ 0E2F                   .dbline 460
+ 0E2F           ;    else
+ 0E2F           ;    {
+ 0E2F                   .dbline 462
+ 0E2F           ;       // Read the count on positive edge
+ 0E2F           ;       CapturePosEdgeUltrasoon = Timer3_wReadCompareValue();
+ 0E2F 10                push X
+ 0E30 7C0000            xcall _Timer3_wReadCompareValue
+ 0E33 62D000            mov REG[0xd0],>__r0
+ 0E36 5A00              mov [__r0],X
+ 0E38 20                pop X
+ 0E39 08                push A
+ 0E3A 5100              mov A,[__r0]
+ 0E3C 62D000            mov REG[0xd0],>_CapturePosEdgeUltrasoon
+ 0E3F 5300              mov [_CapturePosEdgeUltrasoon],A
+ 0E41 18                pop A
+ 0E42 5301              mov [_CapturePosEdgeUltrasoon+1],A
+ 0E44                   .dbline 465
+ 0E44           ;       
+ 0E44           ;       // Change the capture to negative edge and set flag
+ 0E44           ;       Timer3_FUNC_LSB_REG |= 0x80;
+ 0E44 7110              or F,0x10  ; iopage = 1
+ 0E46 433080            or REG[0x30],-128
+ 0E49                   .dbline 466
+ 0E49           ;       FlagUltrasoon |= FALLING_EDGE_ULTRASOON;
+ 0E49 70CF              and F,0xCF      ; iopage = 0
+ 0E4B 62D000            mov REG[0xd0],>_FlagUltrasoon
+ 0E4E 2E0002            or [_FlagUltrasoon],2
+ 0E51                   .dbline 467
+ 0E51           ;    }
+ 0E51           L63:
+ 0E51                   .dbline -2
+ 0E51           L61:
+ 0E51 62D000            mov REG[0xD0],>__r0
+ 0E54 18                pop A
+ 0E55 5300              mov [__rZ],A
+ 0E57 18                pop A
+ 0E58 5300              mov [__rY],A
+ 0E5A 18                pop A
+ 0E5B 5300              mov [__rX],A
+ 0E5D 18                pop A
+ 0E5E 5300              mov [__r11],A
+ 0E60 18                pop A
+ 0E61 5300              mov [__r10],A
+ 0E63 18                pop A
+ 0E64 5300              mov [__r9],A
+ 0E66 18                pop A
+ 0E67 5300              mov [__r8],A
+ 0E69 18                pop A
+ 0E6A 5300              mov [__r7],A
+ 0E6C 18                pop A
+ 0E6D 5300              mov [__r6],A
+ 0E6F 18                pop A
+ 0E70 5300              mov [__r5],A
+ 0E72 18                pop A
+ 0E73 5300              mov [__r4],A
+ 0E75 18                pop A
+ 0E76 5300              mov [__r3],A
+ 0E78 18                pop A
+ 0E79 5300              mov [__r2],A
+ 0E7B 18                pop A
+ 0E7C 5300              mov [__r1],A
+ 0E7E 18                pop A
+ 0E7F 5300              mov [__r0],A
+ 0E81 18                pop A
+ 0E82 60D5              mov REG[213],A
+ 0E84 18                pop A
+ 0E85 60D4              mov REG[212],A
+ 0E87 18                pop A
+ 0E88 60D3              mov REG[211],A
+ 0E8A 18                pop A
+ 0E8B 60D0              mov REG[208],A
+ 0E8D 18                pop A
+ 0E8E                   .dbline 0 ; func end
+ 0E8E 7E                reti
+ 0E8F                   .dbend
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _FlagUltrasoon::
+ 0000 00                .byte 0
+ 0001                   .dbsym e FlagUltrasoon _FlagUltrasoon c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _PulseWidthUltrasoon::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e PulseWidthUltrasoon _PulseWidthUltrasoon i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _CaptureNegEdgeUltrasoon::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e CaptureNegEdgeUltrasoon _CaptureNegEdgeUltrasoon i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _CapturePosEdgeUltrasoon::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e CapturePosEdgeUltrasoon _CapturePosEdgeUltrasoon i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _FlagsElevator::
+ 0000 00                .byte 0
+ 0001                   .dbsym e FlagsElevator _FlagsElevator c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _PulseWidthElevator::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e PulseWidthElevator _PulseWidthElevator i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _CaptureNegEdgeElevator::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e CaptureNegEdgeElevator _CaptureNegEdgeElevator i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _CapturePosEdgeElevator::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e CapturePosEdgeElevator _CapturePosEdgeElevator i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _FlagsAileron::
+ 0000 00                .byte 0
+ 0001                   .dbsym e FlagsAileron _FlagsAileron c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _PulseWidthAileron::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e PulseWidthAileron _PulseWidthAileron i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _CaptureNegEdgeAileron::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e CaptureNegEdgeAileron _CaptureNegEdgeAileron i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\main.c
+ 0000           _CapturePosEdgeAileron::
+ 0000 0000              .byte 0,0
+ 0002                   .dbsym e CapturePosEdgeAileron _CapturePosEdgeAileron i
+                        .area lit(rom, con, rel, lit)
+ 0000           L45:
+ 0000 4200              .byte 'B,0
+ 0002           L44:
+ 0002 4600              .byte 'F,0
+ 0004           L26:
+ 0004 4400              .byte 'D,0
+ 0006           L23:
+ 0006 5500              .byte 'U,0
+ 0008           L15:
+ 0008 5200              .byte 'R,0
+ 000A           L12:
+ 000A 4C00              .byte 'L,0
+ 000C           L9:
+ 000C 4300              .byte 'C,0

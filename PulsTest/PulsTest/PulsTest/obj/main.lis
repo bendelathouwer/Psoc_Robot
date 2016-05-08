@@ -1,0 +1,115 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PulsTest\PulsTest\PulsTest\main.c
+ 0000                   .dbfunc e main _main fV
+ 0000           _main::
+ 0000                   .dbline -1
+ 0000                   .dbline 10
+ 0000           ; //----------------------------------------------------------------------------
+ 0000           ; // C main line
+ 0000           ; //----------------------------------------------------------------------------
+ 0000           ; 
+ 0000           ; #include <m8c.h>        // part specific constants and macros
+ 0000           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0000           ; 
+ 0000           ; 
+ 0000           ; void main(void)
+ 0000           ; {
+ 0000 8019              xjmp L3
+ 0002           L2:
+ 0002                   .dbline 14
+ 0002           ;       // M8C_EnableGInt ; // Uncomment this line to enable Global Interrupts
+ 0002           ;       // Insert your main routine code here.
+ 0002           ;       while (TRUE)
+ 0002           ;       {
+ 0002                   .dbline 15
+ 0002           ;               PRT2DR |= 0x01;// setting pin1[0]
+ 0002 430801            or REG[0x8],1
+ 0005                   .dbline 16
+ 0005           ;           asm("nop");
+ 0005 40                        nop
+ 0006           
+ 0006                   .dbline 17
+ 0006           ;               asm("nop");
+ 0006 40                        nop
+ 0007           
+ 0007                   .dbline 18
+ 0007           ;               asm("nop");
+ 0007 40                        nop
+ 0008           
+ 0008                   .dbline 19
+ 0008           ;               asm("nop");
+ 0008 40                        nop
+ 0009           
+ 0009                   .dbline 20
+ 0009           ;               asm("nop");
+ 0009 40                        nop
+ 000A           
+ 000A                   .dbline 21
+ 000A           ;               asm("nop");
+ 000A 40                        nop
+ 000B           
+ 000B                   .dbline 22
+ 000B           ;               asm("nop");
+ 000B 40                        nop
+ 000C           
+ 000C                   .dbline 23
+ 000C           ;               asm("nop");
+ 000C 40                        nop
+ 000D           
+ 000D                   .dbline 24
+ 000D           ;               asm("nop");
+ 000D 40                        nop
+ 000E           
+ 000E                   .dbline 25
+ 000E           ;               asm("nop");
+ 000E 40                        nop
+ 000F           
+ 000F                   .dbline 26
+ 000F           ;               asm("nop");
+ 000F 40                        nop
+ 0010           
+ 0010                   .dbline 27
+ 0010           ;               asm("nop");
+ 0010 40                        nop
+ 0011           
+ 0011                   .dbline 28
+ 0011           ;               asm("nop");
+ 0011 40                        nop
+ 0012           
+ 0012                   .dbline 29
+ 0012           ;               asm("nop");
+ 0012 40                        nop
+ 0013           
+ 0013                   .dbline 30
+ 0013           ;               asm("nop");
+ 0013 40                        nop
+ 0014           
+ 0014                   .dbline 31
+ 0014           ;               asm("nop");
+ 0014 40                        nop
+ 0015           
+ 0015                   .dbline 32
+ 0015           ;               asm("nop");
+ 0015 40                        nop
+ 0016           
+ 0016                   .dbline 33
+ 0016           ;               asm("nop");
+ 0016 40                        nop
+ 0017           
+ 0017                   .dbline 34
+ 0017           ;               PRT2DR &= ~0x01;// clearing  pin P1[0]
+ 0017 4108FE            and REG[0x8],-2
+ 001A                   .dbline 35
+ 001A           ;       }
+ 001A           L3:
+ 001A                   .dbline 13
+ 001A 8FE7              xjmp L2
+ 001C           X0:
+ 001C                   .dbline -2
+ 001C           L1:
+ 001C                   .dbline 0 ; func end
+ 001C 8FFF              jmp .
+ 001E                   .dbend

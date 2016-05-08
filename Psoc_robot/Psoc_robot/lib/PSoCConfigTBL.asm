@@ -90,13 +90,13 @@ LoadConfigTBL_psoc_robot_Bank0:
 	db		b4h, 33h		; Row_0_LogicSelect_1 register (RDI0LT1)
 	db		b5h, 00h		; Row_0_OutputDrive_0 register (RDI0SRO0)
 	db		b6h, 00h		; Row_0_OutputDrive_1 register (RDI0SRO1)
-	db		b8h, 15h		; Row_1_InputMux register (RDI1RI)
+	db		b8h, 05h		; Row_1_InputMux register (RDI1RI)
 	db		b9h, 00h		; Row_1_InputSync register (RDI1SYN)
 	db		bah, 10h		; Row_1_LogicInputAMux register (RDI1IS)
 	db		bbh, 33h		; Row_1_LogicSelect_0 register (RDI1LT0)
 	db		bch, 33h		; Row_1_LogicSelect_1 register (RDI1LT1)
 	db		bdh, 00h		; Row_1_OutputDrive_0 register (RDI1SRO0)
-	db		beh, 21h		; Row_1_OutputDrive_1 register (RDI1SRO1)
+	db		beh, 01h		; Row_1_OutputDrive_1 register (RDI1SRO1)
 	db		c0h, 00h		; Row_2_InputMux register (RDI2RI)
 	db		c1h, 00h		; Row_2_InputSync register (RDI2SYN)
 	db		c2h, 20h		; Row_2_LogicInputAMux register (RDI2IS)
@@ -121,21 +121,21 @@ LoadConfigTBL_psoc_robot_Bank1:
 ;  Instance name PWM1, User Module PWM16
 ;       Instance name PWM1, Block Name PWM16_LSB(DBB20)
 	db		40h, 11h		;PWM1_FUNC_LSB_REG(DBB20FN)
-	db		41h, 11h		;PWM1_INPUT_LSB_REG(DBA20IN)
+	db		41h, 15h		;PWM1_INPUT_LSB_REG(DBA20IN)
 	db		42h, 40h		;PWM1_OUTPUT_LSB_REG(DBA20OU)
 ;       Instance name PWM1, Block Name PWM16_MSB(DBB21)
 	db		44h, 31h		;PWM1_FUNC_MSB_REG(DBB21FN)
-	db		45h, 31h		;PWM1_INPUT_MSB_REG(DBB21IN)
+	db		45h, 35h		;PWM1_INPUT_MSB_REG(DBB21IN)
 	db		46h, 44h		;PWM1_OUTPUT_MSB_REG(DBB21OU)
 ;  Instance name PWM2, User Module PWM16
 ;       Instance name PWM2, Block Name PWM16_LSB(DCB22)
 	db		48h, 11h		;PWM2_FUNC_LSB_REG(DCB22FN)
-	db		49h, 16h		;PWM2_INPUT_LSB_REG(DCB22IN)
-	db		4ah, 00h		;PWM2_OUTPUT_LSB_REG(DCB22OU)
+	db		49h, 15h		;PWM2_INPUT_LSB_REG(DCB22IN)
+	db		4ah, 40h		;PWM2_OUTPUT_LSB_REG(DCB22OU)
 ;       Instance name PWM2, Block Name PWM16_MSB(DCB23)
 	db		4ch, 31h		;PWM2_FUNC_MSB_REG(DCB23FN)
-	db		4dh, 36h		;PWM2_INPUT_MSB_REG(DCB23IN)
-	db		4eh, 05h		;PWM2_OUTPUT_MSB_REG(DCB23OU)
+	db		4dh, 35h		;PWM2_INPUT_MSB_REG(DCB23IN)
+	db		4eh, 45h		;PWM2_OUTPUT_MSB_REG(DCB23OU)
 ;  Instance name Timer, User Module Timer16
 ;       Instance name Timer, Block Name TIMER16_LSB(DBB00)
 	db		20h, 00h		;Timer_FUNC_LSB_REG(DBB00FN)
@@ -157,7 +157,7 @@ LoadConfigTBL_psoc_robot_Bank1:
 ;  Instance name Timer3, User Module Timer16
 ;       Instance name Timer3, Block Name TIMER16_LSB(DBB10)
 	db		30h, 00h		;Timer3_FUNC_LSB_REG(DBB10FN)
-	db		31h, f6h		;Timer3_INPUT_LSB_REG(DBB10IN)
+	db		31h, e6h		;Timer3_INPUT_LSB_REG(DBB10IN)
 	db		32h, 40h		;Timer3_OUTPUT_LSB_REG(DBB10OU)
 ;       Instance name Timer3, Block Name TIMER16_MSB(DBB11)
 	db		34h, 20h		;Timer3_FUNC_MSB_REG(DBB11FN)
@@ -188,7 +188,7 @@ LoadConfigTBL_psoc_robot_Bank1:
 	db		e1h, ffh		; OscillatorControl_1 register (OSC_CR1)
 	db		e2h, 00h		; OscillatorControl_2 register (OSC_CR2)
 	db		dfh, ffh		; OscillatorControl_3 register (OSC_CR3)
-	db		deh, 02h		; OscillatorControl_4 register (OSC_CR4)
+	db		deh, 03h		; OscillatorControl_4 register (OSC_CR4)
 	db		ddh, 00h		; OscillatorGlobalBusEnableControl register (OSC_GO_EN)
 	db		e7h, 00h		; Type2Decimator_Control register (DEC_CR2)
 	db		ffh
@@ -198,11 +198,11 @@ LoadConfigTBL_psoc_robot_Ordered:
 	M8C_SetBank0
 	mov	reg[00h], 00h		; Port_0_Data register (PRT0DR)
 	M8C_SetBank1
-	mov	reg[00h], f4h		; Port_0_DriveMode_0 register (PRT0DM0)
-	mov	reg[01h], 0bh		; Port_0_DriveMode_1 register (PRT0DM1)
+	mov	reg[00h], 30h		; Port_0_DriveMode_0 register (PRT0DM0)
+	mov	reg[01h], cfh		; Port_0_DriveMode_1 register (PRT0DM1)
 	M8C_SetBank0
-	mov	reg[03h], 00h		; Port_0_DriveMode_2 register (PRT0DM2)
-	mov	reg[02h], ffh		; Port_0_GlobalSelect register (PRT0GS)
+	mov	reg[03h], c8h		; Port_0_DriveMode_2 register (PRT0DM2)
+	mov	reg[02h], 37h		; Port_0_GlobalSelect register (PRT0GS)
 	M8C_SetBank1
 	mov	reg[02h], 00h		; Port_0_IntCtrl_0 register (PRT0IC0)
 	mov	reg[03h], 00h		; Port_0_IntCtrl_1 register (PRT0IC1)
@@ -210,10 +210,10 @@ LoadConfigTBL_psoc_robot_Ordered:
 	mov	reg[01h], 00h		; Port_0_IntEn register (PRT0IE)
 	mov	reg[04h], 00h		; Port_1_Data register (PRT1DR)
 	M8C_SetBank1
-	mov	reg[04h], 00h		; Port_1_DriveMode_0 register (PRT1DM0)
-	mov	reg[05h], ffh		; Port_1_DriveMode_1 register (PRT1DM1)
+	mov	reg[04h], 01h		; Port_1_DriveMode_0 register (PRT1DM0)
+	mov	reg[05h], feh		; Port_1_DriveMode_1 register (PRT1DM1)
 	M8C_SetBank0
-	mov	reg[07h], ffh		; Port_1_DriveMode_2 register (PRT1DM2)
+	mov	reg[07h], feh		; Port_1_DriveMode_2 register (PRT1DM2)
 	mov	reg[06h], 00h		; Port_1_GlobalSelect register (PRT1GS)
 	M8C_SetBank1
 	mov	reg[06h], 00h		; Port_1_IntCtrl_0 register (PRT1IC0)
@@ -222,10 +222,10 @@ LoadConfigTBL_psoc_robot_Ordered:
 	mov	reg[05h], 00h		; Port_1_IntEn register (PRT1IE)
 	mov	reg[08h], 00h		; Port_2_Data register (PRT2DR)
 	M8C_SetBank1
-	mov	reg[08h], 7fh		; Port_2_DriveMode_0 register (PRT2DM0)
-	mov	reg[09h], 80h		; Port_2_DriveMode_1 register (PRT2DM1)
+	mov	reg[08h], ffh		; Port_2_DriveMode_0 register (PRT2DM0)
+	mov	reg[09h], 00h		; Port_2_DriveMode_1 register (PRT2DM1)
 	M8C_SetBank0
-	mov	reg[0bh], 80h		; Port_2_DriveMode_2 register (PRT2DM2)
+	mov	reg[0bh], 00h		; Port_2_DriveMode_2 register (PRT2DM2)
 	mov	reg[0ah], 00h		; Port_2_GlobalSelect register (PRT2GS)
 	M8C_SetBank1
 	mov	reg[0ah], 00h		; Port_2_IntCtrl_0 register (PRT2IC0)

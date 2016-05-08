@@ -4,91 +4,114 @@
  0000                   .dbfile ./main.c
  0000                   .dbfile C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\main.c
  0000                   .dbfunc e main _main fV
- 0000           ;              t -> X+0
  0000           _main::
  0000                   .dbline -1
+ 0000                   .dbline 63
+ 0000           ; //----------------------------------------------------------------------------
+ 0000           ; // FILENAME: main.c
+ 0000           ; //
+ 0000           ; // DESCRIPTION:
+ 0000           ; //
+ 0000           ; //  This sample shows how to create a 33% duty cycle output pulse. 
+ 0000           ; //
+ 0000           ; // OVERVIEW:
+ 0000           ; //
+ 0000           ; //  The PWM output can be routed to any pin. 
+ 0000           ; //  In this example the PWM output is routed to P0[4]. 
+ 0000           ; //  The pin P0[4] has the 33% duty cycle output pulse with frequency = 1,5 kHz.
+ 0000           ; //
+ 0000           ; //    The following changes need to be made to the default settings in the Device Editor:
+ 0000           ; //
+ 0000           ; //   1. Select PWM16 user module.
+ 0000           ; //   2. The User Module will occupy the space in dedicated system resources.
+ 0000           ; //   3. Rename User Module's instance name to PWM16.
+ 0000           ; //   4. Set PWM16's Clock Parameter to VC1.
+ 0000           ; //   5. Set PWM16's Enable Parameter to High.
+ 0000           ; //   6. Set PWM16's CompareOut Parameter to Row_0_Output_0.
+ 0000           ; //   7. Set PWM16's CompareType Parameter to Less Than Or Equal.
+ 0000           ; //   8. Set PWM16's ClockSync Parameter to SyncSysClk.
+ 0000           ; //   9. Click on Row_0_Output_0 and connect Row_0_Output_0 to GlobalOutEven_4.
+ 0000           ; //   10.Select GlobalOutEven_4 for P0[4] in the Pinout.
+ 0000           ; //
+ 0000           ; // CONFIGURATION DETAILS:
+ 0000           ; //
+ 0000           ; //  1. The clock selected should be 1000 times the required period.
+ 0000           ; //  2. The UM's instance name must be shortened to PWM16.
+ 0000           ; //
+ 0000           ; // PROJECT SETTINGS:
+ 0000           ; //
+ 0000           ; //     IMO setting (SysClk)  = 24MHz       System clock is set to 24MHz
+ 0000           ; //     VC1=SysClk/1  = 16 (default)
+ 0000           ; //
+ 0000           ; // USER MODULE PARAMETER SETTINGS:
+ 0000           ; //
+ 0000           ; //  -------------------------------------------------------------------------------
+ 0000           ; //  UM         Parameter         Value                 Comments 
+ 0000           ; //  -------------------------------------------------------------------------------
+ 0000           ; //  PWM16      Name              PWM16                  UM's instance name
+ 0000           ; //             Clock             VC1
+ 0000           ; //             Enable            High
+ 0000           ; //             CompareOut        Row_0_Output_0
+ 0000           ; //             TerminalCountOut  Row_0_Output_1
+ 0000           ; //             Period            0                     The Code changes it.
+ 0000           ; //             PulseWidth        0                     The Code changes it. 
+ 0000           ; //             CompareType       Less Than Or Equal 
+ 0000           ; //             InterruptType     Terminal Count
+ 0000           ; //             ClockSync         SyncSysClk
+ 0000           ; //                                                    
+ 0000           ; //  -------------------------------------------------------------------------------
+ 0000           ; 
+ 0000           ; /* Code begins here */
+ 0000           ; 
+ 0000           ; #include <m8c.h>        // part specific constants and macros
+ 0000           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0000           ; #include "delay.h"
+ 0000           ; #define PWM_PERIOD1   999
+ 0000           ; #define PWM_PULSEWIDTH1 200
+ 0000           ; void main(void)
+ 0000           ; {
+ 0000                   .dbline 65
+ 0000           ;       //PRT1DR |=0x20;
+ 0000           ;       PWM_WritePeriod(PWM_PERIOD1);
  0000 10                push X
- 0001 4F                mov X,SP
- 0002 3802              add SP,2
- 0004                   .dbline 13
- 0004           ; //----------------------------------------------------------------------------
- 0004           ; // C main line
- 0004           ; //----------------------------------------------------------------------------
- 0004           ; 
- 0004           ; #include <m8c.h>        // part specific constants and macros
- 0004           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
- 0004           ; #include "delay.h"
- 0004           ; 
- 0004           ; #define PWM_PERIOD1     999
- 0004           ; //#define PWM_Width1   332
- 0004           ; 
- 0004           ; void main(void)
- 0004           ; {
- 0004 8034              xjmp L3
- 0006           L2:
- 0006                   .dbline 17
- 0006           ;       int t;
- 0006           ;       // M8C_EnableGInt ; // Uncomment this line to enable Global Interrupts
- 0006           ;       while (1)
- 0006           ;       {
- 0006                   .dbline 18
- 0006           ;               for(t=0 ;t<1000;t++)
- 0006 560100            mov [X+1],0
- 0009 560000            mov [X+0],0
- 000C           L5:
- 000C                   .dbline 19
- 000C           ;               {
- 000C                   .dbline 21
- 000C           ;                       //PWM_Stop();
- 000C           ;                   PWM_WritePeriod(PWM_PERIOD1);
- 000C 10                push X
- 000D 5703              mov X,3
- 000F 50E7              mov A,-25
- 0011 7C0000            xcall _PWM_WritePeriod
- 0014 20                pop X
- 0015                   .dbline 22
- 0015           ;                       PWM_WritePulseWidth(t);  // Set pulse width to generate a 33%                                             //duty cycle
- 0015 10                push X
- 0016 5200              mov A,[X+0]
- 0018 08                push A
- 0019 5201              mov A,[X+1]
- 001B 20                pop X
- 001C 7C0000            xcall _PWM_WritePulseWidth
- 001F                   .dbline 23
- 001F           ;                       PWM_Start();
- 001F 7C0000            xcall _PWM_Start
- 0022                   .dbline 24
- 0022           ;                       Delay10msTimes(10);
- 0022 500A              mov A,10
- 0024 7C0000            xcall _Delay10msTimes
- 0027 20                pop X
- 0028                   .dbline 26
- 0028           ;                       
- 0028           ;               }       
- 0028           L6:
- 0028                   .dbline 18
- 0028 7701              inc [X+1]
- 002A 0F0000            adc [X+0],0
- 002D                   .dbline 18
- 002D 5201              mov A,[X+1]
- 002F 11E8              sub A,-24
- 0031 5200              mov A,[X+0]
- 0033 3180              xor A,-128
- 0035 1983              sbb A,(3 ^ 0x80)
- 0037 CFD4              jc L5
- 0039           X1:
- 0039                   .dbline 28
- 0039           ;               
- 0039           ;       }
- 0039           L3:
- 0039                   .dbline 16
- 0039 8FCC              xjmp L2
- 003B           X0:
- 003B                   .dbline -2
- 003B           L1:
- 003B 38FE              add SP,-2
- 003D 20                pop X
- 003E                   .dbline 0 ; func end
- 003E 8FFF              jmp .
- 0040                   .dbsym l t 0 I
- 0040                   .dbend
+ 0001 5703              mov X,3
+ 0003 50E7              mov A,-25
+ 0005 7C0000            xcall _PWM_WritePeriod
+ 0008                   .dbline 66
+ 0008           ;       PWM_Start();
+ 0008 7C0000            xcall _PWM_Start
+ 000B 20                pop X
+ 000C 8010              xjmp L3
+ 000E           L2:
+ 000E                   .dbline 69
+ 000E           ; 
+ 000E           ;       while (TRUE)
+ 000E           ;       {
+ 000E                   .dbline 70
+ 000E           ;               PRT2DR |= 0x80;
+ 000E 430880            or REG[0x8],-128
+ 0011                   .dbline 71
+ 0011           ;               PRT2DR &= ~ 0x20;
+ 0011 4108DF            and REG[0x8],-33
+ 0014                   .dbline 74
+ 0014           ;               
+ 0014           ;               
+ 0014           ;               PWM_WritePulseWidth(PWM_PULSEWIDTH1);   
+ 0014 10                push X
+ 0015 5700              mov X,0
+ 0017 50C8              mov A,-56
+ 0019 7C0000            xcall _PWM_WritePulseWidth
+ 001C 20                pop X
+ 001D                   .dbline 77
+ 001D           ;       
+ 001D           ;               
+ 001D           ;     }
+ 001D           L3:
+ 001D                   .dbline 68
+ 001D 8FF0              xjmp L2
+ 001F           X0:
+ 001F                   .dbline -2
+ 001F           L1:
+ 001F                   .dbline 0 ; func end
+ 001F 8FFF              jmp .
+ 0021                   .dbend

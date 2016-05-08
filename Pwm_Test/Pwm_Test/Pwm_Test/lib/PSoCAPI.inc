@@ -13,4 +13,6 @@
 ;  
 ; =============================================================================
  
+include "PSoCGPIOINT.inc"
+include "LCD.inc"
 include "PWM.inc"

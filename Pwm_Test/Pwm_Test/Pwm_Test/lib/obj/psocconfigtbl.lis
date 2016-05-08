@@ -838,6 +838,7 @@
                 export LoadConfigTBL_pwm_test_Ordered
                 AREA lit(rom, rel)
  0000           LoadConfigTBL_pwm_test_Bank0:
+ 0000           ;  Instance name LCD, User Module LCD
  0000           ;  Instance name PWM, User Module PWM16
  0000           ;       Instance name PWM, Block Name PWM16_LSB(DBB00)
  0000 2300              db              23h, 00h                ;PWM_CONTROL_LSB_REG(DBB00CR0)
@@ -860,7 +861,7 @@
  001E B200              db              b2h, 00h                ; Row_0_LogicInputAMux register (RDI0IS)
  0020 B333              db              b3h, 33h                ; Row_0_LogicSelect_0 register (RDI0LT0)
  0022 B433              db              b4h, 33h                ; Row_0_LogicSelect_1 register (RDI0LT1)
- 0024 B511              db              b5h, 11h                ; Row_0_OutputDrive_0 register (RDI0SRO0)
+ 0024 B501              db              b5h, 01h                ; Row_0_OutputDrive_0 register (RDI0SRO0)
  0026 B600              db              b6h, 00h                ; Row_0_OutputDrive_1 register (RDI0SRO1)
  0028 B855              db              b8h, 55h                ; Row_1_InputMux register (RDI1RI)
  002A B900              db              b9h, 00h                ; Row_1_InputSync register (RDI1SYN)
@@ -889,15 +890,16 @@
  0058 6F00              db              6fh, 00h                ; TMP_DR3 register (TMP_DR3)
  005A FF                db              ffh
  005B           LoadConfigTBL_pwm_test_Bank1:
+ 005B           ;  Instance name LCD, User Module LCD
  005B           ;  Instance name PWM, User Module PWM16
  005B           ;       Instance name PWM, Block Name PWM16_LSB(DBB00)
- 005B 2001              db              20h, 01h                ;PWM_FUNC_LSB_REG(DBB00FN)
+ 005B 2011              db              20h, 11h                ;PWM_FUNC_LSB_REG(DBB00FN)
  005D 2115              db              21h, 15h                ;PWM_INPUT_LSB_REG(DBB00IN)
  005F 2240              db              22h, 40h                ;PWM_OUTPUT_LSB_REG(DBB00OU)
  0061           ;       Instance name PWM, Block Name PWM16_MSB(DBB01)
- 0061 2421              db              24h, 21h                ;PWM_FUNC_MSB_REG(DBB01FN)
+ 0061 2431              db              24h, 31h                ;PWM_FUNC_MSB_REG(DBB01FN)
  0063 2535              db              25h, 35h                ;PWM_INPUT_MSB_REG(DBB01IN)
- 0065 2665              db              26h, 65h                ;PWM_OUTPUT_MSB_REG(DBB01OU)
+ 0065 2644              db              26h, 44h                ;PWM_OUTPUT_MSB_REG(DBB01OU)
  0067           ;  Global Register values Bank 1
  0067 6100              db              61h, 00h                ; AnalogClockSelect1 register (CLK_CR1)
  0069 6900              db              69h, 00h                ; AnalogClockSelect2 register (CLK_CR2)
@@ -924,11 +926,11 @@
  0000 70EF          and   F, ~FLAG_XIO_MASK
  0002 620000            mov     reg[00h], 00h           ; Port_0_Data register (PRT0DR)
  0005 7110          or    F, FLAG_XIO_MASK
- 0007 620003            mov     reg[00h], 03h           ; Port_0_DriveMode_0 register (PRT0DM0)
- 000A 6201FC            mov     reg[01h], fch           ; Port_0_DriveMode_1 register (PRT0DM1)
+ 0007 620001            mov     reg[00h], 01h           ; Port_0_DriveMode_0 register (PRT0DM0)
+ 000A 6201FE            mov     reg[01h], feh           ; Port_0_DriveMode_1 register (PRT0DM1)
  000D 70EF          and   F, ~FLAG_XIO_MASK
- 000F 6203FC            mov     reg[03h], fch           ; Port_0_DriveMode_2 register (PRT0DM2)
- 0012 620203            mov     reg[02h], 03h           ; Port_0_GlobalSelect register (PRT0GS)
+ 000F 6203FE            mov     reg[03h], feh           ; Port_0_DriveMode_2 register (PRT0DM2)
+ 0012 620201            mov     reg[02h], 01h           ; Port_0_GlobalSelect register (PRT0GS)
  0015 7110          or    F, FLAG_XIO_MASK
  0017 620200            mov     reg[02h], 00h           ; Port_0_IntCtrl_0 register (PRT0IC0)
  001A 620300            mov     reg[03h], 00h           ; Port_0_IntCtrl_1 register (PRT0IC1)
@@ -936,10 +938,10 @@
  001F 620100            mov     reg[01h], 00h           ; Port_0_IntEn register (PRT0IE)
  0022 620400            mov     reg[04h], 00h           ; Port_1_Data register (PRT1DR)
  0025 7110          or    F, FLAG_XIO_MASK
- 0027 620400            mov     reg[04h], 00h           ; Port_1_DriveMode_0 register (PRT1DM0)
- 002A 6205FF            mov     reg[05h], ffh           ; Port_1_DriveMode_1 register (PRT1DM1)
+ 0027 6204A1            mov     reg[04h], a1h           ; Port_1_DriveMode_0 register (PRT1DM0)
+ 002A 62055E            mov     reg[05h], 5eh           ; Port_1_DriveMode_1 register (PRT1DM1)
  002D 70EF          and   F, ~FLAG_XIO_MASK
- 002F 6207FF            mov     reg[07h], ffh           ; Port_1_DriveMode_2 register (PRT1DM2)
+ 002F 62075E            mov     reg[07h], 5eh           ; Port_1_DriveMode_2 register (PRT1DM2)
  0032 620600            mov     reg[06h], 00h           ; Port_1_GlobalSelect register (PRT1GS)
  0035 7110          or    F, FLAG_XIO_MASK
  0037 620600            mov     reg[06h], 00h           ; Port_1_IntCtrl_0 register (PRT1IC0)
@@ -948,10 +950,10 @@
  003F 620500            mov     reg[05h], 00h           ; Port_1_IntEn register (PRT1IE)
  0042 620800            mov     reg[08h], 00h           ; Port_2_Data register (PRT2DR)
  0045 7110          or    F, FLAG_XIO_MASK
- 0047 620800            mov     reg[08h], 00h           ; Port_2_DriveMode_0 register (PRT2DM0)
- 004A 6209FF            mov     reg[09h], ffh           ; Port_2_DriveMode_1 register (PRT2DM1)
+ 0047 6208FF            mov     reg[08h], ffh           ; Port_2_DriveMode_0 register (PRT2DM0)
+ 004A 620900            mov     reg[09h], 00h           ; Port_2_DriveMode_1 register (PRT2DM1)
  004D 70EF          and   F, ~FLAG_XIO_MASK
- 004F 620BFF            mov     reg[0bh], ffh           ; Port_2_DriveMode_2 register (PRT2DM2)
+ 004F 620B00            mov     reg[0bh], 00h           ; Port_2_DriveMode_2 register (PRT2DM2)
  0052 620A00            mov     reg[0ah], 00h           ; Port_2_GlobalSelect register (PRT2GS)
  0055 7110          or    F, FLAG_XIO_MASK
  0057 620A00            mov     reg[0ah], 00h           ; Port_2_IntCtrl_0 register (PRT2IC0)

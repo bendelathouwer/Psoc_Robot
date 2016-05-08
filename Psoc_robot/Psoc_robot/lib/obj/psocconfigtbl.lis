@@ -908,13 +908,13 @@
  005E B433              db              b4h, 33h                ; Row_0_LogicSelect_1 register (RDI0LT1)
  0060 B500              db              b5h, 00h                ; Row_0_OutputDrive_0 register (RDI0SRO0)
  0062 B600              db              b6h, 00h                ; Row_0_OutputDrive_1 register (RDI0SRO1)
- 0064 B815              db              b8h, 15h                ; Row_1_InputMux register (RDI1RI)
+ 0064 B805              db              b8h, 05h                ; Row_1_InputMux register (RDI1RI)
  0066 B900              db              b9h, 00h                ; Row_1_InputSync register (RDI1SYN)
  0068 BA10              db              bah, 10h                ; Row_1_LogicInputAMux register (RDI1IS)
  006A BB33              db              bbh, 33h                ; Row_1_LogicSelect_0 register (RDI1LT0)
  006C BC33              db              bch, 33h                ; Row_1_LogicSelect_1 register (RDI1LT1)
  006E BD00              db              bdh, 00h                ; Row_1_OutputDrive_0 register (RDI1SRO0)
- 0070 BE21              db              beh, 21h                ; Row_1_OutputDrive_1 register (RDI1SRO1)
+ 0070 BE01              db              beh, 01h                ; Row_1_OutputDrive_1 register (RDI1SRO1)
  0072 C000              db              c0h, 00h                ; Row_2_InputMux register (RDI2RI)
  0074 C100              db              c1h, 00h                ; Row_2_InputSync register (RDI2SYN)
  0076 C220              db              c2h, 20h                ; Row_2_LogicInputAMux register (RDI2IS)
@@ -939,21 +939,21 @@
  0097           ;  Instance name PWM1, User Module PWM16
  0097           ;       Instance name PWM1, Block Name PWM16_LSB(DBB20)
  0097 4011              db              40h, 11h                ;PWM1_FUNC_LSB_REG(DBB20FN)
- 0099 4111              db              41h, 11h                ;PWM1_INPUT_LSB_REG(DBA20IN)
+ 0099 4115              db              41h, 15h                ;PWM1_INPUT_LSB_REG(DBA20IN)
  009B 4240              db              42h, 40h                ;PWM1_OUTPUT_LSB_REG(DBA20OU)
  009D           ;       Instance name PWM1, Block Name PWM16_MSB(DBB21)
  009D 4431              db              44h, 31h                ;PWM1_FUNC_MSB_REG(DBB21FN)
- 009F 4531              db              45h, 31h                ;PWM1_INPUT_MSB_REG(DBB21IN)
+ 009F 4535              db              45h, 35h                ;PWM1_INPUT_MSB_REG(DBB21IN)
  00A1 4644              db              46h, 44h                ;PWM1_OUTPUT_MSB_REG(DBB21OU)
  00A3           ;  Instance name PWM2, User Module PWM16
  00A3           ;       Instance name PWM2, Block Name PWM16_LSB(DCB22)
  00A3 4811              db              48h, 11h                ;PWM2_FUNC_LSB_REG(DCB22FN)
- 00A5 4916              db              49h, 16h                ;PWM2_INPUT_LSB_REG(DCB22IN)
- 00A7 4A00              db              4ah, 00h                ;PWM2_OUTPUT_LSB_REG(DCB22OU)
+ 00A5 4915              db              49h, 15h                ;PWM2_INPUT_LSB_REG(DCB22IN)
+ 00A7 4A40              db              4ah, 40h                ;PWM2_OUTPUT_LSB_REG(DCB22OU)
  00A9           ;       Instance name PWM2, Block Name PWM16_MSB(DCB23)
  00A9 4C31              db              4ch, 31h                ;PWM2_FUNC_MSB_REG(DCB23FN)
- 00AB 4D36              db              4dh, 36h                ;PWM2_INPUT_MSB_REG(DCB23IN)
- 00AD 4E05              db              4eh, 05h                ;PWM2_OUTPUT_MSB_REG(DCB23OU)
+ 00AB 4D35              db              4dh, 35h                ;PWM2_INPUT_MSB_REG(DCB23IN)
+ 00AD 4E45              db              4eh, 45h                ;PWM2_OUTPUT_MSB_REG(DCB23OU)
  00AF           ;  Instance name Timer, User Module Timer16
  00AF           ;       Instance name Timer, Block Name TIMER16_LSB(DBB00)
  00AF 2000              db              20h, 00h                ;Timer_FUNC_LSB_REG(DBB00FN)
@@ -975,7 +975,7 @@
  00C7           ;  Instance name Timer3, User Module Timer16
  00C7           ;       Instance name Timer3, Block Name TIMER16_LSB(DBB10)
  00C7 3000              db              30h, 00h                ;Timer3_FUNC_LSB_REG(DBB10FN)
- 00C9 31F6              db              31h, f6h                ;Timer3_INPUT_LSB_REG(DBB10IN)
+ 00C9 31E6              db              31h, e6h                ;Timer3_INPUT_LSB_REG(DBB10IN)
  00CB 3240              db              32h, 40h                ;Timer3_OUTPUT_LSB_REG(DBB10OU)
  00CD           ;       Instance name Timer3, Block Name TIMER16_MSB(DBB11)
  00CD 3420              db              34h, 20h                ;Timer3_FUNC_MSB_REG(DBB11FN)
@@ -1006,7 +1006,7 @@
  00F7 E1FF              db              e1h, ffh                ; OscillatorControl_1 register (OSC_CR1)
  00F9 E200              db              e2h, 00h                ; OscillatorControl_2 register (OSC_CR2)
  00FB DFFF              db              dfh, ffh                ; OscillatorControl_3 register (OSC_CR3)
- 00FD DE02              db              deh, 02h                ; OscillatorControl_4 register (OSC_CR4)
+ 00FD DE03              db              deh, 03h                ; OscillatorControl_4 register (OSC_CR4)
  00FF DD00              db              ddh, 00h                ; OscillatorGlobalBusEnableControl register (OSC_GO_EN)
  0101 E700              db              e7h, 00h                ; Type2Decimator_Control register (DEC_CR2)
  0103 FF                db              ffh
@@ -1016,11 +1016,11 @@
  0000 70EF          and   F, ~FLAG_XIO_MASK
  0002 620000            mov     reg[00h], 00h           ; Port_0_Data register (PRT0DR)
  0005 7110          or    F, FLAG_XIO_MASK
- 0007 6200F4            mov     reg[00h], f4h           ; Port_0_DriveMode_0 register (PRT0DM0)
- 000A 62010B            mov     reg[01h], 0bh           ; Port_0_DriveMode_1 register (PRT0DM1)
+ 0007 620030            mov     reg[00h], 30h           ; Port_0_DriveMode_0 register (PRT0DM0)
+ 000A 6201CF            mov     reg[01h], cfh           ; Port_0_DriveMode_1 register (PRT0DM1)
  000D 70EF          and   F, ~FLAG_XIO_MASK
- 000F 620300            mov     reg[03h], 00h           ; Port_0_DriveMode_2 register (PRT0DM2)
- 0012 6202FF            mov     reg[02h], ffh           ; Port_0_GlobalSelect register (PRT0GS)
+ 000F 6203C8            mov     reg[03h], c8h           ; Port_0_DriveMode_2 register (PRT0DM2)
+ 0012 620237            mov     reg[02h], 37h           ; Port_0_GlobalSelect register (PRT0GS)
  0015 7110          or    F, FLAG_XIO_MASK
  0017 620200            mov     reg[02h], 00h           ; Port_0_IntCtrl_0 register (PRT0IC0)
  001A 620300            mov     reg[03h], 00h           ; Port_0_IntCtrl_1 register (PRT0IC1)
@@ -1028,10 +1028,10 @@
  001F 620100            mov     reg[01h], 00h           ; Port_0_IntEn register (PRT0IE)
  0022 620400            mov     reg[04h], 00h           ; Port_1_Data register (PRT1DR)
  0025 7110          or    F, FLAG_XIO_MASK
- 0027 620400            mov     reg[04h], 00h           ; Port_1_DriveMode_0 register (PRT1DM0)
- 002A 6205FF            mov     reg[05h], ffh           ; Port_1_DriveMode_1 register (PRT1DM1)
+ 0027 620401            mov     reg[04h], 01h           ; Port_1_DriveMode_0 register (PRT1DM0)
+ 002A 6205FE            mov     reg[05h], feh           ; Port_1_DriveMode_1 register (PRT1DM1)
  002D 70EF          and   F, ~FLAG_XIO_MASK
- 002F 6207FF            mov     reg[07h], ffh           ; Port_1_DriveMode_2 register (PRT1DM2)
+ 002F 6207FE            mov     reg[07h], feh           ; Port_1_DriveMode_2 register (PRT1DM2)
  0032 620600            mov     reg[06h], 00h           ; Port_1_GlobalSelect register (PRT1GS)
  0035 7110          or    F, FLAG_XIO_MASK
  0037 620600            mov     reg[06h], 00h           ; Port_1_IntCtrl_0 register (PRT1IC0)
@@ -1040,10 +1040,10 @@
  003F 620500            mov     reg[05h], 00h           ; Port_1_IntEn register (PRT1IE)
  0042 620800            mov     reg[08h], 00h           ; Port_2_Data register (PRT2DR)
  0045 7110          or    F, FLAG_XIO_MASK
- 0047 62087F            mov     reg[08h], 7fh           ; Port_2_DriveMode_0 register (PRT2DM0)
- 004A 620980            mov     reg[09h], 80h           ; Port_2_DriveMode_1 register (PRT2DM1)
+ 0047 6208FF            mov     reg[08h], ffh           ; Port_2_DriveMode_0 register (PRT2DM0)
+ 004A 620900            mov     reg[09h], 00h           ; Port_2_DriveMode_1 register (PRT2DM1)
  004D 70EF          and   F, ~FLAG_XIO_MASK
- 004F 620B80            mov     reg[0bh], 80h           ; Port_2_DriveMode_2 register (PRT2DM2)
+ 004F 620B00            mov     reg[0bh], 00h           ; Port_2_DriveMode_2 register (PRT2DM2)
  0052 620A00            mov     reg[0ah], 00h           ; Port_2_GlobalSelect register (PRT2GS)
  0055 7110          or    F, FLAG_XIO_MASK
  0057 620A00            mov     reg[0ah], 00h           ; Port_2_IntCtrl_0 register (PRT2IC0)

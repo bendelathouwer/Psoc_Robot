@@ -1995,27 +1995,27 @@
  0000              ;---------------------------------------------------
  0000              ;   NOTE: interrupt service routines must preserve
  0000              ;   the values of the A and X CPU registers.
- 0000              
- 0000              ;---------------------------------------------------
- 0000              ; Insert your custom assembly code above this banner
- 0000              ;---------------------------------------------------
- 0000              
- 0000              ;---------------------------------------------------
- 0000              ; Insert a lcall to a C function below this banner
- 0000              ; and un-comment the lines between these banners
- 0000              ;---------------------------------------------------
- 0000              
- 0000              ;PRESERVE_CPU_CONTEXT
- 0000              ;lcall _My_C_Function
- 0000              ;RESTORE_CPU_CONTEXT
- 0000              
- 0000              ;---------------------------------------------------
- 0000              ; Insert a lcall to a C function above this banner
- 0000              ; and un-comment the lines between these banners
- 0000              ;---------------------------------------------------
- 0000              ;@PSoC_UserCode_END@ (Do not change this line.)
- 0000           
- 0000 7E           reti
- 0001           
- 0001           
- 0001           ; end of file PWM1INT.asm
+ 0000 7D0000       ljmp _Timer1CaptureISR
+ 0003              ;---------------------------------------------------
+ 0003              ; Insert your custom assembly code above this banner
+ 0003              ;---------------------------------------------------
+ 0003              
+ 0003              ;---------------------------------------------------
+ 0003              ; Insert a lcall to a C function below this banner
+ 0003              ; and un-comment the lines between these banners
+ 0003              ;---------------------------------------------------
+ 0003              
+ 0003              ;PRESERVE_CPU_CONTEXT
+ 0003              ;lcall _My_C_Function
+ 0003              ;RESTORE_CPU_CONTEXT
+ 0003              
+ 0003              ;---------------------------------------------------
+ 0003              ; Insert a lcall to a C function above this banner
+ 0003              ; and un-comment the lines between these banners
+ 0003              ;---------------------------------------------------
+ 0003              ;@PSoC_UserCode_END@ (Do not change this line.)
+ 0003           
+ 0003 7E           reti
+ 0004           
+ 0004           
+ 0004           ; end of file PWM1INT.asm

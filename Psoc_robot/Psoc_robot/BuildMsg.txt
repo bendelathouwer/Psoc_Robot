@@ -15,7 +15,9 @@ lib/pwm2.asm
 
 lib/pwm2int.asm
 
-lib/timer.asm
+lib/timer1.asm
+
+lib/timer1int.asm
 
 lib/timer2.asm
 
@@ -24,8 +26,6 @@ lib/timer2int.asm
 lib/timer3.asm
 
 lib/timer3int.asm
-
-lib/timerint.asm
 
 lib/uart.asm
 
@@ -69,12 +69,12 @@ LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 
 idata dump at output/Psoc_robot.idata
 
-  ROM 22% full. 6970 out of 32768 bytes used (does not include absolute areas).
+  ROM 22% full. 7023 out of 32768 bytes used (does not include absolute areas).
 
   RAM 4% full. 57 bytes used (does not include stack usage).
 
 Built with ICCM8C STD V7.05.00
 
  
-Psoc_robot - 0 error(s) 0 warning(s) 21:27:56
+Psoc_robot - 0 error(s) 0 warning(s) 18:52:42
 

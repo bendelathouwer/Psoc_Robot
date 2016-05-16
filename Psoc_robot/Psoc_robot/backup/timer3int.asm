@@ -67,7 +67,8 @@ _Timer3_ISR:
    ;---------------------------------------------------
    ;   NOTE: interrupt service routines must preserve
    ;   the values of the A and X CPU registers.
-  ljmp _Timer3CaptureISR; added to serv the ultrasoon sensor echo pin, er moet ook een _ voor staan wilt dit naar behoren werken 
+   ljmp _Timer3CaptureISR; added to serve the ultrasoon sensor echo pin, er moet ook een _ voor staan wilt dit naar behoren werken 
+  
    ;---------------------------------------------------
    ; Insert your custom assembly code above this banner
    ;---------------------------------------------------

@@ -21,7 +21,7 @@
 #include "LCD.h"
 #include "PWM1.h"
 #include "PWM2.h"
-#include "Timer.h"
+#include "Timer1.h"
 #include "Timer2.h"
 #include "Timer3.h"
 #include "UART.h"

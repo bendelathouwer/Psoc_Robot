@@ -24,7 +24,7 @@ A UserModules size 4 flags 0
 dbfile lib/timer3int.asm
 dbfunc 0 ? 0 I
 dbline 46 0
-dbline 5A 3
+dbline 5B 3
 S _Timer3_ISR Def0000
 T 00 00 7D 00 00 7E
 R 00 00 00 02 02 03 00 00

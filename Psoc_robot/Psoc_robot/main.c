@@ -26,7 +26,7 @@
 //      VC1                               Sysclk/12
 //      VC2                               VC1/2 = Sysclk/24
 //      
-//		Timer:				`			  For reading one joystick channel aileron puls with 
+//		Timer1:				`			  For reading one joystick channel aileron puls with 
 //      Clock 							   VC2
 //      Period                             65535
 //      CompareValue                       0
@@ -71,11 +71,10 @@
 #include <math.h>      
 #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
 
-#define DEBUG 1
+#define DEBUG_LCD 1
 
 //volatile BOOL ultrasoonInitDone;//dit gedaan om compiler te verplichten waarde terug in te lezen (Caching tegen te gaan )
 
-//
 #define MAX_POWER 1000
 #define MIN_POWER 0
 
@@ -87,9 +86,9 @@ WORD CaptureNegEdgeAileron;
 WORD PulseWidthAileron;
 BYTE FlagsAileron;
 #define MARGIN_AILERON 2
-#define MIN_AILERON 0x70
+#define MIN_AILERON 0x60
 #define CENTER_AILERON 0x8C
-#define MAX_AILERON 0xA9
+#define MAX_AILERON 0xB9
 
 // 
 #define DATA_AVAILABLE_ELEVATOR 0x01 // new for motorcontroll2
@@ -99,14 +98,14 @@ WORD CaptureNegEdgeElevator;
 WORD PulseWidthElevator;
 BYTE FlagsElevator;
 #define MARGIN_ELEVATOR 2
-#define MIN_ELEVATOR 0x70
+#define MIN_ELEVATOR 0x60
 #define CENTER_ELEVATOR 0x8C
-#define MAX_ELEVATOR 0xA9
+#define MAX_ELEVATOR 0xB9
 
 // for timer 3 and ultrasoon sensor 1
 #define DATA_AVAILABLE_ULTRASOON 0x01 
 #define FALLING_EDGE_ULTRASOON 0x02    
-#define MIN_SAFE_DISTANCE  50
+#define MIN_SAFE_DISTANCE  0x50
 
 
 WORD CapturePosEdgeUltrasoon;
@@ -116,8 +115,8 @@ BYTE FlagUltrasoon;
 
 void ultrasoonSensor(void);//long ultrasoon sensor(void);
 
-#pragma interrupt_handler TimerCaptureISR// for motorcontroll2
-#pragma interrupt_handler Timer2CaptureISR// new for motorcontroll2
+#pragma interrupt_handler Timer1CaptureISR
+#pragma interrupt_handler Timer2CaptureISR
 #pragma interrupt_handler Timer3CaptureISR
 
 
@@ -133,39 +132,40 @@ BOOL Within(WORD value, WORD border, WORD margin)
 		return FALSE;
 }
 
+// normalization function for Aileron (Timer1)
 float EvaluateAileron(DWORD value)
 {	
 	// Check if pulsewidth data is available
 	if(FlagsAileron & DATA_AVAILABLE_AILERON)
 	{
-#ifdef DEBUG
+#if (DEBUG_LCD)
 		LCD_Position(0,0);
 		LCD_PrHexInt(value);
 #endif	
 		// stick in center 
 		if (Within(value, CENTER_AILERON, MARGIN_AILERON))
 		{
-#ifdef DEBUG
+#if (DEBUG_LCD)
 			LCD_Position(0,5);
 			LCD_PrCString("C");
 #endif		
 			return 0;
 		}
-		else if (value > CENTER_AILERON) // stick left
+		else if (value < CENTER_AILERON) // stick left
 		{
-#ifdef DEBUG
+#if (DEBUG_LCD)
 			LCD_Position(0,5);
 			LCD_PrCString("L");
 #endif	
-			return -((float)value - CENTER_AILERON) / (float)(MAX_AILERON - CENTER_AILERON);
+			return ((float)value - CENTER_AILERON) / (float)(MAX_AILERON - CENTER_AILERON);
 		}
-		else if (value < CENTER_AILERON) // stick right
+		else if (value > CENTER_AILERON) // stick right
 		{			
-#ifdef DEBUG
+#if (DEBUG_LCD)
 			LCD_Position(0,5);
 			LCD_PrCString("R");
 #endif			
-			return (CENTER_AILERON - (float)value) / (float)(CENTER_AILERON - MIN_AILERON); // BEN float om afronding te vermijden
+			return -(CENTER_AILERON - (float)value) / (float)(CENTER_AILERON - MIN_AILERON);
 		}
 		
 		// action finished, clear flag to avoid doing it again
@@ -174,20 +174,20 @@ float EvaluateAileron(DWORD value)
 	
 	return 0;
 }
-	 
+// normalization function for Elevator(Timer2)
 float EvaluateElevator(DWORD value)
 {
 	// Check if pulsewidth data is available
 	if(FlagsElevator & DATA_AVAILABLE_ELEVATOR)
 	{
-#ifdef DEBUG
+#if (DEBUG_LCD)
 		LCD_Position(1,0);
 		LCD_PrHexInt(value);
 #endif 	
 		// stick in center 
 		if (Within(value, CENTER_ELEVATOR, MARGIN_ELEVATOR))
 		{
-#ifdef DEBUG
+#if (DEBUG_LCD)
 			LCD_Position(1,5);
 			LCD_PrCString("C");
 #endif 	
@@ -195,7 +195,7 @@ float EvaluateElevator(DWORD value)
 		}
 		else if (value > CENTER_ELEVATOR) // stick up
 		{
-#ifdef DEBUG
+#if (DEBUG_LCD)
 			LCD_Position(1,5);
 			LCD_PrCString("U");
 #endif			
@@ -203,11 +203,11 @@ float EvaluateElevator(DWORD value)
 		}
 		else if (value < CENTER_ELEVATOR) // stick down
 		{			
-#ifdef DEBUG
+#if (DEBUG_LCD)
 			LCD_Position(1,5);
 			LCD_PrCString("D");
 #endif			
-			return -(CENTER_ELEVATOR - (float)value) / (float)(CENTER_ELEVATOR - MIN_ELEVATOR); // BEN float om afronding te vermijden
+			return -(CENTER_ELEVATOR - (float)value) / (float)(CENTER_ELEVATOR - MIN_ELEVATOR);
 		}
 		
 		// action finished, clear flag to avoid doing it again
@@ -219,7 +219,7 @@ float EvaluateElevator(DWORD value)
 
 void TriggerUltrasoon(void)
 {
-	PRT1DR |= 0x01;// setting pin1[0]
+	PRT1DR |= 0x10;// setting p1[4]
     asm("nop");
 	asm("nop");
 	asm("nop");
@@ -238,24 +238,24 @@ void TriggerUltrasoon(void)
 	asm("nop");
 	asm("nop");
 	asm("nop");
-	PRT1DR &= ~0x01;// clearing  pin P1[0]
+	PRT1DR &= ~0x10;// clearing   P1[4]
 }
 
-float EvaluateUltrasoonSensor(void)
+float EvaluateUltrasoonSensor(void)//(Timer3)
 {
 	if (FlagUltrasoon & DATA_AVAILABLE_ULTRASOON)// do if databit is set 
     {    
 		WORD pulseWidthUltrasoon = PulseWidthUltrasoon;
 
-#ifdef DEBUG
+#if (DEBUG_LCD)
 		LCD_Position(1,12);
 		LCD_PrHexInt(pulseWidthUltrasoon);
 #endif
 		FlagUltrasoon &= ~DATA_AVAILABLE_ULTRASOON;
 		
-		// als meting gebeurt is trigger sensor opnieuw 
+		// als meting gebeurt is trigger sensor opnieuw en we disablen timer1
 		TriggerUltrasoon();	
-
+		
 		return pulseWidthUltrasoon;
     }  
 	
@@ -273,8 +273,8 @@ void main(void)
 	FlagUltrasoon = 0;
 
 	// Start timers and enable interrupt
-	Timer_Start();
-	Timer_EnableInt();
+	Timer1_Start();
+	Timer1_EnableInt();
 
 	Timer2_Start();// new for motorcontroll2
 	Timer2_EnableInt();// new for motorcontroll2
@@ -288,12 +288,10 @@ void main(void)
 	PWM1_Start();
 	PWM2_Start();
 
-#ifdef DEBUG
+#if (DEBUG_LCD)
 	LCD_Start();
 #endif  
 	
-//	PRT1DR = 0x80; // BEN ????
-
 	while (TRUE)
 	{
 		float aileronNormalized,
@@ -303,7 +301,6 @@ void main(void)
 		float motorLeft, motorRight;
 		BOOL forward;
 		
-		//long OutputDistance = ultrasoonSensor(); 
 		aileronNormalized = EvaluateAileron(PulseWidthAileron);
 		direction  = fabs(aileronNormalized);
 
@@ -312,11 +309,11 @@ void main(void)
 		forward = (elevatorNormalized >= 0);
 		
 		distance = EvaluateUltrasoonSensor();
-//		if (distance < MIN_SAFE_DISTANCE)
-//		{
-//			elevatorNormalized = 0;
-//			aileronNormalized  = 0;
-//		}
+		if (distance < MIN_SAFE_DISTANCE)
+		{
+			if (forward)
+				speed = 0;
+		}
 		
 		motorLeft  = speed; // default is straight forward
 		motorRight = speed;
@@ -334,18 +331,20 @@ void main(void)
 				
 		if (forward)
 		{
-			PRT2DR |=  0x80; // AIN1
-			PRT2DR &= ~0x20; // AIN2
+			// ccw
+			PRT1DR |=  0x08; // AIN1
+			PRT1DR &= ~0x02; // AIN2
 			
-			PRT2DR |=  0x02; // BIN1
+			PRT1DR |=  0x20; // BIN1
 			PRT1DR &= ~0x80; // BIN2
 		}
 		else 
 		{
-			PRT2DR &= ~0x80; // AIN1
-			PRT2DR |=  0x20; // AIN2
+			//cw
+			PRT1DR &= ~0x08; // AIN1
+			PRT1DR |=  0x02; // AIN2
 			
-			PRT2DR &= ~0x02; // BIN1
+			PRT1DR &= ~0x20; // BIN1
 			PRT1DR |=  0x80; // BIN2
 		}
 	
@@ -355,7 +354,10 @@ void main(void)
 		motorRight *= (MAX_POWER - MIN_POWER);
 		motorRight += MIN_POWER;
 
-#ifdef DEBUG
+		PWM1_WritePulseWidth(motorLeft);
+		PWM2_WritePulseWidth(motorRight);
+
+#if (DEBUG_LCD)
 		LCD_Position(0,7);
 		LCD_PrHexInt(motorLeft);
 		LCD_Position(1,7);
@@ -365,20 +367,18 @@ void main(void)
 		LCD_PrCString(forward ? "F" : "B");
 #endif 	
 
-		PWM1_WritePulseWidth(motorLeft);
-		PWM2_WritePulseWidth(motorRight);
    }
 }
 
-void TimerCaptureISR(void)
+void Timer1CaptureISR(void)
 {
    if (FlagsAileron & FALLING_EDGE_AILERON)
    {
       // Read the count on negative edge
-      CaptureNegEdgeAileron = Timer_wReadCompareValue();
+      CaptureNegEdgeAileron = Timer1_wReadCompareValue();
 
       // Change the capture to positive edge and clear the FALLING_EDGE flag
-      Timer_FUNC_LSB_REG &= ~0x80;
+      Timer1_FUNC_LSB_REG &= ~0x80;
       FlagsAileron &= ~FALLING_EDGE_AILERON;
 
       // Calculate the pulswidth by finding difference between positive edge
@@ -394,10 +394,10 @@ void TimerCaptureISR(void)
    else
    {
       // Read the count on positive edge
-      CapturePosEdgeAileron = Timer_wReadCompareValue();
+      CapturePosEdgeAileron = Timer1_wReadCompareValue();
       
       // Change the capture to negative edge and set flag
-      Timer_FUNC_LSB_REG |= 0x80;
+      Timer1_FUNC_LSB_REG |= 0x80;
       FlagsAileron |= FALLING_EDGE_AILERON;
    }
 }

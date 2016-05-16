@@ -67,7 +67,7 @@ _Timer2_ISR:
    ;---------------------------------------------------
    ;   NOTE: interrupt service routines must preserve
    ;   the values of the A and X CPU registers.
-      ljmp _Timer2CaptureISR;added for motorcontroll2
+   ljmp _Timer2CaptureISR;added for motorcontroll2
 
    ;---------------------------------------------------
    ; Insert your custom assembly code above this banner

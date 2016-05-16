@@ -857,15 +857,15 @@
  0012 4F00              db              4fh, 00h                ;PWM2_CONTROL_MSB_REG(DCB23CR0)
  0014 4D03              db              4dh, 03h                ;PWM2_PERIOD_MSB_REG(DCB23DR1)
  0016 4E00              db              4eh, 00h                ;PWM2_COMPARE_MSB_REG(DCB23DR2)
- 0018           ;  Instance name Timer, User Module Timer16
- 0018           ;       Instance name Timer, Block Name TIMER16_LSB(DBB00)
- 0018 2300              db              23h, 00h                ;Timer_CONTROL_LSB_REG(DBB00CR0)
- 001A 21FF              db              21h, ffh                ;Timer_PERIOD_LSB_REG(DBB00DR1)
- 001C 2200              db              22h, 00h                ;Timer_COMPARE_LSB_REG(DBB00DR2)
- 001E           ;       Instance name Timer, Block Name TIMER16_MSB(DBB01)
- 001E 2706              db              27h, 06h                ;Timer_CONTROL_MSB_REG(DBB01CR0)
- 0020 25FF              db              25h, ffh                ;Timer_PERIOD_MSB_REG(DBB01DR1)
- 0022 2600              db              26h, 00h                ;Timer_COMPARE_MSB_REG(DBB01DR2)
+ 0018           ;  Instance name Timer1, User Module Timer16
+ 0018           ;       Instance name Timer1, Block Name TIMER16_LSB(DBB00)
+ 0018 2300              db              23h, 00h                ;Timer1_CONTROL_LSB_REG(DBB00CR0)
+ 001A 21FF              db              21h, ffh                ;Timer1_PERIOD_LSB_REG(DBB00DR1)
+ 001C 2200              db              22h, 00h                ;Timer1_COMPARE_LSB_REG(DBB00DR2)
+ 001E           ;       Instance name Timer1, Block Name TIMER16_MSB(DBB01)
+ 001E 2706              db              27h, 06h                ;Timer1_CONTROL_MSB_REG(DBB01CR0)
+ 0020 25FF              db              25h, ffh                ;Timer1_PERIOD_MSB_REG(DBB01DR1)
+ 0022 2600              db              26h, 00h                ;Timer1_COMPARE_MSB_REG(DBB01DR2)
  0024           ;  Instance name Timer2, User Module Timer16
  0024           ;       Instance name Timer2, Block Name TIMER16_LSB(DCB02)
  0024 2B00              db              2bh, 00h                ;Timer2_CONTROL_LSB_REG(DCB02CR0)
@@ -954,15 +954,15 @@
  00A9 4C31              db              4ch, 31h                ;PWM2_FUNC_MSB_REG(DCB23FN)
  00AB 4D35              db              4dh, 35h                ;PWM2_INPUT_MSB_REG(DCB23IN)
  00AD 4E45              db              4eh, 45h                ;PWM2_OUTPUT_MSB_REG(DCB23OU)
- 00AF           ;  Instance name Timer, User Module Timer16
- 00AF           ;       Instance name Timer, Block Name TIMER16_LSB(DBB00)
- 00AF 2000              db              20h, 00h                ;Timer_FUNC_LSB_REG(DBB00FN)
- 00B1 21C6              db              21h, c6h                ;Timer_INPUT_LSB_REG(DBB00IN)
- 00B3 2240              db              22h, 40h                ;Timer_OUTPUT_LSB_REG(DBB00OU)
- 00B5           ;       Instance name Timer, Block Name TIMER16_MSB(DBB01)
- 00B5 2420              db              24h, 20h                ;Timer_FUNC_MSB_REG(DBB01FN)
- 00B7 2536              db              25h, 36h                ;Timer_INPUT_MSB_REG(DBB01IN)
- 00B9 2640              db              26h, 40h                ;Timer_OUTPUT_MSB_REG(DBB01OU)
+ 00AF           ;  Instance name Timer1, User Module Timer16
+ 00AF           ;       Instance name Timer1, Block Name TIMER16_LSB(DBB00)
+ 00AF 2000              db              20h, 00h                ;Timer1_FUNC_LSB_REG(DBB00FN)
+ 00B1 21C6              db              21h, c6h                ;Timer1_INPUT_LSB_REG(DBB00IN)
+ 00B3 2240              db              22h, 40h                ;Timer1_OUTPUT_LSB_REG(DBB00OU)
+ 00B5           ;       Instance name Timer1, Block Name TIMER16_MSB(DBB01)
+ 00B5 2420              db              24h, 20h                ;Timer1_FUNC_MSB_REG(DBB01FN)
+ 00B7 2536              db              25h, 36h                ;Timer1_INPUT_MSB_REG(DBB01IN)
+ 00B9 2640              db              26h, 40h                ;Timer1_OUTPUT_MSB_REG(DBB01OU)
  00BB           ;  Instance name Timer2, User Module Timer16
  00BB           ;       Instance name Timer2, Block Name TIMER16_LSB(DCB02)
  00BB 2800              db              28h, 00h                ;Timer2_FUNC_LSB_REG(DCB02FN)
@@ -1028,10 +1028,10 @@
  001F 620100            mov     reg[01h], 00h           ; Port_0_IntEn register (PRT0IE)
  0022 620400            mov     reg[04h], 00h           ; Port_1_Data register (PRT1DR)
  0025 7110          or    F, FLAG_XIO_MASK
- 0027 620401            mov     reg[04h], 01h           ; Port_1_DriveMode_0 register (PRT1DM0)
- 002A 6205FE            mov     reg[05h], feh           ; Port_1_DriveMode_1 register (PRT1DM1)
+ 0027 6204FF            mov     reg[04h], ffh           ; Port_1_DriveMode_0 register (PRT1DM0)
+ 002A 620500            mov     reg[05h], 00h           ; Port_1_DriveMode_1 register (PRT1DM1)
  002D 70EF          and   F, ~FLAG_XIO_MASK
- 002F 6207FE            mov     reg[07h], feh           ; Port_1_DriveMode_2 register (PRT1DM2)
+ 002F 620700            mov     reg[07h], 00h           ; Port_1_DriveMode_2 register (PRT1DM2)
  0032 620600            mov     reg[06h], 00h           ; Port_1_GlobalSelect register (PRT1GS)
  0035 7110          or    F, FLAG_XIO_MASK
  0037 620600            mov     reg[06h], 00h           ; Port_1_IntCtrl_0 register (PRT1IC0)

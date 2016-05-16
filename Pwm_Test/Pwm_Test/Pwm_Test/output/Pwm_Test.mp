@@ -1,89 +1,111 @@
 Project:      output/Pwm_Test
 Build Number: 0
-Date:         Sun May 08 14:08:46 2016
+Date:         Mon May 16 15:45:02 2016
 Compiler:     ICCM8C
 Version:      7.05.00
 
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                             lit   01A0   008C =    140. bytes (rel,con,rom,lit)
+                             lit   01A0   00A4 =    164. bytes (rel,con,rom,lit)
 
        Addr  Global Symbol
       -----  --------------------------------
        01A0  LoadConfigTBL_pwm_test_Bank0
-       01FB  LoadConfigTBL_pwm_test_Bank1
-       022C  __lit_end
+       0207  LoadConfigTBL_pwm_test_Bank1
+       0244  __lit_end
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                        func_lit   022C   0002 =      2. bytes (rel,con,rom,proclab)
+                        func_lit   0244   0002 =      2. bytes (rel,con,rom,proclab)
 
        Addr  Global Symbol
       -----  --------------------------------
-       022C  __func_lit_start
-       022E  __func_lit_end
+       0244  __func_lit_start
+       0246  __func_lit_end
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                     psoc_config   022E   0170 =    368. bytes (rel,con,rom,code)
+                     psoc_config   0246   0167 =    359. bytes (rel,con,rom,code)
 
        Addr  Global Symbol
       -----  --------------------------------
-       022E  LoadConfigTBL_pwm_test_Ordered
-       0333  LoadConfigInit
-       0333  _LoadConfigInit
-       0343  LoadConfig_pwm_test
-       0343  _LoadConfig_pwm_test
-       039E  __psoc_config_end
+       0246  LoadConfigTBL_pwm_test_Ordered
+       034B  LoadConfigInit
+       034B  _LoadConfigInit
+       0352  LoadConfig_pwm_test
+       0352  _LoadConfig_pwm_test
+       03AD  __psoc_config_end
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                     UserModules   039E   005D =     93. bytes (rel,con,rom,code)
+                     UserModules   03AD   00BA =    186. bytes (rel,con,rom,code)
 
        Addr  Global Symbol
       -----  --------------------------------
-       039E  _PWM_ISR
-       039F  PWM_EnableInt
-       039F  _PWM_EnableInt
-       03A3  _PWM_DisableInt
-       03A3  PWM_DisableInt
-       03A7  _PWM_Start
-       03A7  PWM_Start
-       03AB  _PWM_Stop
-       03AB  PWM_Stop
-       03AF  PWM_WritePeriod
-       03AF  _PWM_WritePeriod
-       03B5  _PWM_WritePulseWidth
-       03B5  PWM_WritePulseWidth
-       03BB  PWM_wReadPulseWidth
-       03BB  wPWM_ReadPulseWidth
-       03BB  _PWM_wReadPulseWidth
-       03BB  _wPWM_ReadPulseWidth
-       03C1  PWM_wReadCounter
-       03C1  _wPWM_ReadCounter
-       03C1  _PWM_wReadCounter
-       03C1  wPWM_ReadCounter
-       03FB  __UserModules_end
+       03AD  _PWM_ISR
+       03AE  _PWM2_ISR
+       03AF  PWM2_EnableInt
+       03AF  _PWM2_EnableInt
+       03B3  _PWM2_DisableInt
+       03B3  PWM2_DisableInt
+       03B7  PWM2_Start
+       03B7  _PWM2_Start
+       03BB  PWM2_Stop
+       03BB  _PWM2_Stop
+       03BF  _PWM2_WritePeriod
+       03BF  PWM2_WritePeriod
+       03C5  PWM2_WritePulseWidth
+       03C5  _PWM2_WritePulseWidth
+       03CB  _wPWM2_ReadPulseWidth
+       03CB  PWM2_wReadPulseWidth
+       03CB  wPWM2_ReadPulseWidth
+       03CB  _PWM2_wReadPulseWidth
+       03D1  wPWM2_ReadCounter
+       03D1  PWM2_wReadCounter
+       03D1  _PWM2_wReadCounter
+       03D1  _wPWM2_ReadCounter
+       040B  PWM_EnableInt
+       040B  _PWM_EnableInt
+       040F  _PWM_DisableInt
+       040F  PWM_DisableInt
+       0413  PWM_Start
+       0413  _PWM_Start
+       0417  _PWM_Stop
+       0417  PWM_Stop
+       041B  PWM_WritePeriod
+       041B  _PWM_WritePeriod
+       0421  _PWM_WritePulseWidth
+       0421  PWM_WritePulseWidth
+       0427  _PWM_wReadPulseWidth
+       0427  _wPWM_ReadPulseWidth
+       0427  PWM_wReadPulseWidth
+       0427  wPWM_ReadPulseWidth
+       042D  PWM_wReadCounter
+       042D  _PWM_wReadCounter
+       042D  _wPWM_ReadCounter
+       042D  wPWM_ReadCounter
+       0467  __UserModules_end
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   03FB   0050 =     80. bytes (rel,con,rom,code)
+                            text   0467   00C5 =    197. bytes (rel,con,rom,code)
 
        Addr  Global Symbol
       -----  --------------------------------
-       03FB  __text_start
-       03FB  Delay10msTimes
-       03FB  _Delay10msTimes
-       0408  Delay50uTimes
-       0408  _Delay50uTimes
-       040E  Delay50u_Table
-       0416  Delay50u
-       0416  _Delay50u
-       042A  _main
-       044B  __xidata_start
-       044B  __text_end
-       044D  __xidata_end
+       0467  Delay10msTimes
+       0467  _Delay10msTimes
+       0467  __text_start
+       0474  _Delay50uTimes
+       0474  Delay50uTimes
+       047A  Delay50u_Table
+       0482  _Delay50u
+       0482  Delay50u
+       0496  _SetBitInByte
+       04EA  _main
+       052C  __xidata_start
+       052C  __text_end
+       052E  __xidata_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -97,41 +119,26 @@ Area                               Start  End    Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                    InterruptRAM   0000   0003 =      3. bytes (rel,con,ram)
+               virtual_registers   0000   0002 =      2. bytes (rel,con,ram)
 
        Addr  Global Symbol
       -----  --------------------------------
-       0000  _NO_SHADOW
-       0000  Port_2_Data_SHADE
-       0000  NO_SHADOW
-       0000  _Port_2_Data_SHADE
-       0001  _Port_2_DriveMode_0_SHADE
-       0001  Port_2_DriveMode_0_SHADE
-       0002  _Port_2_DriveMode_1_SHADE
-       0002  Port_2_DriveMode_1_SHADE
-
-Area                               Addr   Size   Decimal Bytes (Attributes)
---------------------------------   ----   ----   ------- ----- ------------
-               virtual_registers   0003   0002 =      2. bytes (rel,con,ram)
-
-       Addr  Global Symbol
-      -----  --------------------------------
-       0003  __r1
-       0004  __r0
+       0000  __r1
+       0001  __r0
 
 Files Linked      [ module(s) ]
 
 ./obj/boot.o	[ boot.asm ]
 obj/delay.o	[ delay.asm ]
 obj/main.o	[ main.c ]
-<library>	[ pwmint.asm, pwm.asm, psocconfigtbl.asm, psocconfig.asm, r1.asm, r0.asm ]
+<library>	[ pwmint.asm, pwm2int.asm, pwm2.asm, pwm.asm, psocconfigtbl.asm, psocconfig.asm, r1.asm, r0.asm ]
 
 Area Definitions
 
 -blit:0x1a0.0x7fff
 -bdata:0.0x6ff
 -BInterruptRAM:0	allocated at: 0
--Bvirtual_registers	allocated at: 0x3
+-Bvirtual_registers	allocated at: 0
 -Bpwm_test_RAM	allocated at: 0
 -rwh:SSCParmBlk:0xf7.0xff
 

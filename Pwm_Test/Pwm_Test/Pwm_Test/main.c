@@ -51,28 +51,42 @@
 //             ClockSync         SyncSysClk
 //                                                    
 //  -------------------------------------------------------------------------------
-
+//
 /* Code begins here */
 
 #include <m8c.h>        // part specific constants and macros
 #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
 #include "delay.h"
-#define PWM_PERIOD1 	999
-#define PWM_PULSEWIDTH1 200//sweetspot
+//#define PWM_PERIOD1 	//cte 
+#define PWM_PULSEWIDTH1 500//sweetspot]
+#define PWM2_PULSEWIDTH2 500//sweetspot
+
 void main(void)
 {
 	
-	PWM_WritePeriod(PWM_PERIOD1);
+	//PWM_WritePeriod(PWM_PERIOD1);
+	PWM_WritePulseWidth(PWM_PULSEWIDTH1);  
 	PWM_Start();
-
+	PWM2_WritePulseWidth(PWM2_PULSEWIDTH2);  
+	PWM2_Start();
 	while (TRUE)
 	{
-		PRT2DR |= 0x80;
-		PRT2DR &= ~ 0x20;
+		//motor1
+		PRT2DR &= ~0x80;  // P27 low AIN 1
+		PRT2DR |=  0x20;  // P25 high AIN 2
+		// motor 2
+		PRT1DR &= ~0x10; // P16 low
+		PRT1DR |=  0x80; // P17 high
+
+	    Delay10msTimes(100);
 		
+		// Motor 1
+		PRT2DR |=  0x80;  // P27 high
+		PRT2DR &= ~ 0x20; // P25 low AIN 2
+		// Motor 2
+		PRT1DR |=  0x10; // P16 high
+	    PRT1DR &= ~0x80; // P17 low
 		
-		PWM_WritePulseWidth(PWM_PULSEWIDTH1);   
-	
-		
+		Delay10msTimes(100);
     }
 }

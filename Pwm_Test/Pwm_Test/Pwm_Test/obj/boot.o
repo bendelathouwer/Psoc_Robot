@@ -1,5 +1,5 @@
 XH
-H B areas E global symbols
+H B areas F global symbols
 M boot.asm
 S _main Ref0000
 S __text_end Ref0000
@@ -7,6 +7,7 @@ S __r0 Ref0000
 S __r1 Ref0000
 S LoadConfigInit Ref0000
 S _PWM_ISR Ref0000
+S _PWM2_ISR Ref0000
 A TOP size 143 flags C
 dbfile ./boot.asm
 dbfunc 0 ? 0 I
@@ -22,7 +23,8 @@ dbline 96 20
 dbline 99 24
 dbline 9A 27
 dbline 9E 28
-dbline A2 2C
+dbline A1 2C
+dbline A2 2F
 dbline A6 30
 dbline AA 34
 dbline AE 38
@@ -207,8 +209,8 @@ T 00 24 7D 00 00 7E
 R 00 00 00 00 02 03 00 05
 T 00 28 7E
 R 00 00 00 00
-T 00 2C 7E
-R 00 00 00 00
+T 00 2C 7D 00 00 7E
+R 00 00 00 00 02 03 00 06
 T 00 30 7E
 R 00 00 00 00
 T 00 34 7E

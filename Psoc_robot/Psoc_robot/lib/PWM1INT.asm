@@ -67,7 +67,7 @@ _PWM1_ISR:
    ;---------------------------------------------------
    ;   NOTE: interrupt service routines must preserve
    ;   the values of the A and X CPU registers.
-   
+   ljmp _Timer1CaptureISR
    ;---------------------------------------------------
    ; Insert your custom assembly code above this banner
    ;---------------------------------------------------

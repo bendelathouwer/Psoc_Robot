@@ -158,7 +158,7 @@ ENDIF
     reti
 
     org   2Ch                      ;PSoC Block DCB03 Interrupt Vector
-    // call	void_handler
+    ljmp	_PWM2_ISR
     reti
 
     org   30h                      ;PSoC Block DBB10 Interrupt Vector

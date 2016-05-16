@@ -7,18 +7,20 @@
 ./obj/delay.o : \
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\memory.inc
-./obj/main.o :  ./lib/LCD.h ./lib/PSoCAPI.h ./lib/PSOCGP~1.H\
-   ./lib/PWM.h ./lib/delay.h\
+./obj/main.o :  ./lib/PSoCAPI.h ./lib/PWM.h ./lib/PWM2.h ./lib/delay.h\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.h
-./lib/obj/lcd.o :  ./lib/LCD.inc\
-   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
-   C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\memory.inc
 ./lib/obj/psocconfig.o :  ./lib/GLOBAL~1.INC\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\memory.inc
 ./lib/obj/psocconfigtbl.o : \
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
 ./lib/obj/pwm.o :  ./lib/PWM.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
+   C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\memory.inc
+./lib/obj/pwm2.o :  ./lib/PWM2.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
+   C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\memory.inc
+./lib/obj/pwm2int.o :  ./lib/PWM2.inc\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\Pwm_Test\Pwm_Test\Pwm_Test\memory.inc
 ./lib/obj/pwmint.o :  ./lib/PWM.inc\

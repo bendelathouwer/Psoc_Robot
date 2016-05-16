@@ -1668,7 +1668,7 @@
  0000           ; Constants for PWM user defined values
  0000           ;--------------------------------------------------
  0000           
- 0000           PWM_PERIOD:                                equ 0x0
+ 03E7           PWM_PERIOD:                                equ 0x3e7
  0000           PWM_PULSE_WIDTH:                           equ 0x0
  0000           
  0000           

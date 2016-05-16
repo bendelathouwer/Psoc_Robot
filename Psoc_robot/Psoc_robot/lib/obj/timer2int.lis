@@ -1995,7 +1995,7 @@
  0000              ;---------------------------------------------------
  0000              ;   NOTE: interrupt service routines must preserve
  0000              ;   the values of the A and X CPU registers.
- 0000 7D0000          ljmp _Timer2CaptureISR;added for motorcontroll2
+ 0000 7D0000       ljmp _Timer2CaptureISR;added for motorcontroll2
  0003           
  0003              ;---------------------------------------------------
  0003              ; Insert your custom assembly code above this banner

@@ -26,7 +26,7 @@ PWM_INT_MASK:                              equ 0x02
 ; Constants for PWM user defined values
 ;--------------------------------------------------
 
-PWM_PERIOD:                                equ 0x0
+PWM_PERIOD:                                equ 0x3e7
 PWM_PULSE_WIDTH:                           equ 0x0
 
 

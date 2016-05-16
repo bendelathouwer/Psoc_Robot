@@ -20,16 +20,24 @@ export LoadConfigTBL_pwm_test_Bank0
 export LoadConfigTBL_pwm_test_Ordered
 AREA lit(rom, rel)
 LoadConfigTBL_pwm_test_Bank0:
-;  Instance name LCD, User Module LCD
 ;  Instance name PWM, User Module PWM16
 ;       Instance name PWM, Block Name PWM16_LSB(DBB00)
 	db		23h, 00h		;PWM_CONTROL_LSB_REG(DBB00CR0)
-	db		21h, 00h		;PWM_PERIOD_LSB_REG(DBB00DR1)
+	db		21h, e7h		;PWM_PERIOD_LSB_REG(DBB00DR1)
 	db		22h, 00h		;PWM_COMPARE_LSB_REG(DBB00DR2)
 ;       Instance name PWM, Block Name PWM16_MSB(DBB01)
 	db		27h, 00h		;PWM_CONTROL_MSB_REG(DBB01CR0)
-	db		25h, 00h		;PWM_PERIOD_MSB_REG(DBB01DR1)
+	db		25h, 03h		;PWM_PERIOD_MSB_REG(DBB01DR1)
 	db		26h, 00h		;PWM_COMPARE_MSB_REG(DBB01DR2)
+;  Instance name PWM2, User Module PWM16
+;       Instance name PWM2, Block Name PWM16_LSB(DCB02)
+	db		2bh, 00h		;PWM2_CONTROL_LSB_REG(DCB02CR0)
+	db		29h, e7h		;PWM2_PERIOD_LSB_REG(DCB02DR1)
+	db		2ah, 00h		;PWM2_COMPARE_LSB_REG(DCB02DR2)
+;       Instance name PWM2, Block Name PWM16_MSB(DCB03)
+	db		2fh, 00h		;PWM2_CONTROL_MSB_REG(DCB03CR0)
+	db		2dh, 03h		;PWM2_PERIOD_MSB_REG(DCB03DR1)
+	db		2eh, 00h		;PWM2_COMPARE_MSB_REG(DCB03DR2)
 ;  Global Register values Bank 0
 	db		60h, 28h		; AnalogColumnInputSelect register (AMX_IN)
 	db		66h, 00h		; AnalogComparatorControl1 register (CMP_CR1)
@@ -43,7 +51,7 @@ LoadConfigTBL_pwm_test_Bank0:
 	db		b2h, 00h		; Row_0_LogicInputAMux register (RDI0IS)
 	db		b3h, 33h		; Row_0_LogicSelect_0 register (RDI0LT0)
 	db		b4h, 33h		; Row_0_LogicSelect_1 register (RDI0LT1)
-	db		b5h, 01h		; Row_0_OutputDrive_0 register (RDI0SRO0)
+	db		b5h, 22h		; Row_0_OutputDrive_0 register (RDI0SRO0)
 	db		b6h, 00h		; Row_0_OutputDrive_1 register (RDI0SRO1)
 	db		b8h, 55h		; Row_1_InputMux register (RDI1RI)
 	db		b9h, 00h		; Row_1_InputSync register (RDI1SYN)
@@ -72,7 +80,6 @@ LoadConfigTBL_pwm_test_Bank0:
 	db		6fh, 00h		; TMP_DR3 register (TMP_DR3)
 	db		ffh
 LoadConfigTBL_pwm_test_Bank1:
-;  Instance name LCD, User Module LCD
 ;  Instance name PWM, User Module PWM16
 ;       Instance name PWM, Block Name PWM16_LSB(DBB00)
 	db		20h, 11h		;PWM_FUNC_LSB_REG(DBB00FN)
@@ -82,6 +89,15 @@ LoadConfigTBL_pwm_test_Bank1:
 	db		24h, 31h		;PWM_FUNC_MSB_REG(DBB01FN)
 	db		25h, 35h		;PWM_INPUT_MSB_REG(DBB01IN)
 	db		26h, 44h		;PWM_OUTPUT_MSB_REG(DBB01OU)
+;  Instance name PWM2, User Module PWM16
+;       Instance name PWM2, Block Name PWM16_LSB(DCB02)
+	db		28h, 11h		;PWM2_FUNC_LSB_REG(DCB02FN)
+	db		29h, 15h		;PWM2_INPUT_LSB_REG(DCB02IN)
+	db		2ah, 40h		;PWM2_OUTPUT_LSB_REG(DCB02OU)
+;       Instance name PWM2, Block Name PWM16_MSB(DCB03)
+	db		2ch, 31h		;PWM2_FUNC_MSB_REG(DCB03FN)
+	db		2dh, 35h		;PWM2_INPUT_MSB_REG(DCB03IN)
+	db		2eh, 45h		;PWM2_OUTPUT_MSB_REG(DCB03OU)
 ;  Global Register values Bank 1
 	db		61h, 00h		; AnalogClockSelect1 register (CLK_CR1)
 	db		69h, 00h		; AnalogClockSelect2 register (CLK_CR2)
@@ -108,11 +124,11 @@ LoadConfigTBL_pwm_test_Ordered:
 	M8C_SetBank0
 	mov	reg[00h], 00h		; Port_0_Data register (PRT0DR)
 	M8C_SetBank1
-	mov	reg[00h], 01h		; Port_0_DriveMode_0 register (PRT0DM0)
-	mov	reg[01h], feh		; Port_0_DriveMode_1 register (PRT0DM1)
+	mov	reg[00h], 30h		; Port_0_DriveMode_0 register (PRT0DM0)
+	mov	reg[01h], cfh		; Port_0_DriveMode_1 register (PRT0DM1)
 	M8C_SetBank0
-	mov	reg[03h], feh		; Port_0_DriveMode_2 register (PRT0DM2)
-	mov	reg[02h], 01h		; Port_0_GlobalSelect register (PRT0GS)
+	mov	reg[03h], cfh		; Port_0_DriveMode_2 register (PRT0DM2)
+	mov	reg[02h], 30h		; Port_0_GlobalSelect register (PRT0GS)
 	M8C_SetBank1
 	mov	reg[02h], 00h		; Port_0_IntCtrl_0 register (PRT0IC0)
 	mov	reg[03h], 00h		; Port_0_IntCtrl_1 register (PRT0IC1)
@@ -120,10 +136,10 @@ LoadConfigTBL_pwm_test_Ordered:
 	mov	reg[01h], 00h		; Port_0_IntEn register (PRT0IE)
 	mov	reg[04h], 00h		; Port_1_Data register (PRT1DR)
 	M8C_SetBank1
-	mov	reg[04h], a1h		; Port_1_DriveMode_0 register (PRT1DM0)
-	mov	reg[05h], 5eh		; Port_1_DriveMode_1 register (PRT1DM1)
+	mov	reg[04h], ffh		; Port_1_DriveMode_0 register (PRT1DM0)
+	mov	reg[05h], 00h		; Port_1_DriveMode_1 register (PRT1DM1)
 	M8C_SetBank0
-	mov	reg[07h], 5eh		; Port_1_DriveMode_2 register (PRT1DM2)
+	mov	reg[07h], 00h		; Port_1_DriveMode_2 register (PRT1DM2)
 	mov	reg[06h], 00h		; Port_1_GlobalSelect register (PRT1GS)
 	M8C_SetBank1
 	mov	reg[06h], 00h		; Port_1_IntCtrl_0 register (PRT1IC0)
@@ -132,10 +148,10 @@ LoadConfigTBL_pwm_test_Ordered:
 	mov	reg[05h], 00h		; Port_1_IntEn register (PRT1IE)
 	mov	reg[08h], 00h		; Port_2_Data register (PRT2DR)
 	M8C_SetBank1
-	mov	reg[08h], ffh		; Port_2_DriveMode_0 register (PRT2DM0)
-	mov	reg[09h], 00h		; Port_2_DriveMode_1 register (PRT2DM1)
+	mov	reg[08h], a5h		; Port_2_DriveMode_0 register (PRT2DM0)
+	mov	reg[09h], 5ah		; Port_2_DriveMode_1 register (PRT2DM1)
 	M8C_SetBank0
-	mov	reg[0bh], 00h		; Port_2_DriveMode_2 register (PRT2DM2)
+	mov	reg[0bh], 5ah		; Port_2_DriveMode_2 register (PRT2DM2)
 	mov	reg[0ah], 00h		; Port_2_GlobalSelect register (PRT2GS)
 	M8C_SetBank1
 	mov	reg[0ah], 00h		; Port_2_IntCtrl_0 register (PRT2IC0)

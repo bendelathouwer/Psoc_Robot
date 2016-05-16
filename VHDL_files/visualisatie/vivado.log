@@ -2,10 +2,10 @@
 # Vivado v2015.4 (64-bit)
 # SW Build 1412921 on Wed Nov 18 09:43:45 MST 2015
 # IP Build 1412160 on Tue Nov 17 13:47:24 MST 2015
-# Start of session at: Sun Apr 10 12:41:47 2016
-# Process ID: 4416
+# Start of session at: Sat May 14 11:00:22 2016
+# Process ID: 11680
 # Current directory: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent6564 C:\Users\Ben\Documents\GitHub\Psoc_robot\VHDL_files\visualisatie\visualisatie.xpr
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent7476 C:\Users\Ben\Documents\GitHub\Psoc_robot\VHDL_files\visualisatie\visualisatie.xpr
 # Log file: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/vivado.log
 # Journal file: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie\vivado.jou
 #-----------------------------------------------------------
@@ -16,289 +16,84 @@ Finished scanning sources
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Vivado/2015.4/data/ip'.
-open_project: Time (s): cpu = 00:00:21 ; elapsed = 00:00:08 . Memory (MB): peak = 782.770 ; gain = 129.395
-reset_run impl_1
-WARNING: [Vivado 12-1017] Problems encountered:
-1. PID not specified
+open_project: Time (s): cpu = 00:00:22 ; elapsed = 00:00:09 . Memory (MB): peak = 752.691 ; gain = 169.191exit
+INFO: [Common 17-206] Exiting Vivado at Sat May 14 11:04:15 2016...
 
+[USF-XSim-37] Inspecting design source files for 'Top' in fileset 'sim_1'...
+INFO: [USF-XSim-97] Finding global include files...
+INFO: [USF-XSim-98] Fetching design files from 'sim_1'...
+INFO: [USF-XSim-2] XSim::Compile design
+INFO: [USF-XSim-61] Executing 'COMPILE' step in 'C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.sim/sim_1/behav'
+"xvhdl -m64 --relax -prj Top_vhdl.prj"
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0_clk_wiz.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity clk_wiz_0_clk_wiz
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/clk_wiz_0.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity clk_wiz_0
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Vga_control.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity Vga_control
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity Top
+INFO: [USF-XSim-3] XSim::Elaborate design
+INFO: [USF-XSim-61] Executing 'ELABORATE' step in 'C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.sim/sim_1/behav'
+Vivado Simulator 2015.4
+Copyright 1986-1999, 2001-2015 Xilinx, Inc. All Rights Reserved.
+Running: C:/Vivado/2015.4/bin/unwrapped/win64.o/xelab.exe -wto 272df2b37cbf4abd945b2ec15369c7e6 --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot Top_behav xil_defaultlib.Top -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package ieee.std_logic_1164
+Compiling package ieee.std_logic_arith
+Compiling package ieee.std_logic_unsigned
+Compiling package ieee.math_real
+Compiling package ieee.numeric_std
+Compiling package unisim.vcomponents
+Compiling package ieee.std_logic_signed
+Compiling package std.textio
+Compiling package ieee.vital_timing
+Compiling package ieee.vital_primitives
+Compiling package unisim.vpkg
+Compiling architecture mmcme2_adv_v of entity unisim.MMCME2_ADV [\MMCME2_ADV("OPTIMIZED",10.125,0...]
+Compiling architecture bufg_v of entity unisim.BUFG [bufg_default]
+Compiling architecture xilinx of entity xil_defaultlib.clk_wiz_0_clk_wiz [clk_wiz_0_clk_wiz_default]
+Compiling architecture xilinx of entity xil_defaultlib.clk_wiz_0 [clk_wiz_0_default]
+Compiling architecture behavioral of entity xil_defaultlib.Vga_control [vga_control_default]
+Compiling architecture behavioral of entity xil_defaultlib.top
+Built simulation snapshot Top_behav
+
+****** Webtalk v2015.4 (64-bit)
+  **** SW Build 1412921 on Wed Nov 18 09:43:45 MST 2015
+  **** IP Build 1412160 on Tue Nov 17 13:47:24 MST 2015
+    ** Copyright 1986-2015 Xilinx, Inc. All Rights Reserved.
+
+source C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.sim/sim_1/behav/xsim.dir/Top_behav/webtalk/xsim_webtalk.tcl -notrace
+INFO: [Common 17-206] Exiting Webtalk at Sat May 14 11:03:16 2016...
+run_program: Time (s): cpu = 00:00:00 ; elapsed = 00:00:07 . Memory (MB): peak = 781.051 ; gain = 0.000
+INFO: [USF-XSim-4] XSim::Simulate design
+INFO: [USF-XSim-61] Executing 'SIMULATE' step in 'C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.sim/sim_1/behav'
+INFO: [USF-XSim-98] *** Running xsim
+   with args "Top_behav -key {Behavioral:sim_1:Functional:Top} -tclbatch {Top.tcl} -log {simulate.log}"
+INFO: [USF-XSim-8] Loading simulator feature
+Vivado Simulator 2015.4
+Time resolution is 1 ps
+source Top.tcl
+# set curr_wave [current_wave_config]
+# if { [string length $curr_wave] == 0 } {
+#   if { [llength [get_objects]] > 0} {
+#     add_wave /
+#     set_property needs_save false [current_wave_config]
+#   } else {
+#      send_msg_id Add_Wave-1 WARNING "No top level signals found. Simulator will start without a wave window. If you want to open a wave window go to 'File->New Waveform Configuration' or type 'create_wave_config' in the TCL console."
+#   }
+# }
+# run 1000ns
+INFO: [USF-XSim-96] XSim completed. Design snapshot 'Top_behav' loaded.
+INFO: [USF-XSim-97] XSim simulation ran for 1000ns
+launch_simulation: Time (s): cpu = 00:00:03 ; elapsed = 00:00:10 . Memory (MB): peak = 781.051 ; gain = 0.000
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
 exit
-INFO: [Common 17-206] Exiting Vivado at Sun Apr 10 12:43:12 2016...
-b/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 12:42:07 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 12:43:19 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-open_run impl_1
-INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
-INFO: [Project 1-479] Netlist was created with Vivado 2015.4
-INFO: [Device 21-403] Loading part xc7a35tcpg236-1
-INFO: [Project 1-570] Preparing netlist for logic optimization
-Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/.Xil/Vivado-6224-GozerTheDestructor/dcp/clk_wiz_0.xdc]
-Finished Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/.Xil/Vivado-6224-GozerTheDestructor/dcp/clk_wiz_0.xdc]
-Reading XDEF placement.
-Reading placer database...
-Reading XDEF routing.
-Read XDEF File: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.032 . Memory (MB): peak = 1019.434 ; gain = 0.004
-Restored from archive | CPU: 0.000000 secs | Memory: 0.000000 MB |
-Finished XDEF File Restore: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.032 . Memory (MB): peak = 1019.434 ; gain = 0.004
-INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
-
-open_run: Time (s): cpu = 00:00:14 ; elapsed = 00:00:06 . Memory (MB): peak = 1083.215 ; gain = 281.445
-WARNING: [Timing 38-313] There are no user specified timing constraints. Timing constraints are needed for proper timing analysis.
-close_design
-close_design: Time (s): cpu = 00:00:15 ; elapsed = 00:00:11 . Memory (MB): peak = 1439.824 ; gain = 289.402
-reset_run impl_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 12:59:28 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:01:12 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-update_compile_order -fileset sources_1
-update_compile_order -fileset sim_1
-update_compile_order -fileset sources_1
-reset_run synth_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:02:20 2016] Launched synth_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/synth_1/runme.log
-[Sun Apr 10 13:02:20 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run synth_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:02:49 2016] Launched synth_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/synth_1/runme.log
-[Sun Apr 10 13:02:49 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-update_compile_order -fileset sim_1
-open_run impl_1
-INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
-INFO: [Project 1-479] Netlist was created with Vivado 2015.4
-INFO: [Project 1-570] Preparing netlist for logic optimization
-Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/.Xil/Vivado-6224-GozerTheDestructor/dcp/clk_wiz_0.xdc]
-Finished Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/.Xil/Vivado-6224-GozerTheDestructor/dcp/clk_wiz_0.xdc]
-Reading XDEF placement.
-Reading placer database...
-Reading XDEF routing.
-Read XDEF File: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.027 . Memory (MB): peak = 1439.824 ; gain = 0.000
-Restored from archive | CPU: 0.000000 secs | Memory: 0.000000 MB |
-Finished XDEF File Restore: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.027 . Memory (MB): peak = 1439.824 ; gain = 0.000
-INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
-
-WARNING: [Timing 38-313] There are no user specified timing constraints. Timing constraints are needed for proper timing analysis.
-close_design
-close_design: Time (s): cpu = 00:00:10 ; elapsed = 00:00:09 . Memory (MB): peak = 1544.195 ; gain = 104.371
-reset_run impl_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:04:30 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-launch_runs impl_1 -to_step write_bitstream -jobs 4
-[Sun Apr 10 13:06:32 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-open_run impl_1
-INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
-INFO: [Project 1-479] Netlist was created with Vivado 2015.4
-INFO: [Project 1-570] Preparing netlist for logic optimization
-Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/.Xil/Vivado-6224-GozerTheDestructor/dcp/clk_wiz_0.xdc]
-Finished Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/.Xil/Vivado-6224-GozerTheDestructor/dcp/clk_wiz_0.xdc]
-Reading XDEF placement.
-Reading placer database...
-Reading XDEF routing.
-Read XDEF File: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.028 . Memory (MB): peak = 1544.195 ; gain = 0.000
-Restored from archive | CPU: 0.000000 secs | Memory: 0.000000 MB |
-Finished XDEF File Restore: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.028 . Memory (MB): peak = 1544.195 ; gain = 0.000
-INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
-
-WARNING: [Timing 38-313] There are no user specified timing constraints. Timing constraints are needed for proper timing analysis.
-close_design
-reset_run synth_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:11:37 2016] Launched synth_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/synth_1/runme.log
-[Sun Apr 10 13:11:37 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:12:57 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:14:30 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1
-WARNING: [Vivado 12-1017] Problems encountered:
-1. Process appears to be on host 'GOZERTHEDESTRUC' and cannot be killed from host 'GozerTheDestructor'
-
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:14:49 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1
-WARNING: [Vivado 12-1017] Problems encountered:
-1. PID not specified
-
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:24:46 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1 -noclean_dir 
-reset_run synth_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:25:03 2016] Launched synth_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/synth_1/runme.log
-[Sun Apr 10 13:25:03 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-reset_run impl_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:26:43 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-launch_runs impl_1 -to_step write_bitstream -jobs 4
-[Sun Apr 10 13:32:29 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-open_run synth_1 -name synth_1
-Design is defaulting to impl run constrset: constrs_1
-Design is defaulting to synth run part: xc7a35tcpg236-1
-INFO: [Netlist 29-17] Analyzing 2 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
-INFO: [Project 1-479] Netlist was created with Vivado 2015.4
-INFO: [Project 1-570] Preparing netlist for logic optimization
-Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc]
-WARNING: [Vivado 12-584] No ports matched 'clk'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:7]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:7]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'clk'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:8]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:8]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaRed[0]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:236]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:236]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaRed[0]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:237]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:237]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaRed[1]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:238]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:238]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaRed[1]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:239]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:239]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaRed[2]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:240]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:240]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaRed[2]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:241]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:241]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaRed[3]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:242]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:242]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaRed[3]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:243]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:243]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaBlue[0]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:244]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:244]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaBlue[0]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:245]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:245]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaBlue[1]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:246]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:246]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaBlue[1]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:247]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:247]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaBlue[2]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:248]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:248]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaBlue[2]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:249]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:249]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaBlue[3]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:250]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:250]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaBlue[3]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:251]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:251]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaGreen[0]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:252]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:252]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaGreen[0]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:253]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:253]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaGreen[1]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:254]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:254]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaGreen[1]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:255]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:255]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaGreen[2]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:256]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:256]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaGreen[2]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:257]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:257]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaGreen[3]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:258]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:258]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'vgaGreen[3]'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:259]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:259]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'VGA_HS'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:260]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:260]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'VGA_HS'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:261]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:261]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'VGA_VS'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:262]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:262]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-WARNING: [Vivado 12-584] No ports matched 'VGA_VS'. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:263]
-CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc:263]
-Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
-Finished Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/Basys3_Master.xdc]
-INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
-
-reset_run impl_1 -prev_step 
-launch_runs impl_1 -to_step write_bitstream -jobs 4
-[Sun Apr 10 13:33:09 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-close_design
-open_run impl_1
-INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
-INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
-INFO: [Project 1-479] Netlist was created with Vivado 2015.4
-INFO: [Project 1-570] Preparing netlist for logic optimization
-Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/.Xil/Vivado-6224-GozerTheDestructor/dcp/clk_wiz_0.xdc]
-Finished Parsing XDC File [C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/.Xil/Vivado-6224-GozerTheDestructor/dcp/clk_wiz_0.xdc]
-Reading XDEF placement.
-Reading placer database...
-Reading XDEF routing.
-Read XDEF File: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.031 . Memory (MB): peak = 1678.922 ; gain = 0.000
-Restored from archive | CPU: 0.000000 secs | Memory: 0.000000 MB |
-Finished XDEF File Restore: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.031 . Memory (MB): peak = 1678.922 ; gain = 0.000
-INFO: [Project 1-111] Unisim Transformation Summary:
-No Unisim elements were transformed.
-
-impl_1
-WARNING: [Timing 38-313] There are no user specified timing constraints. Timing constraints are needed for proper timing analysis.
-close_design
-close_design: Time (s): cpu = 00:00:10 ; elapsed = 00:00:08 . Memory (MB): peak = 1691.059 ; gain = 12.137
-reset_run synth_1
-launch_runs impl_1 -jobs 4
-[Sun Apr 10 13:34:47 2016] Launched synth_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/synth_1/runme.log
-[Sun Apr 10 13:34:47 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-launch_runs impl_1 -to_step write_bitstream -jobs 4
-[Sun Apr 10 13:36:33 2016] Launched impl_1...
-Run output will be captured here: C:/Users/Ben/Documents/GitHub/Psoc_robot/VHDL_files/visualisatie/visualisatie.runs/impl_1/runme.log
-exit
-INFO: [Common 17-206] Exiting Vivado at Sun Apr 10 13:37:33 2016...
+INFO: [Common 17-206] Exiting Vivado at Sat May 14 11:04:11 2016...

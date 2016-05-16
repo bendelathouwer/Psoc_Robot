@@ -17,8 +17,7 @@
 #ifndef __PSOCAPI_H
 #define __PSOCAPI_H
 
-#include "PSoCGPIOINT.h"
-#include "LCD.h"
 #include "PWM.h"
+#include "PWM2.h"
 
 #endif

@@ -590,38 +590,6 @@ R 00 00 00 02 43 02 00 00
 .start
 XH
 H 3 areas 2 global symbols
-M timerint.asm
-S _TimerCaptureISR Ref0000
-A text size 0 flags 0
-dbfile lib/timerint.asm
-dbfunc 0 ? 0 I
-dbfile Timer.inc
-dbfunc 0 ? 0 I
-dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
-dbfunc 0 ? 0 I
-dbfile ./lib/Timer.inc
-dbfunc 0 ? 0 I
-dbfile lib/timerint.asm
-dbfunc 0 ? 0 I
-dbfile memory.inc
-dbfunc 0 ? 0 I
-dbfile lib/timerint.asm
-dbfunc 0 ? 0 I
-dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
-dbfunc 0 ? 0 I
-A InterruptRAM size 0 flags 20
-A UserModules size 4 flags 0
-dbfile lib/timerint.asm
-dbfunc 0 ? 0 I
-dbline 46 0
-dbline 5A 3
-S _Timer_ISR Def0000
-T 00 00 7D 00 00 7E
-R 00 00 00 02 02 03 00 00
-.end
-.start
-XH
-H 3 areas 2 global symbols
 M timer3int.asm
 S _Timer3CaptureISR Ref0000
 A text size 0 flags 0
@@ -646,7 +614,7 @@ A UserModules size 4 flags 0
 dbfile lib/timer3int.asm
 dbfunc 0 ? 0 I
 dbline 46 0
-dbline 5A 3
+dbline 5B 3
 S _Timer3_ISR Def0000
 T 00 00 7D 00 00 7E
 R 00 00 00 02 02 03 00 00
@@ -969,28 +937,60 @@ R 00 00 00 02
 .end
 .start
 XH
-H 3 areas 2E global symbols
-M timer.asm
+H 3 areas 2 global symbols
+M timer1int.asm
+S _Timer1CaptureISR Ref0000
 A text size 0 flags 0
-dbfile lib/timer.asm
+dbfile lib/timer1int.asm
 dbfunc 0 ? 0 I
-dbfile Timer.inc
+dbfile Timer1.inc
 dbfunc 0 ? 0 I
 dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
 dbfunc 0 ? 0 I
-dbfile ./lib/Timer.inc
+dbfile ./lib/Timer1.inc
 dbfunc 0 ? 0 I
-dbfile lib/timer.asm
+dbfile lib/timer1int.asm
 dbfunc 0 ? 0 I
 dbfile memory.inc
 dbfunc 0 ? 0 I
-dbfile lib/timer.asm
+dbfile lib/timer1int.asm
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
+dbfunc 0 ? 0 I
+A InterruptRAM size 0 flags 20
+A UserModules size 4 flags 0
+dbfile lib/timer1int.asm
+dbfunc 0 ? 0 I
+dbline 46 0
+dbline 5B 3
+S _Timer1_ISR Def0000
+T 00 00 7D 00 00 7E
+R 00 00 00 02 02 03 00 00
+.end
+.start
+XH
+H 3 areas 2E global symbols
+M timer1.asm
+A text size 0 flags 0
+dbfile lib/timer1.asm
+dbfunc 0 ? 0 I
+dbfile Timer1.inc
+dbfunc 0 ? 0 I
+dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
+dbfunc 0 ? 0 I
+dbfile ./lib/Timer1.inc
+dbfunc 0 ? 0 I
+dbfile lib/timer1.asm
+dbfunc 0 ? 0 I
+dbfile memory.inc
+dbfunc 0 ? 0 I
+dbfile lib/timer1.asm
 dbfunc 0 ? 0 I
 dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
 dbfunc 0 ? 0 I
 A psoc_robot_RAM size 0 flags 20
 A UserModules size 60 flags 0
-dbfile lib/timer.asm
+dbfile lib/timer1.asm
 dbfunc 0 ? 0 I
 dbline 2 0
 dbline 66 3
@@ -1048,52 +1048,52 @@ dbline 197 5A
 dbline 198 5C
 dbline 199 5D
 dbline 19B 5F
-S Timer_Stop Def000C
-S wTimer_ReadCompareValue Def001C
-S Timer_wReadCompareValue Def001C
-S $sb$Timer_Stop Def000C
-S $se$Timer_Stop Def0010
-S _Timer_WritePeriod Def0010
-S Timer_WriteCompareValue Def0016
-S _Timer_EnableInt Def0000
-S wTimer_ReadCounter Def0022
-S $sb$Timer_wReadCompareValue Def001C
-S $se$Timer_wReadCompareValue Def0022
-S Timer_DisableInt Def0004
-S $sb$Timer_WriteCompareValue Def0016
-S $se$Timer_WriteCompareValue Def001C
-S wTimer_ReadTimer Def0058
-S Timer_wReadTimer Def0058
-S $sb$Timer_DisableInt Def0004
-S $se$Timer_DisableInt Def0008
-S _Timer_Stop Def000C
-S Timer_Start Def0008
-S $sb$Timer_wReadTimer Def0058
-S $se$Timer_wReadTimer Def0060
-S _wTimer_ReadCompareValue Def001C
-S _Timer_wReadCompareValue Def001C
-S wTimer_ReadTimerSaveCV Def0022
-S Timer_wReadTimerSaveCV Def0022
-S $sb$Timer_Start Def0008
-S wTimer_CaptureCounter Def0058
-S $se$Timer_Start Def000C
-S _Timer_WriteCompareValue Def0016
-S _wTimer_ReadCounter Def0022
-S $sb$Timer_wReadTimerSaveCV Def0022
-S $se$Timer_wReadTimerSaveCV Def0058
-S _Timer_DisableInt Def0004
-S _wTimer_ReadTimer Def0058
-S _Timer_wReadTimer Def0058
-S _Timer_Start Def0008
-S Timer_WritePeriod Def0010
-S Timer_EnableInt Def0000
-S _wTimer_ReadTimerSaveCV Def0022
-S _Timer_wReadTimerSaveCV Def0022
-S _wTimer_CaptureCounter Def0058
-S $sb$Timer_WritePeriod Def0010
-S $se$Timer_WritePeriod Def0016
-S $sb$Timer_EnableInt Def0000
-S $se$Timer_EnableInt Def0004
+S Timer1_EnableInt Def0000
+S _wTimer1_ReadTimerSaveCV Def0022
+S _Timer1_wReadTimerSaveCV Def0022
+S _wTimer1_CaptureCounter Def0058
+S $sb$Timer1_WritePeriod Def0010
+S $se$Timer1_WritePeriod Def0016
+S $sb$Timer1_EnableInt Def0000
+S $se$Timer1_EnableInt Def0004
+S Timer1_Stop Def000C
+S wTimer1_ReadCompareValue Def001C
+S Timer1_wReadCompareValue Def001C
+S $sb$Timer1_Stop Def000C
+S $se$Timer1_Stop Def0010
+S _Timer1_WritePeriod Def0010
+S Timer1_WriteCompareValue Def0016
+S _Timer1_EnableInt Def0000
+S wTimer1_ReadCounter Def0022
+S $sb$Timer1_wReadCompareValue Def001C
+S $se$Timer1_wReadCompareValue Def0022
+S Timer1_DisableInt Def0004
+S $sb$Timer1_WriteCompareValue Def0016
+S $se$Timer1_WriteCompareValue Def001C
+S wTimer1_ReadTimer Def0058
+S Timer1_wReadTimer Def0058
+S $sb$Timer1_DisableInt Def0004
+S $se$Timer1_DisableInt Def0008
+S _Timer1_Stop Def000C
+S Timer1_Start Def0008
+S $sb$Timer1_wReadTimer Def0058
+S $se$Timer1_wReadTimer Def0060
+S _wTimer1_ReadCompareValue Def001C
+S _Timer1_wReadCompareValue Def001C
+S wTimer1_ReadTimerSaveCV Def0022
+S Timer1_wReadTimerSaveCV Def0022
+S $sb$Timer1_Start Def0008
+S wTimer1_CaptureCounter Def0058
+S $se$Timer1_Start Def000C
+S _Timer1_WriteCompareValue Def0016
+S _wTimer1_ReadCounter Def0022
+S $sb$Timer1_wReadTimerSaveCV Def0022
+S $se$Timer1_wReadTimerSaveCV Def0058
+S _Timer1_DisableInt Def0004
+S _wTimer1_ReadTimer Def0058
+S _Timer1_wReadTimer Def0058
+S _Timer1_Start Def0008
+S Timer1_WritePeriod Def0010
 T 00 00 43 E1 02 7F 41 E1 FD 7F 43 23 01 7F 41 23
 R 00 00 00 02
 T 00 0E FE 7F 60 21 5B 60 25 7F 60 22 5B 60 26 7F
@@ -1269,8 +1269,9 @@ R 00 00 00 02
 .end
 .start
 XH
-H 3 areas 1 global symbols
+H 3 areas 2 global symbols
 M pwm1int.asm
+S _Timer1CaptureISR Ref0000
 A text size 0 flags 0
 dbfile lib/pwm1int.asm
 dbfunc 0 ? 0 I
@@ -1289,13 +1290,14 @@ dbfunc 0 ? 0 I
 dbfile C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc
 dbfunc 0 ? 0 I
 A InterruptRAM size 0 flags 20
-A UserModules size 1 flags 0
+A UserModules size 4 flags 0
 dbfile lib/pwm1int.asm
 dbfunc 0 ? 0 I
-dbline 5A 0
+dbline 46 0
+dbline 5A 3
 S _PWM1_ISR Def0000
-T 00 00 7E
-R 00 00 00 02
+T 00 00 7D 00 00 7E
+R 00 00 00 02 02 03 00 00
 .end
 .start
 XH
@@ -1582,9 +1584,9 @@ T 00 00 70 EF 62 00 00 71 10 62 00 30 62 01 CF 70
 R 00 00 00 02
 T 00 0E EF 62 03 C8 62 02 37 71 10 62 02 00 62 03
 R 00 00 00 02
-T 00 1C 00 70 EF 62 01 00 62 04 00 71 10 62 04 01
+T 00 1C 00 70 EF 62 01 00 62 04 00 71 10 62 04 FF
 R 00 00 00 02
-T 00 2A 62 05 FE 70 EF 62 07 FE 62 06 00 71 10 62
+T 00 2A 62 05 00 70 EF 62 07 00 62 06 00 71 10 62
 R 00 00 00 02
 T 00 38 06 00 62 07 00 70 EF 62 05 00 62 08 00 71
 R 00 00 00 02

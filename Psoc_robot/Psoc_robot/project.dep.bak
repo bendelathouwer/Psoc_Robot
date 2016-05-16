@@ -5,7 +5,7 @@
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\lib\GLOBAL~1.INC\
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\memory.inc
 ./obj/main.o :  ./lib/LCD.h ./lib/PSoCAPI.h ./lib/PSOCGP~1.H\
-   ./lib/PWM1.h ./lib/PWM2.h ./lib/Timer.h ./lib/Timer2.h\
+   ./lib/PWM1.h ./lib/PWM2.h ./lib/Timer1.h ./lib/Timer2.h\
    ./lib/Timer3.h ./lib/UART.h\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.h\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/math.h
@@ -29,7 +29,10 @@
 ./lib/obj/pwm2int.o :  ./lib/PWM2.inc\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\memory.inc
-./lib/obj/timer.o :  ./lib/Timer.inc\
+./lib/obj/timer1.o :  ./lib/Timer1.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
+   C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\memory.inc
+./lib/obj/timer1int.o :  ./lib/Timer1.inc\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\memory.inc
 ./lib/obj/timer2.o :  ./lib/Timer2.inc\
@@ -42,9 +45,6 @@
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\memory.inc
 ./lib/obj/timer3int.o :  ./lib/Timer3.inc\
-   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
-   C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\memory.inc
-./lib/obj/timerint.o :  ./lib/Timer.inc\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C29~1/m8c.inc\
    C:\Users\Ben\DOCUME~1\GitHub\PSOC_R~1\PSOC_R~1\PSOC_R~1\memory.inc
 ./lib/obj/uart.o :  ./lib/UART.inc\

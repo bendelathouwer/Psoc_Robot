@@ -76,5 +76,5 @@ idata dump at output/Psoc_robot.idata
 Built with ICCM8C STD V7.05.00
 
  
-Psoc_robot - 0 error(s) 0 warning(s) 18:52:42
+Psoc_robot - 0 error(s) 0 warning(s) 22:10:31
 

@@ -61,11 +61,6 @@
 //      LCDPort                            Port_2
 //      
 //---------------------------------------------------------------------------------
-//   Hardware Connections
-// Connect P0.1 to P0.2 and press reset.
-// You should note the Value of Pulse Width on the LCD.
-//
-//---------------------------------------------------------------------------------
 
 #include <m8c.h>        // part specific constants and macros
 #include <math.h>      

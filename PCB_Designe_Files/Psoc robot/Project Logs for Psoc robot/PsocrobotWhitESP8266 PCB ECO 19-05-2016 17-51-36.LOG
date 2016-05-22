@@ -1,0 +1,23 @@
+Added Component: Designator=CR?(Crystal)
+Added Component: Designator=U?(ATmega162)
+Added Pin To Net: NetName=GND Pin=U?-20
+Added Pin To Net: NetName=+5V Pin=U?-40
+Added Pin To Net: NetName=NetCON?_1 Pin=U?-7
+Added Net: Name=NetCON?_1
+Added Pin To Net: NetName=NetCON?_3 Pin=U?-8
+Added Net: Name=NetCON?_3
+Added Pin To Net: NetName=NetCON?_4 Pin=U?-6
+Added Net: Name=NetCON?_4
+Added Pin To Net: NetName=NetCON?_5 Pin=U?-9
+Added Net: Name=NetCON?_5
+Added Pin To Net: NetName=NetCR? Pin=U?-19
+Added Net: Name=NetCR?
+Added Class: Name=U_Atmega
+Added Room: Name=top
+Added Room: Name=U_Atmega
+Added Room: Name=U_ESP8266
+Added Room: Name=U_motor
+Added Room: Name=U_Psoc-robot
+Added Room: Name=U_PSU
+Added Room: Name=U_Reciever
+Added Room: Name=U_UltraSoonSensor

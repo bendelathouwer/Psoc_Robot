@@ -1,0 +1,35 @@
+Removed Pin From Net: NetName=NetU3_1 Pin=U8-1
+Removed Pin From Net: NetName=NetU3_25 Pin=U8-7
+Added Component: Designator=CR1(Crystal)
+Added Component: Designator=U9(ATmega162)
+Added Pin To Net: NetName=NetU3_25 Pin=U8-1
+Added Pin To Net: NetName=NetU3_1 Pin=U8-7
+Added Pin To Net: NetName=GND Pin=U9-20
+Added Pin To Net: NetName=+5V Pin=U9-40
+Added Pin To Net: NetName=NetCON5_1 Pin=U9-7
+Added Net: Name=NetCON5_1
+Added Pin To Net: NetName=NetCON5_3 Pin=U9-8
+Added Net: Name=NetCON5_3
+Added Pin To Net: NetName=NetCON5_4 Pin=U9-6
+Added Net: Name=NetCON5_4
+Added Pin To Net: NetName=NetCON5_5 Pin=U9-9
+Added Net: Name=NetCON5_5
+Added Pin To Net: NetName=NetCR1_1 Pin=U9-19
+Added Net: Name=NetCR1_1
+Added Pin To Net: NetName=NetCR1_in2 Pin=U9-18
+Added Net: Name=NetCR1_in2
+Added Pin To Net: NetName=NetU3_12 Pin=U3-12
+Added Pin To Net: NetName=NetU3_12 Pin=U9-10
+Added Net: Name=NetU3_12
+Added Pin To Net: NetName=NetU3_27 Pin=U3-27
+Added Pin To Net: NetName=NetU3_27 Pin=U9-11
+Added Net: Name=NetU3_27
+Added Class: Name=U_Atmega
+Added Room: Name=top
+Added Room: Name=U_Atmega
+Added Room: Name=U_ESP8266
+Added Room: Name=U_motor
+Added Room: Name=U_Psoc-robot
+Added Room: Name=U_PSU
+Added Room: Name=U_Reciever
+Added Room: Name=U_UltraSoonSensor

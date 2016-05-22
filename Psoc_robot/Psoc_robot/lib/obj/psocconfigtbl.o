@@ -13,104 +13,104 @@ A psoc_config size 105 flags 0
 dbfile lib/psocconfigtbl.asm
 dbfunc 0 ? 0 I
 dbline 2 0
-dbline C7 2
+dbline C5 2
 dbline 2 5
-dbline C9 7
-dbline CA A
+dbline C7 7
+dbline C8 A
 dbline 2 D
-dbline CC F
-dbline CD 12
+dbline CA F
+dbline CB 12
 dbline 2 15
-dbline CF 17
-dbline D0 1A
+dbline CD 17
+dbline CE 1A
 dbline 2 1D
-dbline D2 1F
-dbline D3 22
+dbline D0 1F
+dbline D1 22
 dbline 2 25
-dbline D5 27
-dbline D6 2A
+dbline D3 27
+dbline D4 2A
 dbline 2 2D
-dbline D8 2F
-dbline D9 32
+dbline D6 2F
+dbline D7 32
 dbline 2 35
-dbline DB 37
-dbline DC 3A
+dbline D9 37
+dbline DA 3A
 dbline 2 3D
-dbline DE 3F
-dbline DF 42
+dbline DC 3F
+dbline DD 42
 dbline 2 45
-dbline E1 47
-dbline E2 4A
+dbline DF 47
+dbline E0 4A
 dbline 2 4D
-dbline E4 4F
-dbline E5 52
+dbline E2 4F
+dbline E3 52
 dbline 2 55
-dbline E7 57
-dbline E8 5A
+dbline E5 57
+dbline E6 5A
 dbline 2 5D
-dbline EA 5F
-dbline EB 62
+dbline E8 5F
+dbline E9 62
 dbline 2 65
-dbline ED 67
-dbline EE 6A
+dbline EB 67
+dbline EC 6A
 dbline 2 6D
-dbline F0 6F
-dbline F1 72
+dbline EE 6F
+dbline EF 72
 dbline 2 75
-dbline F3 77
-dbline F4 7A
+dbline F1 77
+dbline F2 7A
 dbline 2 7D
-dbline F6 7F
-dbline F7 82
+dbline F4 7F
+dbline F5 82
 dbline 2 85
-dbline F9 87
-dbline FA 8A
+dbline F7 87
+dbline F8 8A
 dbline 2 8D
-dbline FC 8F
-dbline FD 92
+dbline FA 8F
+dbline FB 92
 dbline 2 95
-dbline FF 97
-dbline 100 9A
+dbline FD 97
+dbline FE 9A
 dbline 2 9D
-dbline 102 9F
-dbline 103 A2
+dbline 100 9F
+dbline 101 A2
 dbline 2 A5
-dbline 105 A7
-dbline 106 AA
+dbline 103 A7
+dbline 104 AA
 dbline 2 AD
-dbline 108 AF
-dbline 109 B2
+dbline 106 AF
+dbline 107 B2
 dbline 2 B5
-dbline 10B B7
-dbline 10C BA
+dbline 109 B7
+dbline 10A BA
 dbline 2 BD
-dbline 10E BF
-dbline 10F C2
+dbline 10C BF
+dbline 10D C2
 dbline 2 C5
-dbline 111 C7
-dbline 112 CA
+dbline 10F C7
+dbline 110 CA
 dbline 2 CD
-dbline 114 CF
-dbline 115 D2
+dbline 112 CF
+dbline 113 D2
 dbline 2 D5
-dbline 117 D7
-dbline 118 DA
+dbline 115 D7
+dbline 116 DA
 dbline 2 DD
-dbline 11A DF
-dbline 11B E2
+dbline 118 DF
+dbline 119 E2
 dbline 2 E5
-dbline 11D E7
-dbline 11E EA
+dbline 11B E7
+dbline 11C EA
 dbline 2 ED
-dbline 120 EF
-dbline 121 F2
+dbline 11E EF
+dbline 11F F2
 dbline 2 F5
-dbline 123 F7
-dbline 124 FA
+dbline 121 F7
+dbline 122 FA
 dbline 2 FD
-dbline 126 FF
+dbline 124 FF
 dbline 2 102
-dbline 128 104
+dbline 126 104
 S LoadConfigTBL_psoc_robot_Ordered Def0000
 T 00 00 43 00 41 E7 42 00 47 00 45 03 46 00 4B 00
 R 00 00 00 01
@@ -150,9 +150,9 @@ T 00 EE 00 D1 00 D3 00 D0 00 D2 00 E1 FF E2 00 DF
 R 00 00 00 01
 T 00 FC FF DE 03 DD 00 E7 00 FF
 R 00 00 00 01
-T 00 00 70 EF 62 00 00 71 10 62 00 30 62 01 CF 70
+T 00 00 70 EF 62 00 00 71 10 62 00 F8 62 01 07 70
 R 00 00 00 02
-T 00 0E EF 62 03 C8 62 02 37 71 10 62 02 00 62 03
+T 00 0E EF 62 03 00 62 02 37 71 10 62 02 00 62 03
 R 00 00 00 02
 T 00 1C 00 70 EF 62 01 00 62 04 00 71 10 62 04 FF
 R 00 00 00 02
@@ -160,7 +160,7 @@ T 00 2A 62 05 00 70 EF 62 07 00 62 06 00 71 10 62
 R 00 00 00 02
 T 00 38 06 00 62 07 00 70 EF 62 05 00 62 08 00 71
 R 00 00 00 02
-T 00 46 10 62 08 FF 62 09 00 70 EF 62 0B 00 62 0A
+T 00 46 10 62 08 E7 62 09 18 70 EF 62 0B 18 62 0A
 R 00 00 00 02
 T 00 54 00 71 10 62 0A 00 62 0B 00 70 EF 62 09 00
 R 00 00 00 02

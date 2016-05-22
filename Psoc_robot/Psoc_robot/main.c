@@ -66,7 +66,7 @@
 #include <math.h>      
 #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
 
-#define DEBUG_LCD 1
+#define DEBUG_LCD 0
 
 //volatile BOOL ultrasoonInitDone;//dit gedaan om compiler te verplichten waarde terug in te lezen (Caching tegen te gaan )
 

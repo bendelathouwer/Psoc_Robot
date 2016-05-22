@@ -1,8 +1,6 @@
 Starting MAKE...
 creating project.mk 
 
-lib/lcd.asm
-
 lib/psocconfig.asm
 
 lib/psocconfigtbl.asm
@@ -37,7 +35,7 @@ lib/uartplus.asm
 
 Linking..
 
-LMM info: area 'InterruptRAM' uses 5 bytes in SRAM bank 0
+LMM info: area 'InterruptRAM' uses 2 bytes in SRAM bank 0
 
 LMM info: area 'UART_RAM' item of 16 bytes allocated in SRAM page 0
 
@@ -69,12 +67,12 @@ LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
 
 idata dump at output/Psoc_robot.idata
 
-  ROM 22% full. 7023 out of 32768 bytes used (does not include absolute areas).
+  ROM 19% full. 6030 out of 32768 bytes used (does not include absolute areas).
 
-  RAM 4% full. 57 bytes used (does not include stack usage).
+  RAM 4% full. 54 bytes used (does not include stack usage).
 
 Built with ICCM8C STD V7.05.00
 
  
-Psoc_robot - 0 error(s) 0 warning(s) 22:10:31
+Psoc_robot - 0 error(s) 0 warning(s) 16:28:51
 

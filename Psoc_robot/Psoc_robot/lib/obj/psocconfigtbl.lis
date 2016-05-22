@@ -838,7 +838,6 @@
                 export LoadConfigTBL_psoc_robot_Ordered
                 AREA lit(rom, rel)
  0000           LoadConfigTBL_psoc_robot_Bank0:
- 0000           ;  Instance name LCD, User Module LCD
  0000           ;  Instance name PWM1, User Module PWM16
  0000           ;       Instance name PWM1, Block Name PWM16_LSB(DBB20)
  0000 4300              db              43h, 00h                ;PWM1_CONTROL_LSB_REG(DBB20CR0)
@@ -935,7 +934,6 @@
  0094 6F00              db              6fh, 00h                ; TMP_DR3 register (TMP_DR3)
  0096 FF                db              ffh
  0097           LoadConfigTBL_psoc_robot_Bank1:
- 0097           ;  Instance name LCD, User Module LCD
  0097           ;  Instance name PWM1, User Module PWM16
  0097           ;       Instance name PWM1, Block Name PWM16_LSB(DBB20)
  0097 4011              db              40h, 11h                ;PWM1_FUNC_LSB_REG(DBB20FN)
@@ -1016,10 +1014,10 @@
  0000 70EF          and   F, ~FLAG_XIO_MASK
  0002 620000            mov     reg[00h], 00h           ; Port_0_Data register (PRT0DR)
  0005 7110          or    F, FLAG_XIO_MASK
- 0007 620030            mov     reg[00h], 30h           ; Port_0_DriveMode_0 register (PRT0DM0)
- 000A 6201CF            mov     reg[01h], cfh           ; Port_0_DriveMode_1 register (PRT0DM1)
+ 0007 6200F8            mov     reg[00h], f8h           ; Port_0_DriveMode_0 register (PRT0DM0)
+ 000A 620107            mov     reg[01h], 07h           ; Port_0_DriveMode_1 register (PRT0DM1)
  000D 70EF          and   F, ~FLAG_XIO_MASK
- 000F 6203C8            mov     reg[03h], c8h           ; Port_0_DriveMode_2 register (PRT0DM2)
+ 000F 620300            mov     reg[03h], 00h           ; Port_0_DriveMode_2 register (PRT0DM2)
  0012 620237            mov     reg[02h], 37h           ; Port_0_GlobalSelect register (PRT0GS)
  0015 7110          or    F, FLAG_XIO_MASK
  0017 620200            mov     reg[02h], 00h           ; Port_0_IntCtrl_0 register (PRT0IC0)
@@ -1040,10 +1038,10 @@
  003F 620500            mov     reg[05h], 00h           ; Port_1_IntEn register (PRT1IE)
  0042 620800            mov     reg[08h], 00h           ; Port_2_Data register (PRT2DR)
  0045 7110          or    F, FLAG_XIO_MASK
- 0047 6208FF            mov     reg[08h], ffh           ; Port_2_DriveMode_0 register (PRT2DM0)
- 004A 620900            mov     reg[09h], 00h           ; Port_2_DriveMode_1 register (PRT2DM1)
+ 0047 6208E7            mov     reg[08h], e7h           ; Port_2_DriveMode_0 register (PRT2DM0)
+ 004A 620918            mov     reg[09h], 18h           ; Port_2_DriveMode_1 register (PRT2DM1)
  004D 70EF          and   F, ~FLAG_XIO_MASK
- 004F 620B00            mov     reg[0bh], 00h           ; Port_2_DriveMode_2 register (PRT2DM2)
+ 004F 620B18            mov     reg[0bh], 18h           ; Port_2_DriveMode_2 register (PRT2DM2)
  0052 620A00            mov     reg[0ah], 00h           ; Port_2_GlobalSelect register (PRT2GS)
  0055 7110          or    F, FLAG_XIO_MASK
  0057 620A00            mov     reg[0ah], 00h           ; Port_2_IntCtrl_0 register (PRT2IC0)

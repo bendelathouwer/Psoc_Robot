@@ -14,7 +14,6 @@
 ; =============================================================================
  
 include "PSoCGPIOINT.inc"
-include "LCD.inc"
 include "PWM1.inc"
 include "PWM2.inc"
 include "Timer1.inc"

@@ -20,7 +20,6 @@ export LoadConfigTBL_psoc_robot_Bank0
 export LoadConfigTBL_psoc_robot_Ordered
 AREA lit(rom, rel)
 LoadConfigTBL_psoc_robot_Bank0:
-;  Instance name LCD, User Module LCD
 ;  Instance name PWM1, User Module PWM16
 ;       Instance name PWM1, Block Name PWM16_LSB(DBB20)
 	db		43h, 00h		;PWM1_CONTROL_LSB_REG(DBB20CR0)
@@ -117,7 +116,6 @@ LoadConfigTBL_psoc_robot_Bank0:
 	db		6fh, 00h		; TMP_DR3 register (TMP_DR3)
 	db		ffh
 LoadConfigTBL_psoc_robot_Bank1:
-;  Instance name LCD, User Module LCD
 ;  Instance name PWM1, User Module PWM16
 ;       Instance name PWM1, Block Name PWM16_LSB(DBB20)
 	db		40h, 11h		;PWM1_FUNC_LSB_REG(DBB20FN)
@@ -222,10 +220,10 @@ LoadConfigTBL_psoc_robot_Ordered:
 	mov	reg[05h], 00h		; Port_1_IntEn register (PRT1IE)
 	mov	reg[08h], 00h		; Port_2_Data register (PRT2DR)
 	M8C_SetBank1
-	mov	reg[08h], ffh		; Port_2_DriveMode_0 register (PRT2DM0)
-	mov	reg[09h], 00h		; Port_2_DriveMode_1 register (PRT2DM1)
+	mov	reg[08h], 80h		; Port_2_DriveMode_0 register (PRT2DM0)
+	mov	reg[09h], 7fh		; Port_2_DriveMode_1 register (PRT2DM1)
 	M8C_SetBank0
-	mov	reg[0bh], 00h		; Port_2_DriveMode_2 register (PRT2DM2)
+	mov	reg[0bh], 7fh		; Port_2_DriveMode_2 register (PRT2DM2)
 	mov	reg[0ah], 00h		; Port_2_GlobalSelect register (PRT2GS)
 	M8C_SetBank1
 	mov	reg[0ah], 00h		; Port_2_IntCtrl_0 register (PRT2IC0)

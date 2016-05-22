@@ -20,16 +20,16 @@ LCDD5_IntCtrl_0_ADDR:	equ	102h
 LCDD5_IntCtrl_1_ADDR:	equ	103h
 LCDD5_IntEn_ADDR:	equ	1h
 LCDD5_MASK:	equ	2h
-; LCDD6 address and mask equates
-LCDD6_Data_ADDR:	equ	0h
-LCDD6_DriveMode_0_ADDR:	equ	100h
-LCDD6_DriveMode_1_ADDR:	equ	101h
-LCDD6_DriveMode_2_ADDR:	equ	3h
-LCDD6_GlobalSelect_ADDR:	equ	2h
-LCDD6_IntCtrl_0_ADDR:	equ	102h
-LCDD6_IntCtrl_1_ADDR:	equ	103h
-LCDD6_IntEn_ADDR:	equ	1h
-LCDD6_MASK:	equ	4h
+; P_0_2 address and mask equates
+P_0_2_Data_ADDR:	equ	0h
+P_0_2_DriveMode_0_ADDR:	equ	100h
+P_0_2_DriveMode_1_ADDR:	equ	101h
+P_0_2_DriveMode_2_ADDR:	equ	3h
+P_0_2_GlobalSelect_ADDR:	equ	2h
+P_0_2_IntCtrl_0_ADDR:	equ	102h
+P_0_2_IntCtrl_1_ADDR:	equ	103h
+P_0_2_IntEn_ADDR:	equ	1h
+P_0_2_MASK:	equ	4h
 ; LCDE address and mask equates
 LCDE_Data_ADDR:	equ	0h
 LCDE_DriveMode_0_ADDR:	equ	100h
@@ -50,137 +50,3 @@ LCDRS_IntCtrl_0_ADDR:	equ	102h
 LCDRS_IntCtrl_1_ADDR:	equ	103h
 LCDRS_IntEn_ADDR:	equ	1h
 LCDRS_MASK:	equ	20h
-; LCDD7 address and mask equates
-LCDD7_Data_ADDR:	equ	8h
-LCDD7_DriveMode_0_ADDR:	equ	108h
-LCDD7_DriveMode_1_ADDR:	equ	109h
-LCDD7_DriveMode_2_ADDR:	equ	bh
-LCDD7_GlobalSelect_ADDR:	equ	ah
-LCDD7_IntCtrl_0_ADDR:	equ	10ah
-LCDD7_IntCtrl_1_ADDR:	equ	10bh
-LCDD7_IntEn_ADDR:	equ	9h
-LCDD7_MASK:	equ	8h
-; LCDD7_Data access macros
-;   GetLCDD7_Data macro, return in a
-macro GetLCDD7_Data
-	mov		a,[Port_2_Data_SHADE]
-	and		a, 8h
-endm
-;   SetLCDD7_Data macro
-macro SetLCDD7_Data
-	or		[Port_2_Data_SHADE], 8h
-	mov		a, [Port_2_Data_SHADE]
-	mov		reg[LCDD7_Data_ADDR], a
-endm
-;   ClearLCDD7_Data macro
-macro ClearLCDD7_Data
-	and		[Port_2_Data_SHADE], ~8h
-	mov		a, [Port_2_Data_SHADE]
-	mov		reg[LCDD7_Data_ADDR], a
-endm
-
-; LCDD7_DriveMode_0 access macros
-;   GetLCDD7_DriveMode_0 macro, return in a
-macro GetLCDD7_DriveMode_0
-	mov		a,[Port_2_DriveMode_0_SHADE]
-	and		a, 8h
-endm
-;   SetLCDD7_DriveMode_0 macro
-macro SetLCDD7_DriveMode_0
-	or		[Port_2_DriveMode_0_SHADE], 8h
-	mov		a, [Port_2_DriveMode_0_SHADE]
-	mov		reg[LCDD7_Data_ADDR], a
-endm
-;   ClearLCDD7_DriveMode_0 macro
-macro ClearLCDD7_DriveMode_0
-	and		[Port_2_DriveMode_0_SHADE], ~8h
-	mov		a, [Port_2_DriveMode_0_SHADE]
-	mov		reg[LCDD7_Data_ADDR], a
-endm
-
-; LCDD7_DriveMode_1 access macros
-;   GetLCDD7_DriveMode_1 macro, return in a
-macro GetLCDD7_DriveMode_1
-	mov		a,[Port_2_DriveMode_1_SHADE]
-	and		a, 8h
-endm
-;   SetLCDD7_DriveMode_1 macro
-macro SetLCDD7_DriveMode_1
-	or		[Port_2_DriveMode_1_SHADE], 8h
-	mov		a, [Port_2_DriveMode_1_SHADE]
-	mov		reg[LCDD7_Data_ADDR], a
-endm
-;   ClearLCDD7_DriveMode_1 macro
-macro ClearLCDD7_DriveMode_1
-	and		[Port_2_DriveMode_1_SHADE], ~8h
-	mov		a, [Port_2_DriveMode_1_SHADE]
-	mov		reg[LCDD7_Data_ADDR], a
-endm
-
-; LCDRW address and mask equates
-LCDRW_Data_ADDR:	equ	8h
-LCDRW_DriveMode_0_ADDR:	equ	108h
-LCDRW_DriveMode_1_ADDR:	equ	109h
-LCDRW_DriveMode_2_ADDR:	equ	bh
-LCDRW_GlobalSelect_ADDR:	equ	ah
-LCDRW_IntCtrl_0_ADDR:	equ	10ah
-LCDRW_IntCtrl_1_ADDR:	equ	10bh
-LCDRW_IntEn_ADDR:	equ	9h
-LCDRW_MASK:	equ	40h
-; LCDRW_Data access macros
-;   GetLCDRW_Data macro, return in a
-macro GetLCDRW_Data
-	mov		a,[Port_2_Data_SHADE]
-	and		a, 40h
-endm
-;   SetLCDRW_Data macro
-macro SetLCDRW_Data
-	or		[Port_2_Data_SHADE], 40h
-	mov		a, [Port_2_Data_SHADE]
-	mov		reg[LCDRW_Data_ADDR], a
-endm
-;   ClearLCDRW_Data macro
-macro ClearLCDRW_Data
-	and		[Port_2_Data_SHADE], ~40h
-	mov		a, [Port_2_Data_SHADE]
-	mov		reg[LCDRW_Data_ADDR], a
-endm
-
-; LCDRW_DriveMode_0 access macros
-;   GetLCDRW_DriveMode_0 macro, return in a
-macro GetLCDRW_DriveMode_0
-	mov		a,[Port_2_DriveMode_0_SHADE]
-	and		a, 40h
-endm
-;   SetLCDRW_DriveMode_0 macro
-macro SetLCDRW_DriveMode_0
-	or		[Port_2_DriveMode_0_SHADE], 40h
-	mov		a, [Port_2_DriveMode_0_SHADE]
-	mov		reg[LCDRW_Data_ADDR], a
-endm
-;   ClearLCDRW_DriveMode_0 macro
-macro ClearLCDRW_DriveMode_0
-	and		[Port_2_DriveMode_0_SHADE], ~40h
-	mov		a, [Port_2_DriveMode_0_SHADE]
-	mov		reg[LCDRW_Data_ADDR], a
-endm
-
-; LCDRW_DriveMode_1 access macros
-;   GetLCDRW_DriveMode_1 macro, return in a
-macro GetLCDRW_DriveMode_1
-	mov		a,[Port_2_DriveMode_1_SHADE]
-	and		a, 40h
-endm
-;   SetLCDRW_DriveMode_1 macro
-macro SetLCDRW_DriveMode_1
-	or		[Port_2_DriveMode_1_SHADE], 40h
-	mov		a, [Port_2_DriveMode_1_SHADE]
-	mov		reg[LCDRW_Data_ADDR], a
-endm
-;   ClearLCDRW_DriveMode_1 macro
-macro ClearLCDRW_DriveMode_1
-	and		[Port_2_DriveMode_1_SHADE], ~40h
-	mov		a, [Port_2_DriveMode_1_SHADE]
-	mov		reg[LCDRW_Data_ADDR], a
-endm
-

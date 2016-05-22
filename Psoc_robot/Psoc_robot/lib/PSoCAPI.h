@@ -18,7 +18,6 @@
 #define __PSOCAPI_H
 
 #include "PSoCGPIOINT.h"
-#include "LCD.h"
 #include "PWM1.h"
 #include "PWM2.h"
 #include "Timer1.h"
